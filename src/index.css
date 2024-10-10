@@ -1,0 +1,120 @@
+body {
+  text-align: center;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100px;; /* Height of the header*/
+  background: #007bff;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px; /* Height of the footer */
+  background: #1284ff;
+  color: rgb(94, 94, 0);
+  text-align: center;
+  padding: 10px 0;
+}
+
+.content { margin-top: 20px; /* add some space between the header and the content */
+  padding-top: 60px;
+  flex: 1 1 auto; /* take up the remaining space */
+  overflow-y: auto; /* add a scrollbar if the content is too long */
+  padding-top: 80px; /* add some space between the header and the content */
+}
+
+.footer{
+  flex: bottom;
+}
+
+.login-container {
+  height: 100vh; /* Viewport height - covers the entire screen height */
+  display: flex;
+  justify-content: center; /* Horizontally centers the login box */
+  align-items: center; /* Vertically centers the login box */
+  background-image: url('background-image.jpg'); /* Sets the background image */
+  background-size: cover; /* Ensures the background image covers the entire container */
+  width: 100; /* This likely needs to be adjusted - see below */
+  position: relative; /* To allow positioning child elements within */
+}
+
+.login-box {
+  background-color: white; 
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  z-index: 1; /* Ensures the box is above the background */
+}
+
+/* Media Queries (adjust breakpoints as needed) */
+@media (max-width: 768px) { 
+  .login-box {
+    width: 80%;
+  }
+}
+
+@media (max-width: 576px) { 
+  .login-box {
+    width: 95%;
+  }
+} 
+
+.login-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5; /* Makes the background semi-transparent */
+  z-index: 0; /* Ensures the background is behind the form */
+  pointer-events: none; /* Prevents the background from interfering with clicks on the login box */
+}
+
+
+.register-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('background-image.jpg');
+  background-size: cover;
+}
+
+.register-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.register-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
