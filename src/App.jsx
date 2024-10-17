@@ -20,35 +20,26 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Header /> {/* Header always visible */}
       <Routes>
-        {/* Public Routes */}
-        <Route path="/home" element={<Layout><Home /></Layout>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/* Public Routes (accessible without logging in) */}
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={!isLoggedIn ? <Login /> : <Navigate to="/home" />} />
+        <Route path="/register" element={!isLoggedIn ? <Register /> : <Navigate to="/home" />} />
 
         {/* Default route to Home */}
         <Route path="/" element={<Navigate to="/home" />} />
 
-        {/* Private Routes (only accessible when logged in) */}
-        <Route path="/profile" element={isLoggedIn ? <Layout><Profile /></Layout> : <Navigate to="/login" />} />
-        <Route path="/listings" element={isLoggedIn ? <Layout><Listings /></Layout> : <Navigate to="/login" />} />
-        <Route path="/trade" element={isLoggedIn ? <Layout><Trade /></Layout> : <Navigate to="/login" />} />
+        {/* Accessible routes without login */}
+        <Route path="/listings" element={<Listings />} />
+        <Route path="/trade" element={<Trade />} />
+        <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
 
         {/* Redirect to home if route not found */}
         <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
+      <Footer /> {/* Footer always visible */}
     </BrowserRouter>
-  );
-}
-
-// Layout component to wrap Header, Footer, and page content
-function Layout({ children }) {
-  return (
-    <>
-      <Header />
-      <div className="content">{children}</div>
-      <Footer />
-    </>
   );
 }
 

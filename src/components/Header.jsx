@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Navbar, Nav, NavItem, NavLink, Form, Button, Container } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavLink, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../pages/AuthContext';
 
@@ -14,33 +14,40 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
+              <NavItem>
+                <NavLink as={Link} to="/profile">Profile</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink as={Link} to="/listings">Listings</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink as={Link} to="/trade">Trade</NavLink>
+              </NavItem>
+            </Nav>
+            
+            <Nav className="ms-auto">
+              {/* Check if the user is logged in */}
               {isLoggedIn ? (
                 <>
-                  <NavItem>
-                    <NavLink as={Link} to="/profile">Profile</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink as={Link} to="/listings">Listings</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink as={Link} to="/trade">Trade</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <Button variant="danger" onClick={handleLogout}>Logout</Button>
-                  </NavItem>
+                  {/* Show Logout button if logged in */}
+                  <Button variant="danger" onClick={handleLogout} className="ms-2">Logout</Button>
                 </>
               ) : (
-                <NavItem>
-                  <NavLink as={Link} to="/login">Login</NavLink>
-                </NavItem>
+                <>
+                  {/* Show Login and Register buttons if not logged in */}
+                  <NavItem>
+                    <NavLink as={Link} to="/login">
+                      <Button variant="outline-light" className="ms-2">Login</Button>
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink as={Link} to="/register">
+                      <Button variant="outline-light" className="ms-2">Register</Button>
+                    </NavLink>
+                  </NavItem>
+                </>
               )}
             </Nav>
-            {isLoggedIn && (
-              <Form className="d-flex">
-                <Form.Control type="text" placeholder="Search" />
-                <Button variant="primary" type="button">Search</Button>
-              </Form>
-            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
