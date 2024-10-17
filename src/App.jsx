@@ -22,18 +22,20 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
+        <Route path="/home" element={<Layout><Home /></Layout>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        {/* Default route to Home */}
+        <Route path="/" element={<Navigate to="/home" />} />
+
         {/* Private Routes (only accessible when logged in) */}
-        <Route path="/" element={isLoggedIn ? <Layout /> : <Navigate to="/login" />} />
-        <Route path="/home" element={isLoggedIn ? <Layout><Home /></Layout> : <Navigate to="/login" />} />
         <Route path="/profile" element={isLoggedIn ? <Layout><Profile /></Layout> : <Navigate to="/login" />} />
         <Route path="/listings" element={isLoggedIn ? <Layout><Listings /></Layout> : <Navigate to="/login" />} />
         <Route path="/trade" element={isLoggedIn ? <Layout><Trade /></Layout> : <Navigate to="/login" />} />
 
-        {/* Redirect to login if route not found */}
-        <Route path="*" element={<Navigate to="/login" />} />
+        {/* Redirect to home if route not found */}
+        <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
     </BrowserRouter>
   );
@@ -41,8 +43,6 @@ function App() {
 
 // Layout component to wrap Header, Footer, and page content
 function Layout({ children }) {
-  const { handleLogout } = useContext(AuthContext); // Access AuthContext to handle logout
-
   return (
     <>
       <Header />
