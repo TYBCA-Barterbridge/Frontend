@@ -12,39 +12,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-header {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100px;; /* Height of the header*/
-  background: #007bff;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-}
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 50px; /* Height of the footer */
-  background: #1284ff;
-  color: rgb(94, 94, 0);
-  text-align: center;
-  padding: 10px 0;
-}
-
-.content { margin-top: 20px; /* add some space between the header and the content */
-  padding-top: 60px;
-  flex: 1 1 auto; /* take up the remaining space */
-  overflow-y: auto; /* add a scrollbar if the content is too long */
-  padding-top: 80px; /* add some space between the header and the content */
-}
-
-.footer{
-  flex: bottom;
-}
-
 .login-container {
   height: 100vh; /* Viewport height - covers the entire screen height */
   display: flex;
