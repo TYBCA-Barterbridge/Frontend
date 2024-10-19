@@ -9,8 +9,9 @@ import Footer from './components/Footer';
 import Listings from './pages/Listings';
 import Trade from './pages/Trade';
 import Profile from './pages/Profile';
+import './App.css';
 
-function App() {
+const App = () => {
   const { isLoggedIn, loading } = useContext(AuthContext);
 
   // While loading, show a simple loading message or spinner
@@ -19,27 +20,32 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Header /> {/* Header always visible */}
-      <Routes>
-        {/* Public Routes (accessible without logging in) */}
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={!isLoggedIn ? <Login /> : <Navigate to="/home" />} />
-        <Route path="/register" element={!isLoggedIn ? <Register /> : <Navigate to="/home" />} />
+    <div className="app-container">
+      <BrowserRouter>
+        <Header /> {/* Header always visible */}
+        <div className="content">
+          {/* Your main content goes here */}
+          <Routes>
+            {/* Public Routes (accessible without logging in) */}
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={!isLoggedIn ? <Login /> : <Navigate to="/home" />} />
+            <Route path="/register" element={!isLoggedIn ? <Register /> : <Navigate to="/home" />} />
 
-        {/* Default route to Home */}
-        <Route path="/" element={<Navigate to="/home" />} />
+            {/* Default route to Home */}
+            <Route path="/" element={<Navigate to="/home" />} />
 
-        {/* Accessible routes without login */}
-        <Route path="/listings" element={<Listings />} />
-        <Route path="/trade" element={<Trade />} />
-        <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
+            {/* Accessible routes without login */}
+            <Route path="/listings" element={<Listings />} />
+            <Route path="/trade" element={<Trade />} />
+            <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
 
-        {/* Redirect to home if route not found */}
-        <Route path="*" element={<Navigate to="/home" />} />
-      </Routes>
-      <Footer /> {/* Footer always visible */}
-    </BrowserRouter>
+            {/* Redirect to home if route not found */}
+            <Route path="*" element={<Navigate to="/home" />} />
+          </Routes>
+        </div>
+        <Footer /> {/* Footer always visible */}
+      </BrowserRouter>
+    </div>
   );
 }
 
