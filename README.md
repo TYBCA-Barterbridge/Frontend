@@ -94,7 +94,7 @@ Add additional notes about how to deploy this on a live system.
 
 - [MySQL](https://www.mysql.com/) - Database
 - [Express](https://expressjs.com/) - Server Framework
-- [VueJs](https://vuejs.org/) - Web Framework
+- [React](https://react.dev/) - Web Framework
 - [NodeJs](https://nodejs.org/en/) - Server Environment
 
 ## ✍️ Authors <a name = "authors"></a>
