@@ -1,0 +1,113 @@
+.bodySectionTop {
+    max-width: 1350px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f8f9fa;
+    gap: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .banner {
+    flex: 2;
+    background-color: #eef7f9;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .bannerimage{
+    margin-left: 500px;
+    margin-top: -150px;
+    width: 400px;
+    height: 220px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .bannerimage:hover{
+    transform: scale(1.02);  
+  }
+  
+  .banner h4 {
+    color: #0088cc;
+    font-size: 14px;
+  }
+  
+  .banner h2 {
+    font-size: 28px;
+    margin: 10px 0;
+  }
+  
+  .banner p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .learnNowButton {
+    background-color: #ff7f45;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .learnNowButton:hover {
+    background-color: #e6713f;
+  }
+  
+  .sideCards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .card h4 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .card span {
+    font-size: 14px;
+    color: #ff7f45;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .exchangeButton,
+  .joinButton {
+    background-color: #2288bb;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .exchangeButton:hover,
+  .joinButton:hover {
+    background-color: #007ab8;
+  }
+  
