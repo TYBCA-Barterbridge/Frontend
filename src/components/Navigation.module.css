@@ -9,9 +9,9 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 70px;
+  height: 75px;
   padding: 1rem 2rem;
-  background-color: #0085ba;
+  background-color: rgb(23, 98, 164);
   color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: sticky;
@@ -73,6 +73,8 @@ body {
   outline: none;
   font-size: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .searchBar::placeholder {
@@ -84,7 +86,8 @@ body {
   border: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;

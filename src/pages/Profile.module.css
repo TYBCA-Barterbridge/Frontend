@@ -1,7 +1,7 @@
 /* General Styles */
 :root {
     --primary-color: #18abd7;
-    --hover-color: #157ca1;
+    --hover-color: #21b3e8;
     --background-color: #f5f7fa;
     --border-color: #e0e0e0;
     --text-color: #333;
@@ -54,9 +54,13 @@
     transition: all 0.3s ease;
   }
   
-  .sidebarMenu li:hover,
+  
   .sidebarMenu li.active {
     background-color: var(--primary-color);
+    color: #fff;
+  }
+  .sidebarMenu li:hover{
+    background-color: var(--hover-color);
     color: #fff;
   }
   

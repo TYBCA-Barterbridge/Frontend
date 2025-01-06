@@ -18,8 +18,6 @@ const ProductDetails = ({ product }) => {
       "https://i.pinimg.com/474x/58/86/b8/5886b807be656a2f9bd4f4a42a74d5e5.jpg",
       "https://i.pinimg.com/474x/6d/d0/ce/6dd0ce2702609c9da686f7a29b051dc6.jpg",
       "https://i.pinimg.com/474x/62/9b/ad/629bad8494c58b314c17c4a777948ca0.jpg",
-      
-      
     ],
     colors: ["#000000", "#FFFFFF", "#FF5733"],
     memoryOptions: ["64 GB", "128 GB", "256 GB"],
@@ -46,6 +44,38 @@ const ProductDetails = ({ product }) => {
     if (quantity + change > 0) {
       setQuantity(quantity + change);
     }
+  };
+
+  const [activeTab, setActiveTab] = useState("Description");
+  const tabData = {
+    Description: `
+      The most powerful MacBook Pro ever is here. With the blazing-fast M1
+      Pro or M1 Max chip — the first Apple silicon designed for pros — you
+      get groundbreaking performance and amazing battery life. Add to that
+      a stunning Liquid Retina XDR display, the best camera and audio ever
+      in a Mac notebook, and all the ports you need. The first notebook of
+      its kind, this MacBook Pro is a beast. M1 Pro takes the exceptional
+      performance of the M1 architecture to a whole new level for pro users.
+      
+      Even the most ambitious projects are easily handled with up to 10
+      CPU cores, up to 16 GPU cores, a 16-core Neural Engine, and
+      dedicated encode and decode media engines that support H.264, HEVC,
+      and ProRes codecs.
+    `,
+    "Additional Information": `
+      Dimensions: 35.57 x 24.81 x 1.62 cm
+      Weight: 2.1 kg
+      Operating System: macOS Monterey
+      Battery Life: Up to 21 hours
+      Warranty: 1 year
+    `,
+    Specification: `
+      Processor: M1 Pro Chip (10-core CPU, 16-core GPU)
+      Memory: 16GB unified memory
+      Storage: 1TB SSD
+      Display: 16.2-inch Liquid Retina XDR display
+      Ports: 3 Thunderbolt 4, HDMI, SDXC card slot, MagSafe 3
+    `,
   };
 
   return (
@@ -98,7 +128,7 @@ const ProductDetails = ({ product }) => {
           <h2 className={styles.productTitle}>{product.title}</h2>
           <div>
             <p>Availability: In Stock</p>
-            <p>Category: Electronics Devices</p>
+            <p>Category: {product.category}</p>
           </div>
           <div className={styles.pricingSection}>
             <span className={styles.currentPrice}>${product.currentPrice}</span>
@@ -109,7 +139,7 @@ const ProductDetails = ({ product }) => {
           </div>
           <hr className={styles.sectionDivider} />
           <div className={styles.optionsSection}>
-            <div className={styles.optionGroup1}>
+            <div className={styles.optionGroup}>
               <p>Color:</p>
               {product.colors.map((color, index) => (
                 <div
@@ -133,16 +163,6 @@ const ProductDetails = ({ product }) => {
               <p>Size:</p>
               <select className={styles.selectBox}>
                 {product.sizeOptions.map((option, index) => (
-                  <option key={index} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className={styles.optionGroup}>
-              <p>Storage:</p>
-              <select className={styles.selectBox}>
-                {product.storageOptions.map((option, index) => (
                   <option key={index} value={option}>
                     {option}
                   </option>
@@ -182,7 +202,34 @@ const ProductDetails = ({ product }) => {
           </div>
         </div>
       </div>
- 
+
+      {/* Tabs Section */}
+      <div className={styles.descriptionSection}>
+        <div className={styles.tabs}>
+          {[
+            "Description",
+            "Additional Information",
+            "Specification",
+            
+          ].map((tab) => (
+            <div
+              key={tab}
+              className={`${styles.tab} ${
+                activeTab === tab ? styles.activeTab : styles.inactiveTab
+              }`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </div>
+          ))}
+        </div>
+        <div className={styles.contentGrid}>
+          <div className={styles.tabContent}>
+            <h2 className={styles.tabTitle}>{activeTab}</h2>
+            <p className={styles.tabDescription}>{tabData[activeTab]}</p>
+          </div>
+        </div>
+      </div>
       <Footer />
     </>
   );

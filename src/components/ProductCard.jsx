@@ -10,7 +10,7 @@ const categories = [
 ];
 
 const ProductCard = ({ totalSteps = 7 }) => {
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([100, 1000]);
 
   const handlePriceChange = (event) => {
     const value = parseInt(event.target.value, 10);
@@ -20,15 +20,15 @@ const ProductCard = ({ totalSteps = 7 }) => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const handlePrev = () => {
-      if (currentStep > 1) {
-          setCurrentStep((prev) => prev - 1);
-      }
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    }
   };
 
   const handleNext = () => {
-      if (currentStep < totalSteps) {
-          setCurrentStep((prev) => prev + 1);
-      }
+    if (currentStep < totalSteps) {
+      setCurrentStep((prev) => prev + 1);
+    }
   };
 
   const products = [
@@ -204,36 +204,7 @@ const ProductCard = ({ totalSteps = 7 }) => {
           </ul>
         </div>
         <hr />
-        <div className={styles.category}>
-          <h3>Discounts</h3>
-          <ul>
-            <li>
-              <label>
-                <input type="radio" name="discount" />
-                50% & more
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="discount" />
-                40% & more
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="discount" />
-                30% & more
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="discount" />
-                20% & more
-              </label>
-            </li>
-          </ul>
-        </div>
-        <hr />
+
         <div className={styles.category}>
           <h3>Offers</h3>
           <ul>
@@ -250,6 +221,10 @@ const ProductCard = ({ totalSteps = 7 }) => {
               </label>
             </li>
           </ul>
+        </div>
+        <div className={styles.bannerContainer}>
+        <img className={styles.Banner} src="./images/banner1.png" alt="" />
+
         </div>
       </div>
       <div className={styles.productList}>
@@ -268,38 +243,38 @@ const ProductCard = ({ totalSteps = 7 }) => {
           </div>
         ))}
         <div className={styles.pagination}>
-        <div className={styles.paginationContainer}>
-            <button 
-                className={`${styles.navButton} ${styles.leftButton}`} 
-                onClick={handlePrev} 
-                disabled={currentStep === 1}
+          <div className={styles.paginationContainer}>
+            <button
+              className={`${styles.navButton} ${styles.leftButton}`}
+              onClick={handlePrev}
+              disabled={currentStep === 1}
             >
-                &#8592;
+              &#8592;
             </button>
 
             {Array.from({ length: totalSteps }, (_, index) => {
-                const step = index + 1;
-                return (
-                    <button
-                        key={step}
-                        className={`${styles.stepButton} ${
-                            step === currentStep ? styles.activeStep : ''
-                        }`}
-                        onClick={() => setCurrentStep(step)}
-                    >
-                        {`0${step}`.slice(-2)}
-                    </button>
-                );
+              const step = index + 1;
+              return (
+                <button
+                  key={step}
+                  className={`${styles.stepButton} ${
+                    step === currentStep ? styles.activeStep : ""
+                  }`}
+                  onClick={() => setCurrentStep(step)}
+                >
+                  {`0${step}`.slice(-2)}
+                </button>
+              );
             })}
 
-            <button 
-                className={`${styles.navButton} ${styles.rightButton}`} 
-                onClick={handleNext} 
-                disabled={currentStep === totalSteps}
+            <button
+              className={`${styles.navButton} ${styles.rightButton}`}
+              onClick={handleNext}
+              disabled={currentStep === totalSteps}
             >
-                &#8594;
+              &#8594;
             </button>
-        </div>
+          </div>
         </div>
       </div>
     </div>
