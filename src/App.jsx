@@ -9,10 +9,13 @@ import Wishlist from "./pages/Wishlist.jsx";
 import Profile from "./pages/Profile.jsx";
 import Verification from "./pages/Verification.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
+import Navigation from "./components/Navigation.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   return (
     <BrowserRouter>
+      <Navigation />
       <Routes>
         <Route index element={<Home />} />
         <Route path="/Home" element={<Home />} />
@@ -24,9 +27,9 @@ function App() {
         <Route path="/ShoppingCart" element={<ShoppingCart />} />
         <Route path="/Wishlist" element={<Wishlist />} />
         <Route path="/Verification" element={<Verification />} />
-        <Route path="/ProductDetails" element={<ProductDetails/>} />
-        
+        <Route path="/ProductDetails" element={<ProductDetails />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

@@ -15,7 +15,7 @@ const ShoppingCart = () => {
 
   return (
     <>
-      <Navigation />
+      
       <div className={styles.shoppingCartPage}></div>
       <div className={styles.cartContainer}>
         <div className={styles.cart}>
@@ -119,7 +119,7 @@ const ShoppingCart = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </>
   );
 };

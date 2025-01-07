@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 function SignUp() {
   return (
     <>
-  <Navigation />
+  
     <div className={styles.container}>
       <div className={styles.card}>
         <h2 className={styles.title}>Sign Up</h2>
@@ -32,7 +32,7 @@ function SignUp() {
         </div>
       </div>
     </div>
-    <Footer/>
+    
     </>
   );
 }

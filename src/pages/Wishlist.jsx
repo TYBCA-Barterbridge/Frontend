@@ -25,7 +25,7 @@ const Wishlist = () => {
 
   return (
     <>
-      <Navigation />
+      
       <div className={styles.wishlistContainer}>
         <h2 className={styles.title}>Wishlist</h2>
         <table className={styles.wishlistTable}>
@@ -133,7 +133,7 @@ const Wishlist = () => {
           </tbody>
         </table>
       </div>
-      <Footer />
+      
     </>
   );
 };

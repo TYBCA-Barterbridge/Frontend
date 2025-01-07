@@ -7,7 +7,7 @@ import Footer from "../components/Footer.jsx";
 const SignIn = () => {
   return (
     <>
-  <Navigation />
+  
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <h1 className={styles.title}>Sign In</h1>
@@ -72,7 +72,7 @@ const SignIn = () => {
         </div>
       </div>
     </div>
-    <Footer/>
+    
     </>
   );
 };

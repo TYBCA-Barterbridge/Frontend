@@ -8,6 +8,7 @@
   margin-bottom: 40px;
 }
 
+
 /* Image Section */
 .imageSection {
   flex: 1;
@@ -317,4 +318,38 @@
   font-size: 14px;
   color: #555;
   line-height: 1.6;
+}
+
+
+
+/* chat button */
+.chatButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
+  
+}
+
+.chatButton {
+  margin-top: 30px;
+  width: 300px;
+  background-color: #18abd7; /* Use your site's primary color */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.chatButton:hover {
+  background-color: #0f91b2; /* Slightly darker shade for hover effect */
+   
+}
+
+.chatButton:active {
+  background-color: #0c7b92; /* Even darker shade for active state */
+  transform: scale(1);
 }

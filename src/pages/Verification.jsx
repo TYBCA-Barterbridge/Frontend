@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 const Verification = () => {
   return (
     <>
-      <Navigation />
+      
       <div className={styles.container}>
         <div className={styles.card}>
           <h2 className={styles.title}>Enter OTP</h2>
@@ -35,7 +35,7 @@ const Verification = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </>
   );
 };

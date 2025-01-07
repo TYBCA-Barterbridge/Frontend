@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 function ForgotPass() {
   return (
     <>
-      <Navigation />
+      
       <div className={styles.container}>
         <div className={styles.card}>
           <h2 className={styles.title}>Forgot Password</h2>
@@ -36,7 +36,7 @@ function ForgotPass() {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </>
   );
 }

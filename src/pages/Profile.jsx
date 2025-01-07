@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import styles from "./Profile.module.css";
-import Navigation from "../components/Navigation";
-import Footer from "../components/Footer";
+
 
 // Sidebar Component
 const Sidebar = ({ activeMenu, onMenuChange }) => {
   const menuItems = [
     "Dashboard",
-    "Order History",
     "Track Order",
     "Shopping Cart",
     "Wishlist",
-    "Compare",
     "Cards & Address",
-    "Browsing History",
     "Setting",
     "Log-out",
   ];
@@ -21,7 +17,9 @@ const Sidebar = ({ activeMenu, onMenuChange }) => {
   return (
     <div className={styles.sidebar}>
       <h3 className={styles.sidebarTitle}>My Account</h3>
+
       <ul className={styles.sidebarMenu}>
+        
         {menuItems.map((item, index) => (
           <li
             key={index}
@@ -92,7 +90,6 @@ const Profile = () => {
 
   return (
     <>
-      <Navigation />
       <div className={styles.container}>
         {/* Sidebar Menu */}
         <Sidebar activeMenu={activeMenu} onMenuChange={setActiveMenu} />
@@ -142,7 +139,7 @@ const Profile = () => {
                 placeholder="kevin.gilbert@gmail.com"
                 onChange={handleChange}
               />
-               <InputField
+              <InputField
                 label="Phone Number"
                 type="text"
                 name="phoneNumber"
@@ -154,7 +151,6 @@ const Profile = () => {
 
             {/* Right Column */}
             <div className={styles.formColumn}>
-             
               <SelectField
                 label="Country/Region"
                 name="country"
@@ -190,14 +186,13 @@ const Profile = () => {
 
             {/* Save Button */}
           </form>
-            <div className={styles.buttonGroup}>
-              <button type="submit" className={styles.saveButton}>
-                Save Changes
-              </button>
-            </div>
+          <div className={styles.buttonGroup}>
+            <button type="submit" className={styles.saveButton}>
+              Save Changes
+            </button>
+          </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

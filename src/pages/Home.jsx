@@ -8,13 +8,13 @@ import ProductCard from '../components/ProductCard.jsx';
 const Home = () => {
   return (
     <>
-      <Navigation/>
+      
       <Nav2/>
       <Carousel/>
       <ProductCard/>
       <BodySection/>
       <BodySection/>
-      <Footer/>
+      
     </>
   )
 }
