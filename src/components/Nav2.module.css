@@ -77,8 +77,8 @@ body {
 .button {
   cursor: pointer;
   font-size: 14px;
-  padding: 6px 12px;
-  border-radius: 5px;
+  padding: 6px 2px;
+
   border: none;
   transition: background-color 0.3s;
   text-decoration: none;
@@ -89,13 +89,15 @@ body {
 }
 
 .button:hover {
-  background-color: rgb(226, 222, 222);
+  border-bottom: 2px solid rgb(86, 83, 83);
+  transition: 0.1s ease-in;
 }
 
 /* Right Side */
 .right {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 15px;
   margin-right: -50px;
 }
@@ -116,7 +118,7 @@ body {
   font-weight: 500;
 }
 
-.icon1{
+.icon1 {
   width: 20px;
   height: 20px;
   cursor: pointer;

@@ -194,3 +194,9 @@
       font-size: 14px;
     }
   }
+  .top{
+    margin-top: -40px;
+    background-color: rgb(17, 154, 192);
+    height: 40px;
+  }
+  

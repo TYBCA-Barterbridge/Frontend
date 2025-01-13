@@ -11,6 +11,7 @@ import Verification from "./pages/Verification.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
 import Navigation from "./components/Navigation.jsx";
 import Footer from "./components/Footer.jsx";
+import ChatIcon from "./components/ChatIcon.jsx";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
         <Route path="/Verification" element={<Verification />} />
         <Route path="/ProductDetails" element={<ProductDetails />} />
       </Routes>
+
+      <ChatIcon />
       <Footer />
     </BrowserRouter>
   );

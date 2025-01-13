@@ -25,7 +25,9 @@ const Wishlist = () => {
 
   return (
     <>
-      
+      <div className={styles.top}>
+              .
+            </div>
       <div className={styles.wishlistContainer}>
         <h2 className={styles.title}>Wishlist</h2>
         <table className={styles.wishlistTable}>

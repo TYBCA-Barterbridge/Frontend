@@ -15,7 +15,9 @@ const ShoppingCart = () => {
 
   return (
     <>
-      
+      <div className={styles.top}>
+              .
+            </div>
       <div className={styles.shoppingCartPage}></div>
       <div className={styles.cartContainer}>
         <div className={styles.cart}>

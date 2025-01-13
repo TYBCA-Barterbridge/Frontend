@@ -37,7 +37,7 @@ const ProductCard = ({ totalSteps = 7 }) => {
       name: "Smartphone XYZ",
       description: "Latest smartphone with advanced features.",
       price: "$699",
-      detailUrl: "./ProdctDetail",
+      detailUrl: "./ProductDetail", // Fixed typo here
       img: "./images/z900.jpg",
     },
     {
@@ -100,180 +100,181 @@ const ProductCard = ({ totalSteps = 7 }) => {
   ];
 
   return (
-    <div className={styles.container}>
-      <div className={styles.aside}>
-        <div className={styles.category}>
-          <h3>Categories</h3>
-          <ul>
-            <li>
-              <label>
-                <input type="radio" name="category" value="electronics" />
-                Electronics Devices
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="category" value="computers" />
-                Computers & Laptops
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="category" value="accessories" />
-                Accessories
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="category" value="smartphones" />
-                Smartphones
-              </label>
-            </li>
-          </ul>
-        </div>
-        <hr />
-        <div>
-          <div className={styles.priceRange}>
-            <h3>Price Range</h3>
-            <input
-              type="range"
-              min="0"
-              max="1000"
-              value={priceRange[1]}
-              onChange={handlePriceChange}
-              className={styles.slider}
-            />
-            <div className={styles.priceInputs}>
+    <div className={styles.top}>
+      <div className={styles.container}>
+        <div className={styles.aside}>
+          <div className={styles.category}>
+            <h3>Categories</h3>
+            <ul>
+              <li>
+                <label>
+                  <input type="radio" name="category" value="electronics" />
+                  Electronics Devices
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="category" value="computers" />
+                  Computers & Laptops
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="category" value="accessories" />
+                  Accessories
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="category" value="smartphones" />
+                  Smartphones
+                </label>
+              </li>
+            </ul>
+          </div>
+          <hr />
+          <div>
+            <div className={styles.priceRange}>
+              <h3>Price Range</h3>
               <input
-                type="number"
-                value={priceRange[0]}
-                readOnly
-                className={styles.priceInput}
-              />
-              <span>-</span>
-              <input
-                type="number"
+                type="range"
+                min="0"
+                max="1000"
                 value={priceRange[1]}
-                onChange={(e) =>
-                  setPriceRange([priceRange[0], parseInt(e.target.value, 10)])
-                }
-                className={styles.priceInput}
+                onChange={handlePriceChange}
+                className={styles.slider}
               />
+              <div className={styles.priceInputs}>
+                <input
+                  type="number"
+                  value={priceRange[0]}
+                  readOnly
+                  className={styles.priceInput}
+                />
+                <span>-</span>
+                <input
+                  type="number"
+                  value={priceRange[1]}
+                  onChange={(e) =>
+                    setPriceRange([priceRange[0], parseInt(e.target.value, 10)])
+                  }
+                  className={styles.priceInput}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <hr />
-        <div className={styles.category1}>
-          <ul>
-            <li>
-              <label>
-                <input type="radio" name="price" />
-                Price: Low to High
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="price" />
-                Price: High to Low
-              </label>
-            </li>
-          </ul>
-        </div>
-        <hr />
-        <div className={styles.category}>
-          <h3>Customer Rating</h3>
-          <ul>
-            <li>
-              <label>
-                <input type="radio" name="customer" />
-                4✩ & above
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="customer" />
-                3✩ & above
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="customer" />
-                2✩ & above
-              </label>
-            </li>
-          </ul>
-        </div>
-        <hr />
-
-        <div className={styles.category}>
-          <h3>Offers</h3>
-          <ul>
-            <li>
-              <label>
-                <input type="radio" name="offer" />
-                Buy more, Save more
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="offer" />
-                Special Price
-              </label>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.bannerContainer}>
-        <img className={styles.Banner} src="./images/banner1.png" alt="" />
-
-        </div>
-      </div>
-      <div className={styles.productList}>
-        {products.map((product) => (
-          <div key={product.id} className={styles.productCard}>
-            <a href="./ProductDetails">
-              <img
-                src={product.img}
-                alt={product.name}
-                className={styles.productImage}
-              />
-            </a>
-            <h4 className={styles.productName}>{product.name}</h4>
-            <p className={styles.productDescription}>{product.description}</p>
-            <p className={styles.productPrice}>{product.price}</p>
+          <hr />
+          <div className={styles.category1}>
+            <ul>
+              <li>
+                <label>
+                  <input type="radio" name="price" />
+                  Price: Low to High
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="price" />
+                  Price: High to Low
+                </label>
+              </li>
+            </ul>
           </div>
-        ))}
-        <div className={styles.pagination}>
-          <div className={styles.paginationContainer}>
-            <button
-              className={`${styles.navButton} ${styles.leftButton}`}
-              onClick={handlePrev}
-              disabled={currentStep === 1}
-            >
-              &#8592;
-            </button>
+          <hr />
+          <div className={styles.category}>
+            <h3>Customer Rating</h3>
+            <ul>
+              <li>
+                <label>
+                  <input type="radio" name="customer" />
+                  4✩ & above
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="customer" />
+                  3✩ & above
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="customer" />
+                  2✩ & above
+                </label>
+              </li>
+            </ul>
+          </div>
+          <hr />
 
-            {Array.from({ length: totalSteps }, (_, index) => {
-              const step = index + 1;
-              return (
-                <button
-                  key={step}
-                  className={`${styles.stepButton} ${
-                    step === currentStep ? styles.activeStep : ""
-                  }`}
-                  onClick={() => setCurrentStep(step)}
-                >
-                  {`0${step}`.slice(-2)}
-                </button>
-              );
-            })}
+          <div className={styles.category}>
+            <h3>Offers</h3>
+            <ul>
+              <li>
+                <label>
+                  <input type="radio" name="offer" />
+                  Buy more, Save more
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="offer" />
+                  Special Price
+                </label>
+              </li>
+            </ul>
+          </div>
+          <div className={styles.bannerContainer}>
+            <img className={styles.Banner} src="./images/banner1.png" alt="" />
+          </div>
+        </div>
+        <div className={styles.productList}>
+          {products.map((product) => (
+            <div key={product.id} className={styles.productCard}>
+              <a href="./ProductDetails">
+                <img
+                  src={product.img}
+                  alt={product.name}
+                  className={styles.productImage}
+                />
+              </a>
+              <h4 className={styles.productName}>{product.name}</h4>
+              <p className={styles.productDescription}>{product.description}</p>
+              <p className={styles.productPrice}>{product.price}</p>
+            </div>
+          ))}
+          <div className={styles.pagination}>
+            <div className={styles.paginationContainer}>
+              <button
+                className={`${styles.navButton} ${styles.leftButton}`}
+                onClick={handlePrev}
+                disabled={currentStep === 1}
+              >
+                &#8592;
+              </button>
 
-            <button
-              className={`${styles.navButton} ${styles.rightButton}`}
-              onClick={handleNext}
-              disabled={currentStep === totalSteps}
-            >
-              &#8594;
-            </button>
+              {Array.from({ length: totalSteps }, (_, index) => {
+                const step = index + 1;
+                return (
+                  <button
+                    key={step}
+                    className={`${styles.stepButton} ${
+                      step === currentStep ? styles.activeStep : ""
+                    }`}
+                    onClick={() => setCurrentStep(step)}
+                  >
+                    {`0${step}`.slice(-2)}
+                  </button>
+                );
+              })}
+
+              <button
+                className={`${styles.navButton} ${styles.rightButton}`}
+                onClick={handleNext}
+                disabled={currentStep === totalSteps}
+              >
+                &#8594;
+              </button>
+            </div>
           </div>
         </div>
       </div>

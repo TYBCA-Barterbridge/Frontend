@@ -25,7 +25,6 @@ const Nav2 = () => {
         </div>
 
         <div className={styles.right}>
-          <p>Follow us :</p>
           <a href="https://facebook.com" target="_blank" rel="noreferrer">
             <img
               src="https://cdn-icons-png.flaticon.com/512/733/733547.png"

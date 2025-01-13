@@ -126,6 +126,9 @@ const ProductDetails = ({ product }) => {
 
   return (
     <>
+    <div className={styles.top}>
+            .
+          </div>
       <div className={styles.container}>
         {/* Left: Product Images */}
         <div className={styles.imageSection}>
