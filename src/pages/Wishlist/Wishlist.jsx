@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Wishlist.module.css";
-import Navigation from "../components/Navigation";
-import Footer from "../components/Footer";
+
 
 const Wishlist = () => {
   const wishlistItems = [

@@ -1,7 +1,5 @@
 import React from 'react';
 import styles from './SignUp.module.css';
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
 
 function SignUp() {
   return (

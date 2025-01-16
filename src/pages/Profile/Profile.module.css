@@ -9,7 +9,20 @@
     --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     --border-radius: 8px;
   }
-  
+  .top{
+    margin-top: -40px;
+    background-color: rgb(15, 155, 183);
+    height: 40px;
+}
+.link {
+  text-decoration: none; /* Removes the underline */
+  color: inherit; /* Ensures the link uses the current text color */
+}
+
+.link:hover {
+  text-decoration: none; /* Ensures no underline on hover */
+}
+
   /* Container */
   .container {
     display: flex;

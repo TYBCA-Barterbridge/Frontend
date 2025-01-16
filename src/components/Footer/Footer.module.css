@@ -28,8 +28,11 @@ h1 {
   font-size: 38px;
   margin-bottom: 15px;
   font-weight: bold;
+  color: #ffffff;
 }
-
+h3{
+  color: #ffffff;
+}
 p {
   margin: 5px 0;
   font-size: 14px;

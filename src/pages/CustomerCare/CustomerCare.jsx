@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './CustomerCare.module.css';
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
+
 
 function CustomerCare() {
   return (

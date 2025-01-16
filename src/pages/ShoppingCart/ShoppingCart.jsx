@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styles from './ShoppingCart.module.css';
-import Footer from '../components/Footer';
-import Navigation from '../components/Navigation';
 
 const ShoppingCart = () => {
   const [quantities, setQuantities] = useState({ product1: 1, product2: 1 });
