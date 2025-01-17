@@ -11,7 +11,7 @@ const Navigation = () => {
       <div className={styles.searchContainer}>
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search any Product or Skills"
           className={styles.searchBar}
         />
         <button className={styles.searchButton}>

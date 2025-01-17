@@ -6,7 +6,7 @@ import BodySection from "../../components/BodySection/BodySection.jsx";
 import Carousel from "../../components/Carousel/Carousel.jsx";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
 import styles from "./Home.module.css";
-import YourListings from "../YourListings/YourListings.jsx";
+import Workshop from "../../components/Workshop/Workshop.jsx";
 const Home = () => {
   return (
     <>
@@ -15,6 +15,7 @@ const Home = () => {
       <Carousel />
       <ProductCard />
       <BodySection />
+      <Workshop />
     </>
   );
 };

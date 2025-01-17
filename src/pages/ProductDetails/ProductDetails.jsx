@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./ProductDetails.module.css";
-import ProductList from "../../components/ProductList/ProductList";
+
 
 
 
@@ -273,7 +273,7 @@ const ProductDetails = ({ product }) => {
           </div>
         </div>
       </div>
-    <ProductList />
+    
     </>
   );
 };
