@@ -59,14 +59,14 @@ const Footer = () => {
               <li>Get In Touch</li>
             </ul>
           </div>
-          <div className={styles.section}>
+          {/* <div className={styles.section}>
             <h3>LINKS</h3>
             <ul className={styles.links}>
               <li></li>
               <li>Download for Mac</li>
               <li>Download for Windows</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>

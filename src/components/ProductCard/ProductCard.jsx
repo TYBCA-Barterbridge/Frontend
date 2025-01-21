@@ -132,6 +132,23 @@ const ProductCard = ({ totalSteps = 7 }) => {
               </li>
             </ul>
           </div>
+          <div className={styles.category}>
+            <h3>Learn Skills</h3>
+            <ul>
+              <li>
+                <label>
+                  <input type="radio" name="skill" value="electronics" />
+                  Learn New Skills
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="skill" value="electronics" />
+                  Attend Workshops
+                </label>
+              </li>
+            </ul>
+          </div>
           <hr />
           <div>
             <div className={styles.priceRange}>
@@ -182,24 +199,18 @@ const ProductCard = ({ totalSteps = 7 }) => {
           </div>
           <hr />
           <div className={styles.category}>
-            <h3>Customer Rating</h3>
+            <h3>Date Added</h3>
             <ul>
               <li>
                 <label>
-                  <input type="radio" name="customer" />
-                  4✩ & above
+                  <input type="radio" name="date" />
+                  Newest First
                 </label>
               </li>
               <li>
                 <label>
-                  <input type="radio" name="customer" />
-                  3✩ & above
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="customer" />
-                  2✩ & above
+                  <input type="radio" name="date" />
+                  Oldest First
                 </label>
               </li>
             </ul>
