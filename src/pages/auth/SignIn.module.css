@@ -1,17 +1,11 @@
 .container {
-  margin-top: -50px;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #f7f9fc;
-    background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  width: 100%;
+  }
   
-    background-image: url(https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)
-}
   .formContainer {
     background: #ffffff;
     padding: 2rem;

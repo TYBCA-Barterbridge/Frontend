@@ -1,7 +1,31 @@
 import React from "react";
 import styles from "./Nav2.module.css";
+import { Link , useNavigate} from "react-router-dom";
+import { MdLogout } from "react-icons/md";
+import { useSendLogoutMutation } from "../../features/auth/authApiSlice";
+import useAuth from "../../hooks/useAuth";
+import { CircleLoader } from "react-spinners";
 
-const Nav2 = () => {
+  const Nav2 = () => {
+    const { email } = useAuth();
+    const navigate = useNavigate();
+    console.log(email)
+  
+    const [sendLogout, { isLoading }] = useSendLogoutMutation();
+  
+    const handleLogout = async (e) => {
+      e.preventDefault();
+      try {
+        await sendLogout().unwrap();
+        navigate("/");
+      } catch (err) {
+        console.error("Logout failed:", err);
+      }
+    };
+
+    if (isLoading) return <CircleLoader color={"blue"} size={24} />;
+  
+
   return (
     <>
       <div className={styles.navbar}>
@@ -47,14 +71,20 @@ const Nav2 = () => {
             />
           </a>
 
-          <a href="./SignIn" className={styles.button}>
-            Sign in
-            <img
-              src="https://img.icons8.com/?size=100&id=52625&format=png&color=000000"
-              alt=""
-              className={styles.icon1}
-            />
-          </a>
+          {email ? (
+            <button className={styles.button} color="red" onClick={handleLogout}>
+              <MdLogout /> Sign Out
+            </button>
+          ) : (
+            <Link to="/SignIn" className={styles.button}>
+              Sign in
+              <img
+                src="https://img.icons8.com/?size=100&id=52625&format=png&color=000000"
+                alt=""
+                className={styles.icon1}
+              />
+            </Link>
+          )}
         </div>
       </div>
     </>
