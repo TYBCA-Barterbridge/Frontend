@@ -119,29 +119,23 @@ const ResetPass = () => {
           </div>
         </div>
       </div>
-      <footer>
-        <div
-          style={{
-            textAlign: "center",
-            textJustify:"initial",
-            color: "white",
-            backgroundColor: "white",
-            padding: "10px",
-            borderRadius: "2rem",
-            justifySelf: "center",
-          }}
-        >
-          <Link
-            to="/"
-            style={{
-              color: "black",
-              textDecoration: "none",
-            }}
-          >
-            Back to Home
-          </Link>
-        </div>
-      </footer>
+      <div
+               style={{
+                 backgroundColor: "white",
+                 padding: "10px",
+                 justifySelf: "center",
+               }}
+             >
+               <Link
+                 to="/"
+                 style={{
+                   color: "black",
+                   textDecoration: "none"
+                 }}
+               >
+                 Back to Home
+               </Link>
+             </div>
     </>
   );
 };

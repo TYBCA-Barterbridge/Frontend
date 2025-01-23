@@ -88,15 +88,10 @@ const ForgotPass = () => {
           </div>
         </div>
       </div>
-      <footer>
-        <div
+      <div
           style={{
-            textAlign: "center",
-            textJustify:"initial",
-            color: "white",
             backgroundColor: "white",
             padding: "10px",
-            borderRadius: "2rem",
             justifySelf: "center",
           }}
         >
@@ -104,13 +99,12 @@ const ForgotPass = () => {
             to="/"
             style={{
               color: "black",
-              textDecoration: "none",
+              textDecoration: "none"
             }}
           >
             Back to Home
           </Link>
         </div>
-      </footer>
     </>
   );
 };

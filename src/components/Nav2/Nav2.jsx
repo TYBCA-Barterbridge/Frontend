@@ -1,30 +1,26 @@
 import React from "react";
+import useAuth from "../../hooks/useAuth";
 import styles from "./Nav2.module.css";
-import { Link , useNavigate} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { useSendLogoutMutation } from "../../features/auth/authApiSlice";
-import useAuth from "../../hooks/useAuth";
-import { CircleLoader } from "react-spinners";
 
-  const Nav2 = () => {
-    const { email } = useAuth();
-    const navigate = useNavigate();
-    console.log(email)
-  
-    const [sendLogout, { isLoading }] = useSendLogoutMutation();
-  
-    const handleLogout = async (e) => {
-      e.preventDefault();
-      try {
-        await sendLogout().unwrap();
-        navigate("/");
-      } catch (err) {
-        console.error("Logout failed:", err);
-      }
-    };
+const Nav2 = () => {
+  const { email } = useAuth();
+  const navigate = useNavigate();
 
-    if (isLoading) return <CircleLoader color={"blue"} size={24} />;
-  
+  const [sendLogout, { isLoading }] = useSendLogoutMutation();
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      await sendLogout().unwrap();
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   return (
     <>
@@ -37,18 +33,18 @@ import { CircleLoader } from "react-spinners";
               <div className={styles.option}>Workshop</div>
             </div>
           </div>
-
-          <a href="./CustomerCare" className={styles.button}>
+          <Link to="/Care" className={styles.button}>
             Customer Care
             <img
               src="https://img.icons8.com/?size=100&id=51413&format=png&color=000000"
               alt=""
               className={styles.icon1}
             />
-          </a>
+          </Link>
         </div>
 
         <div className={styles.right}>
+          <p>Follow us :</p>
           <a href="https://facebook.com" target="_blank" rel="noreferrer">
             <img
               src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
@@ -70,10 +66,17 @@ import { CircleLoader } from "react-spinners";
               className={styles.icon}
             />
           </a>
-
+          <div className={styles.dropdownContainer}>
+            <div className={styles.dropdownButton}>English ↓</div>
+            <div className={styles.dropdownContent}>
+              <div className={styles.option}>Spanish</div>
+              <div className={styles.option}>French</div>
+              <div className={styles.option}>Chinese</div>
+            </div>
+          </div>
           {email ? (
-            <button className={styles.button} color="red" onClick={handleLogout}>
-              <MdLogout /> Sign Out
+            <button style={{backgroundColor:"#f8f9fa",border:"none", color:"#f8f9fa"}}>
+              invisible
             </button>
           ) : (
             <Link to="/SignIn" className={styles.button}>
