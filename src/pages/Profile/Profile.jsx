@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import styles from "./Profile.module.css";
+import { useSendLogoutMutation } from "../../features/auth/authApiSlice";
 
 // Sidebar Component
 const Sidebar = ({ activeMenu, onMenuChange }) => {
@@ -20,6 +21,20 @@ const Sidebar = ({ activeMenu, onMenuChange }) => {
   const handleOutsideClick = (e) => {
     if (popupRef.current && !popupRef.current.contains(e.target)) {
       setIsPopupVisible(false);
+    }
+  };
+
+  const navigate = useNavigate();
+
+  const [sendLogout, { isLoading }] = useSendLogoutMutation();
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      await sendLogout().unwrap();
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
     }
   };
 
@@ -69,9 +84,7 @@ const Sidebar = ({ activeMenu, onMenuChange }) => {
             <h2>Are you sure?</h2>
             <p>You will be logged out from your account.</p>
             <div className={styles.buttons}>
-              <a href="./SignIn">
-                <button className={styles.confirmButton}>Yes</button>
-              </a>
+                <button className={styles.confirmButton} onClick={handleLogout}>Yes</button>
               <button className={styles.cancelButton} onClick={togglePopup}>
                 No
               </button>

@@ -1,9 +1,8 @@
 .container {
-  margin-top: -50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 120vh;
+    height: 100vh;
     background-color: #f7f9fc;
     background-image: url(https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
     background-size: cover; 
@@ -18,7 +17,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 600px;
+    max-width: 400px;
     text-align: center;
   }
   
@@ -46,14 +45,13 @@
     text-align: left;
   }
   
-  .input, .textarea {
+  .input {
     width: 100%;
     padding: 0.75rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
-    resize: none;
   }
   
   .submitButton {
@@ -72,18 +70,14 @@
     background-color: #1288a6;
   }
   
-  .contactInfo {
+  .links {
     margin-top: 1rem;
-  }
-  
-  .contact {
-    font-size: 0.9rem;
-    color: #555;
   }
   
   .link {
     color: #18abd7;
     text-decoration: none;
+    font-size: 0.9rem;
   }
   
   .link:hover {

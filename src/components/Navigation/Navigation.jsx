@@ -5,7 +5,7 @@ const Navigation = () => {
   return (
     <nav className={styles.navbar}>
     {/* Logo */}
-     <a href="./Home" className={styles.logo}>BarterBridge</a>
+     <a href="./" className={styles.logo}>BarterBridge</a>
       
     {/* Search Bar */}
       <div className={styles.searchContainer}>
@@ -26,7 +26,7 @@ const Navigation = () => {
     {/* Navigation Icons */}
       <ul className={styles.navLinks}>
         <li className={styles.navItem}>
-          <a href="./ShoppingCart" className={styles.icontext}>
+          <a href="./Cart" className={styles.icontext}>
           <img
             src="https://img.icons8.com/?size=100&id=ZyDjBTUuqB78&format=png&color=FFFFFF"
             alt="Cart"
