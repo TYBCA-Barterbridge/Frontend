@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import styles from "./ProductDetails.module.css";
-
-
-
-
+import ProductCarousel from "../../components/ProductCarousel/ProductCarousel";
 
 const ProductDetails = ({ product }) => {
   product = {
@@ -129,9 +126,7 @@ const ProductDetails = ({ product }) => {
 
   return (
     <>
-    <div className={styles.top}>
-            .
-          </div>
+      <div className={styles.top}>.</div>
       <div className={styles.container}>
         {/* Left: Product Images */}
         <div className={styles.imageSection}>
@@ -170,9 +165,7 @@ const ProductDetails = ({ product }) => {
             </button>
           </div>
           <div className={styles.chatButtonContainer}>
-            <button className={styles.chatButton}>
-              Chat with Seller
-            </button>
+            <button className={styles.chatButton}>Chat with Seller</button>
           </div>
         </div>
 
@@ -273,7 +266,7 @@ const ProductDetails = ({ product }) => {
           </div>
         </div>
       </div>
-    
+      <ProductCarousel/>
     </>
   );
 };

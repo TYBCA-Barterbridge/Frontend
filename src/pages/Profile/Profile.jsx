@@ -6,9 +6,6 @@ import styles from "./Profile.module.css";
 const Sidebar = ({ activeMenu, onMenuChange }) => {
   const menuItems = [
     { name: "Your Listings", path: "/YourListings" },
-    { name: "Shopping Cart", path: "/ShoppingCart" },
-    { name: "Wishlist", path: "/Wishlist" },
-    { name: "Cards & Address", path: "" },
     { name: "Setting", path: "/Profile" },
     { name: "Logout", path: null }, 
   ];

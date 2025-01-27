@@ -1,3 +1,4 @@
+import ProductCarousel from "../ProductCarousel/ProductCarousel";
 import styles from "./Workshop.module.css";
 
 const Workshop = () => {
@@ -65,9 +66,7 @@ const Workshop = () => {
   return (
     <div className={styles.top}>
       <div className={styles.header}>
-        <div className={styles.banner}>
-          <img className={styles.banner} src="./images/banner-1.png" alt="" />
-        </div>
+        <ProductCarousel />
       </div>
       <div className={styles.container}>
         <div className={styles.productList}>
