@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Carousel.module.css';
 
 const Carousel = () => {
   const images = [
@@ -21,16 +20,29 @@ const Carousel = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(nextImage, 5000); 
-
-    return () => clearInterval(interval); 
+    const interval = setInterval(nextImage, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className={styles.carousel}>
-      <div className={styles.arrow} onClick={prevImage}>&#10094;</div> 
-      <img src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} className={styles.image} />
-      <div className={styles.arrow} onClick={nextImage}>&#10095;</div> 
+    <div className="flex items-center justify-center relative m-10">
+      <div 
+        className="cursor-pointer text-3xl text-white bg-gray-500 bg-opacity-10 p-2 select-none" 
+        onClick={prevImage}
+      >
+        &#10094;
+      </div>
+      <img 
+        src={images[currentIndex]} 
+        alt={`Slide ${currentIndex + 1}`} 
+        className="w-screen h-[300px] object-cover mx-2"
+      />
+      <div 
+        className="cursor-pointer text-3xl text-white bg-gray-500 bg-opacity-10 p-2 select-none" 
+        onClick={nextImage}
+      >
+        &#10095;
+      </div>
     </div>
   );
 };
