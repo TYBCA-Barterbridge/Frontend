@@ -1,53 +1,96 @@
 import React from "react";
+import useAuth from "../../hooks/useAuth";
+import styles from "./Nav2.module.css";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { MdLogout } from "react-icons/md";
+import { useSendLogoutMutation } from "../../features/auth/authApiSlice";
 
 const Nav2 = () => {
+  const { email } = useAuth();
+  const navigate = useNavigate();
+
+  const [sendLogout, { isLoading }] = useSendLogoutMutation();
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      await sendLogout().unwrap();
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
+
   return (
-    <div className="flex justify-between items-center px-8 py-2 bg-gray-100 shadow-md mb-5 relative z-40">
-      {/* Left Side */}
-      <div className="flex items-center gap-4">
-        <div className="relative group">
-          <button className="px-4 py-2 text-lg bg-gray-100 hover:bg-gray-300 rounded-md">
-            All Category ↓
-          </button>
-          {/* Dropdown */}
-          <div className="absolute left-0  bg-white shadow-md rounded-md w-37 min-w-max hidden group-hover:block z-50">
-            <div className="px-4 py-2 hover:bg-gray-200 cursor-pointer border-1 border-gray-300">Exchange</div>
-            <div className="px-4 py-2 hover:bg-gray-200 cursor-pointer border-1 border-gray-300">Workshop</div>
+    <>
+      <div className={styles.navbar}>
+        <div className={styles.left}>
+          <div className={styles.dropdownContainer}>
+            <div className={styles.dropdownButton}>All Category ↓</div>
+            <div className={styles.dropdownContent}>
+              <div className={styles.option}>Exchange</div>
+              <div className={styles.option}>Workshop</div>
+            </div>
           </div>
+          <Link to="/Care" className={styles.button}>
+            Customer Care
+            <img
+              src="https://img.icons8.com/?size=100&id=51413&format=png&color=000000"
+              alt=""
+              className={styles.icon1}
+            />
+          </Link>
         </div>
 
-        <a href="./CustomerCare" className="flex items-center px-4 py-2 text-black hover:bg-gray-300 rounded-md">
-          Customer Care
-          <img
-            src="https://img.icons8.com/?size=100&id=51413&format=png&color=000000"
-            alt="Customer Care"
-            className="w-5 h-5 ml-2"
-          />
-        </a>
+        <div className={styles.right}>
+          <p>Follow us :</p>
+          <a href="https://facebook.com" target="_blank" rel="noreferrer">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+              alt="Facebook"
+              className={styles.icon}
+            />
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noreferrer">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/733/733579.png"
+              alt="Twitter"
+              className={styles.icon}
+            />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/733/733558.png"
+              alt="Instagram"
+              className={styles.icon}
+            />
+          </a>
+          <div className={styles.dropdownContainer}>
+            <div className={styles.dropdownButton}>English ↓</div>
+            <div className={styles.dropdownContent}>
+              <div className={styles.option}>Spanish</div>
+              <div className={styles.option}>French</div>
+              <div className={styles.option}>Chinese</div>
+            </div>
+          </div>
+          {email ? (
+            <button style={{backgroundColor:"#f8f9fa",border:"none", color:"#f8f9fa"}}>
+              invisible
+            </button>
+          ) : (
+            <Link to="/SignIn" className={styles.button}>
+              Sign in
+              <img
+                src="https://img.icons8.com/?size=100&id=52625&format=png&color=000000"
+                alt=""
+                className={styles.icon1}
+              />
+            </Link>
+          )}
+        </div>
       </div>
-
-      {/* Right Side */}
-      <div className="flex items-center gap-4">
-        <a href="https://facebook.com" target="_blank" rel="noreferrer">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" className="w-8 h-8 hover:scale-110 transition" />
-        </a>
-        <a href="https://twitter.com" target="_blank" rel="noreferrer">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" className="w-8 h-8 hover:scale-110 transition" />
-        </a>
-        <a href="https://instagram.com" target="_blank" rel="noreferrer">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram" className="w-8 h-8 hover:scale-110 transition" />
-        </a>
-
-        <a href="./SignIn" className="flex items-center px-4 py-2 text-black hover:bg-gray-300 rounded-md">
-          Sign in
-          <img
-            src="https://img.icons8.com/?size=100&id=52625&format=png&color=000000"
-            alt="Sign in"
-            className="w-5 h-5 ml-2"
-          />
-        </a>
-      </div>
-    </div>
+    </>
   );
 };
 

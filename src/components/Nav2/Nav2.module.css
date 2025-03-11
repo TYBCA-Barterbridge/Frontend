@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 200px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Left Side */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: -50px;
+}
+
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdownButton {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdownButton:hover {
+  background-color: rgb(224, 221, 221);
+}
+
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-top: 5px;
+  z-index: 10;
+  width: 100%;
+}
+
+/* Keep dropdown visible when hovering over the button or content */
+.dropdownContainer:hover .dropdownContent,
+.dropdownContent:hover {
+  display: block;
+}
+
+.option {
+  margin-top: -5px;
+  padding: 15px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  color: black;
+  border-bottom: 1px solid #ddd;
+}
+
+.option:hover {
+  background-color: rgb(186, 186, 186);
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.button {
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px 2px;
+
+  border: none;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  color: black;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+}
+
+.button:hover {
+  color: rgb(91, 90, 90);
+  border-bottom: 2px solid rgb(86, 83, 83);
+  transition: 0.1s ease-in;
+}
+
+/* Right Side */
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-right: -50px;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.right p {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.icon1 {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  margin-left: 6px;
+}

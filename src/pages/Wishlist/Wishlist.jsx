@@ -1,4 +1,6 @@
 import React from "react";
+import styles from "./Wishlist.module.css";
+
 
 const Wishlist = () => {
   const wishlistItems = [
@@ -22,57 +24,117 @@ const Wishlist = () => {
 
   return (
     <>
-      {/* Top Bar */}
-      <div className="bg-[#119AC0] h-10 -mt-10"></div>
-
-      <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10 mb-20">
-        {/* Title */}
-        <h2 className="text-2xl font-bold mb-6">Wishlist</h2>
-
-        {/* Wishlist Table */}
-        <table className="w-full border-collapse">
+      <div className={styles.top}>
+              .
+            </div>
+      <div className={styles.wishlistContainer}>
+        <h2 className={styles.title}>Wishlist</h2>
+        <table className={styles.wishlistTable}>
           <thead>
-            <tr className="border-b border-gray-300 text-gray-600 text-left">
-              <th className="p-3">PRODUCTS</th>
-              <th className="p-3">PRICE</th>
-              <th className="p-3">STOCK STATUS</th>
-              <th className="p-3">ACTIONS</th>
+            <tr>
+              <th>PRODUCTS</th>
+              <th>PRICE</th>
+              <th>STOCK STATUS</th>
+              <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
             {wishlistItems.map((item) => (
-              <tr key={item.id} className="border-b border-gray-200">
-                <td className="p-3 flex items-center gap-4">
-                  <img src={item.image} alt={item.name} className="w-14 h-14 rounded object-cover" />
-                  <span className="text-sm text-gray-800">{item.name}</span>
+              <tr key={item.id}>
+                <td>
+                  <div className={styles.productDetails}>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className={styles.productImage}
+                    />
+                    <span>{item.name}</span>
+                  </div>
                 </td>
-                <td className="p-3">
-                  <span className="text-gray-500 line-through mr-2">{item.price}</span>
-                  <span className="font-bold text-gray-900">{item.discountedPrice}</span>
+                <td>
+                  <span className={styles.originalPrice}>{item.price}</span>
+                  <span className={styles.discountedPrice}>
+                    {item.discountedPrice}
+                  </span>
                 </td>
-                <td className="p-3">
-                  <span className={`font-bold ${item.status === "IN STOCK" ? "text-green-600" : "text-red-500"}`}>
+                <td>
+                  <span
+                    className={
+                      item.status === "IN STOCK"
+                        ? styles.inStock
+                        : styles.outOfStock
+                    }
+                  >
                     {item.status}
                   </span>
                 </td>
-                <td className="p-3 flex gap-3">
-                  <button
-                    className={`px-4 py-2 text-sm rounded ${
+                <td>
+                  <div className={styles.buttonContainer}>
+                    <button
+                      className={
+                        item.status === "IN STOCK"
+                          ? styles.addToCartButton
+                          : styles.disabledButton
+                      }
+                      disabled={item.status !== "IN STOCK"}
+                    >
+                      ADD TO CART
+                    </button>
+                    <button className={styles.removeButton}>&times;</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+            {wishlistItems.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <div className={styles.productDetails}>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className={styles.productImage}
+                    />
+                    <span>{item.name}</span>
+                  </div>
+                </td>
+                <td>
+                  <span className={styles.originalPrice}>{item.price}</span>
+                  <span className={styles.discountedPrice}>
+                    {item.discountedPrice}
+                  </span>
+                </td>
+                <td>
+                  <span
+                    className={
                       item.status === "IN STOCK"
-                        ? "bg-orange-500 text-white hover:bg-orange-600"
-                        : "bg-gray-300 text-gray-600 cursor-not-allowed"
-                    }`}
-                    disabled={item.status !== "IN STOCK"}
+                        ? styles.inStock
+                        : styles.outOfStock
+                    }
                   >
-                    ADD TO CART
-                  </button>
-                  <button className="text-xl text-gray-500 hover:text-red-500">&times;</button>
+                    {item.status}
+                  </span>
+                </td>
+                <td>
+                  <div className={styles.buttonContainer}>
+                    <button
+                      className={
+                        item.status === "IN STOCK"
+                          ? styles.addToCartButton
+                          : styles.disabledButton
+                      }
+                      disabled={item.status !== "IN STOCK"}
+                    >
+                      ADD TO CART
+                    </button>
+                    <button className={styles.removeButton}>&times;</button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      
     </>
   );
 };

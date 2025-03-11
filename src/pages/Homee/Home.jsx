@@ -5,12 +5,12 @@ import BodySection from "../../components/BodySection/BodySection.jsx";
 
 import Carousel from "../../components/Carousel/Carousel.jsx";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
+import styles from "./Home.module.css";
 import Workshop from "../../components/Workshop/Workshop.jsx";
-
 const Home = () => {
   return (
     <>
-      <div className="mt-[-40px] bg-[#0F9BB7] h-10"></div>
+      <div className={styles.top}>.</div>
       <Nav2 />
       <Carousel />
       <ProductCard />

@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 75px;
+  padding: 1rem 2rem;
+  background-color: rgba(64, 123, 137, 0.4); /* Semi-transparent background */
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 40px;
+  text-decoration: none;
+  color: white;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 3rem;
+  margin-right: 40px;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.navItem:hover {
+  transform: scale(1.1);
+}
+
+.navIcon {
+  width: 35px;
+  height: 35px;
+}
+
+.iconText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 2rem;
+}
+
+.searchBar {
+  width: 80%;
+  width: 500px;
+  height: 40px;
+  padding: 0.5rem 1rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.searchBar::placeholder {
+  color: #aaa;
+}
+
+.searchButton {
+  background-color: #dce0e2;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px  rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.searchButton:hover {
+  background-color: #cfd2d3;
+}
+
+.searchIcon {
+  width: 25px;
+  height: 24px;
+}
