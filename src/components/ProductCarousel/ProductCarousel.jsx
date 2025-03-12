@@ -5,13 +5,13 @@ const ProductCarousel = () => {
   const [startIndex, setStartIndex] = useState(0);
 
   const products = [
-    { name: "Product 1", image: "/images/z9001.png", link: "/product/1" },
-    { name: "Product 2", image: "/images/z9001.png", link: "/product/2" },
-    { name: "Product 3", image: "/images/z9001.png", link: "/product/3" },
-    { name: "Product 4", image: "/images/z9001.png", link: "/product/4" },
-    { name: "Product 5", image: "/images/z9001.png", link: "/product/5" },
-    { name: "Product 6", image: "/images/z9001.png", link: "/product/6" },
-    { name: "Product 7", image: "/images/z9001.png", link: "/product/7" }
+    { name: "Product 1", image: "/images/5.jpg", link: "/product/1" },
+    { name: "Product 2", image: "/images/z9002.jpg", link: "/product/2" },
+    { name: "Product 3", image: "/images/z9003.jpg", link: "/product/3" },
+    { name: "Product 4", image: "/images/1.jpg", link: "/product/4" },
+    { name: "Product 5", image: "/images/4.jpg", link: "/product/5" },
+    { name: "Product 6", image: "/images/2.jpg", link: "/product/6" },
+    { name: "Product 7", image: "/images/6.jpg", link: "/product/7" }
   ];
 
   const totalProducts = products.length;
@@ -50,7 +50,7 @@ const ProductCarousel = () => {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-44 object-cover rounded-lg"
+                  className="w-full h-55 object-cover rounded-lg"
                 />
                 <p className="mt-2 text-lg font-bold text-gray-800">{product.name}</p>
               </Link>

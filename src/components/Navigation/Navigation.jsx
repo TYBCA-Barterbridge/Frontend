@@ -2,7 +2,7 @@ import React from "react";
 
 const Navigation = () => {
   return (
-    <nav className="flex justify-between items-center w-full h-[75px] px-8 bg-[#0d84a2] bg-opacity-40 text-white shadow-md sticky top-0 z-50 backdrop-blur-md">
+    <nav className="flex justify-between items-center w-full h-[75px] px-8 bg-[#1B6392] text-white shadow-md sticky top-0 z-50 backdrop-blur-md">
       {/* Logo */}
       <a href="./Home" className="text-2xl font-bold ml-10 text-white no-underline">
         BarterBridge
