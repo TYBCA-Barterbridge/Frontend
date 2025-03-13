@@ -17,12 +17,10 @@ import YourListings from "./pages/YourListings/YourListings.jsx";
 import UploadPage from "./pages/UploadPage/UploadPage.jsx";
 import WorkshopDetails from "./pages/WorkshopDetails/WorkshopDetails.jsx"
 
-  function App() {
-    return (
+
   function App() {
     return (
       <Routes>
-         <Route path="/" element={<Layout />}>
         {/* Public Routes */}
          <Route path="/" element={<Layout />}>
         {/* Public Routes */}
@@ -48,9 +46,6 @@ import WorkshopDetails from "./pages/WorkshopDetails/WorkshopDetails.jsx"
       </Routes>
     );
   }
-    );
-  }
-
 export default App;
 
 
