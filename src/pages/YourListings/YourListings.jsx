@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import UploadPage from "../UploadPage/UploadPage";
+import Editpage from "../editPage/editPage"
+import { useGetGoodbyUserQuery } from "../../features/good/goodApiSlice";
+import { useGetSkillbyUserQuery } from "../../features/skill/skillApiSLice";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 const YourListings = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [iseditModalOpen, setIseditModalOpen] = useState(false);
+  const { data: goods = [] } = useGetGoodbyUserQuery();
+  const { data: skills = [] } = useGetSkillbyUserQuery();
 
-  const listings = [
-    { id: 1, name: "Guitar", description: "A classic guitar", image: "./images/1.jpg" },
-    { id: 2, name: "Guitar", description: "Acoustic guitar", image: "./images/2.jpg" },
-    { id: 3, name: "Guitar", description: "Electric guitar", image: "./images/6.jpg" },
-    { id: 4, name: "Guitar", description: "Vintage guitar", image: "./images/4.jpg" },
-    { id: 5, name: "Guitar", description: "Vintage guitar", image: "./images/5.jpg" },
-    { id: 6, name: "Guitar", description: "Vintage guitar", image: "./images/z9002.jpg" },
-    { id: 7, name: "Guitar", description: "Vintage guitar", image: "./images/z9003.jpg" },
-  ];
+  // Combine goods and skills into a single list
+  const listings = [...goods, ...skills];
+  console.log(listings);
+  
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const openeditModal = () => setIseditModalOpen(true);
+  const closeeditModal = () => setIseditModalOpen(false);
 
   return (
     <>
@@ -33,9 +38,9 @@ const YourListings = () => {
         </div>
 
         {/* Listings Section */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 bg-gray-100 p-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 bg-gray-100 p-6">
           {/* Add Product/Skill Button */}
-          <div 
+          <div
             className="flex flex-col items-center justify-center w-[210px] h-[250px] border-2 border-dashed border-gray-300 rounded-lg text-[#f48024] font-bold cursor-pointer hover:bg-gray-200"
             onClick={openModal}
           >
@@ -44,12 +49,30 @@ const YourListings = () => {
           </div>
 
           {/* Render Listings */}
-          {listings.map((item) => (
-            <div key={item.id} className="w-[210px] h-[250px] border border-gray-300 rounded-lg shadow-lg overflow-hidden bg-white">
-              <img src={item.image} alt={item.name} className="w-full h-[70%] object-cover" />
+          {listings.map((item, index) => (
+            <div
+              key={`listing-${index}`}
+              className="w-[280px] h-[350px] border border-gray-300 rounded-lg shadow-lg overflow-hidden bg-white"
+            >
+              <img
+                src={
+                  item.Good_imgs?.[0]?.img_url ||
+                  item.Skill_imgs?.[0]?.img_url ||
+                  "/placeholder.svg"
+                }
+                alt={item.good_name || item.skill_name || "Listing"}
+                className="w-full h-[70%] object-contain"
+              />
               <div className="p-2 text-center">
-                <p className="font-semibold">{item.name}</p>
-                <div className="text-xs text-gray-600 break-words">{item.description}</div>
+                <p className="font-semibold">{item.good_name || item.skill_name}</p>
+                <div className="text-xs text-gray-600 break-words">
+                  {item.good_description || item.skill_description}
+                </div>
+              </div>
+              <div>
+                <button className=" text-white p-2 rounded ">
+                  <BsThreeDotsVertical className="text-[#0f9bb7] size-5" onClick={openeditModal}/>
+                </button>
               </div>
             </div>
           ))}
@@ -58,6 +81,7 @@ const YourListings = () => {
 
       {/* Modal */}
       {isModalOpen && <UploadPage closeModal={closeModal} />}
+      {isModalOpen && <Editpage closeModal={closeeditModal} />}
     </>
   );
 };

@@ -24,7 +24,10 @@
   .title {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: #FFF;
+    padding: 4;
+    background-color:#1288a6;
+    border-radius: 10px;
   }
   
   .googleButton {

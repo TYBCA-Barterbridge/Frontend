@@ -8,16 +8,28 @@ export const skillApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSkillbyUser: builder.query({
+      query: () => ({
+        url: "/skill/userskill",
+        method: "GET",
+      }),
+    }),
+    getSkillbyId: builder.query({
+      query: (skill_id) => ({
+        url: `/skill/${skill_id}`,
+        method: "GET",
+        }),
+    }),
     createSkill: builder.mutation({
       query: (data) => ({
-        url: "/skill",
+        url: "/skill/add",
         method: "POST",
         body: data,
       }),
     }),
     updateSkill: builder.mutation({
       query: (data) => ({
-        url: `/skill/`,
+        url: `/skill/${skill_id}`,
         method: "PUT",
         body: data,
       }),
@@ -73,7 +85,10 @@ export const skillApiSlice = apiSlice.injectEndpoints({
 
 export const{
     useGetSkillQuery,
+    useGetSkillbyUserQuery,
+    useGetSkillbyIdQuery,
     useCreateSkillMutation,
+    useUpdateSkillMutation,
     useDeleteSkillMutation,
     useFetchExchangeRequestsQuery,
     useRespondtoexchangeMutation,

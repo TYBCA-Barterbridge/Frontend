@@ -8,7 +8,7 @@ const Workshop = () => {
       name: "Javascript",
       description: "Learn modern JavaScript.",
       price: "699",
-      detailUrl: "/product/1",
+      detailUrl: "/WorkshopDetails",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBlD_-mtjCiRSWCIX_dRNBLBBkoJ4nDy_i_A&s",
     },
     {
@@ -16,7 +16,7 @@ const Workshop = () => {
       name: "Python",
       description: "Master Python programming.",
       price: "999",
-      detailUrl: "/product/2",
+      detailUrl: "/WorkshopDetails",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBlD_-mtjCiRSWCIX_dRNBLBBkoJ4nDy_i_A&s",
     },
     {
@@ -24,7 +24,7 @@ const Workshop = () => {
       name: "React.js",
       description: "Build amazing UIs with React.",
       price: "199",
-      detailUrl: "/product/3",
+      detailUrl: "/WorkshopDetails",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBlD_-mtjCiRSWCIX_dRNBLBBkoJ4nDy_i_A&s",
     },
     {
@@ -32,7 +32,7 @@ const Workshop = () => {
       name: "C++",
       description: "Deep dive into C++ programming.",
       price: "$199",
-      detailUrl: "/product/4",
+      detailUrl: "/WorkshopDetails",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBlD_-mtjCiRSWCIX_dRNBLBBkoJ4nDy_i_A&s",
     },
     {
@@ -40,7 +40,7 @@ const Workshop = () => {
       name: "PHP",
       description: "Learn backend development.",
       price: "199",
-      detailUrl: "/product/5",
+      detailUrl: "/WorkshopDetails",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBlD_-mtjCiRSWCIX_dRNBLBBkoJ4nDy_i_A&s",
     },
     {
@@ -48,7 +48,7 @@ const Workshop = () => {
       name: "SQL",
       description: "Master databases with SQL.",
       price: "199",
-      detailUrl: "/product/6",
+      detailUrl: "/WorkshopDetails",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBlD_-mtjCiRSWCIX_dRNBLBBkoJ4nDy_i_A&s",
     },
     {
@@ -56,7 +56,7 @@ const Workshop = () => {
       name: "Node.js",
       description: "Server-side JavaScript with Node.js.",
       price: "199",
-      detailUrl: "/product/7",
+      detailUrl: "/WorkshopDetails",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYuSph-eWxri7SsEZBb6l6VVPPFfaDO2dvCg&s",
     },
     {
@@ -64,7 +64,7 @@ const Workshop = () => {
       name: "Tailwind CSS",
       description: "Style your site with Tailwind.",
       price: "199",
-      detailUrl: "/product/8",
+      detailUrl: "/WorkshopDetails",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBlD_-mtjCiRSWCIX_dRNBLBBkoJ4nDy_i_A&s",
     },
   ];

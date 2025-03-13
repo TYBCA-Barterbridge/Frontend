@@ -1,12 +1,12 @@
 import React, { useRef, useState } from "react";
-import { useCreateGoodMutation } from "../../features/good/goodApiSlice";
-import { useCreateSkillMutation } from "../../features/skill/skillApiSLice";
+import { useUpdateGoodMutation } from "../../features/good/goodApiSlice";
+import { useUpdateSkillMutation } from "../../features/skill/skillApiSLice";
 
-const UploadPage = ({ closeModal }) => {
+const Editpage = ({ closeModal }) => {
   const modalRef = useRef();
   const [selectedImages, setSelectedImages] = useState([]);
-  const [createGood, { isLoading }] = useCreateGoodMutation();
-  const [createSkill, { isLoading: skillLoading }] = useCreateSkillMutation();
+  const [updateGood, { isLoading }] = useUpdateGoodMutation();
+  const [updateSkill, { isLoading: skillLoading }] = useUpdateSkillMutation();
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState("");
@@ -80,9 +80,9 @@ const UploadPage = ({ closeModal }) => {
     images.forEach((image) => data.append("images", image));
 
     if (isGood) {
-      await createGood(data).unwrap();
+      await updateGood(data).unwrap();
     } else {
-      await createSkill(data).unwrap();
+      await updateSkill(data).unwrap();
     }
 
     closeModal();
@@ -122,7 +122,7 @@ const UploadPage = ({ closeModal }) => {
               onChange={handleImageChange}
             />
             <span className="text-3xl text-orange-500">+</span>
-            <p className="text-gray-600">Upload Images</p>
+            <p className="text-gray-600">Upload more images</p>
           </label>
         </div>
 
@@ -225,4 +225,4 @@ const UploadPage = ({ closeModal }) => {
   );
 };
 
-export default UploadPage;
+export default Editpage;

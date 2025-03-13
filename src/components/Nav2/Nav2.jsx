@@ -11,7 +11,8 @@ const Nav2 = () => {
           </button>
           {/* Dropdown */}
           <div className="absolute left-0  bg-white shadow-md rounded-md w-37 min-w-max hidden group-hover:block z-50">
-            <div className="px-4 py-2 hover:bg-gray-200 cursor-pointer border-1 border-gray-300">Exchange</div>
+            <div className="px-4 py-2 hover:bg-gray-200 cursor-pointer border-1 border-gray-300">Good</div>
+            <div className="px-4 py-2 hover:bg-gray-200 cursor-pointer border-1 border-gray-300">Skill</div>
             <div className="px-4 py-2 hover:bg-gray-200 cursor-pointer border-1 border-gray-300">Workshop</div>
           </div>
         </div>

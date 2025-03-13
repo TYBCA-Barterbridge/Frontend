@@ -1,8 +1,6 @@
 import React from "react";
-
 import Nav2 from "../../components/Nav2/Nav2.jsx";
 import BodySection from "../../components/BodySection/BodySection.jsx";
-
 import Carousel from "../../components/Carousel/Carousel.jsx";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
 import Workshop from "../../components/Workshop/Workshop.jsx";

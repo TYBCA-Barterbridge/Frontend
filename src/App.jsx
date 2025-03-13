@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import ProductDetails from "./pages/ProductDetails/ProductDetails.jsx";
+import Product from "./pages/ProductDetails/ProductDetails.jsx";
 import Layout from "./components/Layout.jsx"
 import RequireAuth from "./features/auth/RequireAuth.jsx";
 import PersistLogin from "./features/auth/PersistLogin.jsx";
@@ -11,7 +11,6 @@ import SignUp from "./pages/auth/SignUp.jsx";
 import ForgotPass from "./pages/auth/ForgotPass.jsx";
 import Home from "./pages/Homee/Home.jsx";
 import CustomerCare from "./pages/CustomerCare/CustomerCare.jsx";
-import ShoppingCart from "./pages/ShoppingCart/ShoppingCart.jsx";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import YourListings from "./pages/YourListings/YourListings.jsx";
@@ -19,7 +18,11 @@ import UploadPage from "./pages/UploadPage/UploadPage.jsx";
 
   function App() {
     return (
+  function App() {
+    return (
       <Routes>
+         <Route path="/" element={<Layout />}>
+        {/* Public Routes */}
          <Route path="/" element={<Layout />}>
         {/* Public Routes */}
         <Route index element={<Home />} />
@@ -27,13 +30,12 @@ import UploadPage from "./pages/UploadPage/UploadPage.jsx";
         <Route path="/Verify" element={<Verification />} />
         <Route path="/Forgot" element={<ForgotPass />} />
         <Route path="/Reset" element={<ResetPass />} />
-        <Route path="/Product" element={<ProductDetails />} />
+        <Route path="/Product" element={<Product />} />
   
         <Route path="/SignIn" element={<SignIn />}/>
           {/* Protected Routes */}
           <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
-              <Route path="/Cart" element={<ShoppingCart />} />
               <Route path="/Wishlist" element={<Wishlist />} />
               <Route path="/Profile" element={<Profile />} />
               <Route path="/Care" element={<CustomerCare />} />
@@ -45,8 +47,16 @@ import UploadPage from "./pages/UploadPage/UploadPage.jsx";
       </Routes>
     );
   }
+    );
+  }
 
 export default App;
+
+
+{/* Admin Protected Route
+          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+              <Route path="users" element={<User Management />} /> {/* Replace with your actual component
+          </Route> */}
 
 
 {/* Admin Protected Route

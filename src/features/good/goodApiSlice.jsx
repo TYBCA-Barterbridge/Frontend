@@ -8,9 +8,21 @@ export const goodApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getGoodbyUser: builder.query({
+      query: () =>({
+        url: "/good/usergood",
+        method: "GET",
+      })
+    }),
+    getGoodById: builder.query({
+      query: (goodId) => ({
+        url: `/good/${goodId}`,
+        method: "GET",
+      })
+    }),
     createGood: builder.mutation({
       query: (data) => ({
-        url: "/good",
+        url: "/good/add",
         method: "POST",
         body: data,
       }),
@@ -73,8 +85,11 @@ export const goodApiSlice = apiSlice.injectEndpoints({
 
 export const{
     useGetGoodQuery,
+    useGetGoodbyUserQuery,
     useCreateGoodMutation,
     useDeleteGoodMutation,
+    useUpdateGoodMutation,
+    useGetGoodByIdQuery,
     useFetchExchangeRequestsQuery,
     useRespondtoexchangeMutation,
     useSendexchangerequestMutation,
