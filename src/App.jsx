@@ -15,6 +15,7 @@ import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import YourListings from "./pages/YourListings/YourListings.jsx";
 import UploadPage from "./pages/UploadPage/UploadPage.jsx";
+import WorkshopDetails from "./pages/WorkshopDetails/WorkshopDetails.jsx"
 
   function App() {
     return (
