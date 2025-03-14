@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UploadPage from "../UploadPage/UploadPage";
-import Editpage from "../editPage/editPage"
+import Editpage from "../editPage/editPage";
 import { useGetGoodbyUserQuery } from "../../features/good/goodApiSlice";
 import { useGetSkillbyUserQuery } from "../../features/skill/skillApiSLice";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -10,17 +10,21 @@ const YourListings = () => {
   const [iseditModalOpen, setIseditModalOpen] = useState(false);
   const { data: goods = [] } = useGetGoodbyUserQuery();
   const { data: skills = [] } = useGetSkillbyUserQuery();
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const openeditModal = (item) => {
+    setSelectedItem(item);
+    setIseditModalOpen(true);
+  };
+
+  const closeeditModal = () => setIseditModalOpen(false);
 
   // Combine goods and skills into a single list
   const listings = [...goods, ...skills];
   console.log(listings);
-  
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
-  const openeditModal = () => setIseditModalOpen(true);
-  const closeeditModal = () => setIseditModalOpen(false);
 
   return (
     <>
@@ -64,14 +68,19 @@ const YourListings = () => {
                 className="w-full h-[70%] object-contain"
               />
               <div className="p-2 text-center">
-                <p className="font-semibold">{item.good_name || item.skill_name}</p>
+                <p className="font-semibold">
+                  {item.good_name || item.skill_name}
+                </p>
                 <div className="text-xs text-gray-600 break-words">
                   {item.good_description || item.skill_description}
                 </div>
               </div>
               <div>
                 <button className=" text-white p-2 rounded ">
-                  <BsThreeDotsVertical className="text-[#0f9bb7] size-5" onClick={openeditModal}/>
+                  <BsThreeDotsVertical
+                    className="text-[#0f9bb7] size-5"
+                    onClick={() => openeditModal(item)}
+                  />
                 </button>
               </div>
             </div>
@@ -81,7 +90,9 @@ const YourListings = () => {
 
       {/* Modal */}
       {isModalOpen && <UploadPage closeModal={closeModal} />}
-      {isModalOpen && <Editpage closeModal={closeeditModal} />}
+      {iseditModalOpen && (
+        <Editpage closeModal={closeeditModal} selectedItem={selectedItem} />
+      )}
     </>
   );
 };

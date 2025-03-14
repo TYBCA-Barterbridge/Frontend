@@ -13,7 +13,7 @@ const categories = [
   { value: "smartphones", label: "Smartphones" },
 ];
 
-const ProductCard = ({ totalSteps = 7 }) => {
+const ProductCard = () => {
   const [priceRange, setPriceRange] = useState([100, 1000]);
   const dispatch = useDispatch();
   const { data: goods } = useGetGoodQuery();
@@ -27,21 +27,6 @@ const ProductCard = ({ totalSteps = 7 }) => {
     const value = Number.parseInt(event.target.value, 10);
     setPriceRange([priceRange[0], value]);
   };
-
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const handlePrev = () => {
-    if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep((prev) => prev + 1);
-    }
-  };
-
 
 
   return (
@@ -155,59 +140,11 @@ const ProductCard = ({ totalSteps = 7 }) => {
               </p>
             </div>
           ))}
-          <div className="flex justify-center w-full">
-            <div className="flex items-center justify-center gap-4 m-5">
-              <button
-                className={`bg-transparent border-2 border-[#f7931e] rounded-full text-[#f7931e] w-10 h-10 flex items-center justify-center cursor-pointer text-xl transition-all duration-300 ${
-                  currentStep === 1
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-[#f7931e] hover:text-white"
-                }`}
-                onClick={handlePrev}
-                disabled={currentStep === 1}
-              >
-                &#8592;
-              </button>
-
-              {Array.from({ length: totalSteps }, (_, index) => {
-                const step = index + 1;
-                return (
-                  <button
-                    key={step}
-                    className={`bg-transparent border-2 ${
-                      step === currentStep
-                        ? "bg-[#f7931e] text-orange border-[#f7931e]"
-                        ? "bg-[#f7931e] text-orange border-[#f7931e]"
-                        : "border-gray-300 text-black hover:border-[#f7931e] hover:text-[#f7931e]"
-                    } rounded-full w-10 h-10 flex items-center justify-center cursor-pointer text-base transition-all duration-300`}
-                    onClick={() => setCurrentStep(step)}
-                  >
-                    {`0${step}`.slice(-2)}
-                  </button>
-                );
-              })}
-
-              <button
-                className={`bg-transparent border-2 border-[#f7931e] rounded-full text-[#f7931e] w-10 h-10 flex items-center justify-center cursor-pointer text-xl transition-all duration-300 ${
-                  currentStep === totalSteps
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-[#f7931e] hover:text-white"
-                }`}
-                onClick={handleNext}
-                disabled={currentStep === totalSteps}
-              >
-                &#8594;
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-ProductCard.propTypes = {
-  totalSteps: PropTypes.number,
-};
 
 export default ProductCard;

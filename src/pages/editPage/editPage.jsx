@@ -1,42 +1,29 @@
 import React, { useRef, useState } from "react";
 import { useUpdateGoodMutation } from "../../features/good/goodApiSlice";
 import { useUpdateSkillMutation } from "../../features/skill/skillApiSLice";
+import { BiRupee } from "react-icons/bi";
 
-const Editpage = ({ closeModal }) => {
+
+const Editpage = ({ closeModal, selectedItem }) => {
   const modalRef = useRef();
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [id] = useState(selectedItem?.good_id || selectedItem?.skill_id || []);
+  const [selectedImages, setSelectedImages] = useState(
+    selectedItem?.Good_imgs || selectedItem?.Skill_imgs || []
+  );
   const [updateGood, { isLoading }] = useUpdateGoodMutation();
   const [updateSkill, { isLoading: skillLoading }] = useUpdateSkillMutation();
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [categoryIndex, setCategoryIndex] = useState(-1);
+  const [name, setName] = useState(
+    selectedItem?.good_name || selectedItem?.skill_name || ""
+  );
+  const [amount, setAmount] = useState(
+    selectedItem?.good_amount || selectedItem?.skill_amount || 0
+  );
+  const [description, setDescription] = useState(
+    selectedItem?.good_description || selectedItem?.skill_description || ""
+  );
+  const [category, setCategory] = useState(selectedItem?.category_id || "");
   const [images, setImages] = useState([]);
-  const [isGood, setIsGood] = useState(true);
-
-  const categories = [
-    "Technology",
-    "Art",
-    "Music",
-    "Cooking",
-    "Gardening",
-    "Fitness",
-    "Fashion",
-    "Photography",
-    "Writing",
-    "Sports",
-    "Travel",
-    "Education",
-    "DIY Crafts",
-    "Health & Wellness",
-    "Gaming",
-    "Programming",
-    "Languages",
-    "Marketing",
-    "Home Improvement",
-    "Entrepreneurship",
-  ];
+  const [isGood, setIsGood] = useState(!!selectedItem?.good_name);
 
   const handleOutsideClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -44,39 +31,15 @@ const Editpage = ({ closeModal }) => {
     }
   };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-
-    // Limit to 5 images
-    if (files.length + images.length > 5) {
-      alert("You can upload up to 5 images only.");
-      return;
-    }
-
-    setImages((prevImages) => [...prevImages, ...files]);
-    const imagePreviews = files.map((file) => URL.createObjectURL(file));
-    setSelectedImages((prevImages) => [...prevImages, ...imagePreviews]);
-  };
-
-  const handleRemoveImage = (index) => {
-    setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
-
-  const handleCategoryChange = (e) => {
-    const selectedIndex = e.target.selectedIndex;
-    setCategory(categories[selectedIndex]);
-    setCategoryIndex(selectedIndex);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = new FormData();
+    data.append("good_id" || "skill_id", id);
     data.append("name", name);
     data.append("amount", amount);
     data.append("desc", description);
-    data.append("category_id", categoryIndex);
+    data.append("category_id", category);
     images.forEach((image) => data.append("images", image));
 
     if (isGood) {
@@ -87,6 +50,7 @@ const Editpage = ({ closeModal }) => {
 
     closeModal();
   };
+  console.log(selectedImages);
 
   return (
     <div
@@ -105,72 +69,63 @@ const Editpage = ({ closeModal }) => {
         </button>
 
         <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">
-          {isGood ? "Upload Good" : "Upload Skill"}
+          {isGood ? "Update Good" : "Update Skill"}
         </h2>
 
-        <div className="text-center mb-6">
-          <label
-            className="w-44 h-40 border-2 border-dashed border-orange-500 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-orange-600 transition"
-            htmlFor="upload-images"
-          >
-            <input
-              id="upload-images"
-              type="file"
-              accept="image/*"
-              multiple
-              className="hidden"
-              onChange={handleImageChange}
-            />
-            <span className="text-3xl text-orange-500">+</span>
-            <p className="text-gray-600">Upload more images</p>
-          </label>
-        </div>
+        {/* Existing Good Preview */}
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            Existing Good Preview
+          </h3>
+          <div className="bg-gray-50 p-4 rounded-lg">
+            {/* Existing Images */}
+            {selectedImages.length > 0 && (
+              <div className="flex gap-2 mb-4">
+                {selectedImages.map((image, index) => {
+                  // Access the img_url property from the image object
+                  const img_url = image.img_url;
 
-        {selectedImages.length > 0 && (
-          <div className="flex flex-wrap gap-3 justify-center mt-4">
-            {selectedImages.map((image, index) => (
-              <div key={index} className="relative w-20 h-20 border rounded-lg overflow-hidden">
-                <img src={image} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
-                <button
-                  className="absolute top-1 right-1 bg-black bg-opacity-60 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 transition"
-                  onClick={() => handleRemoveImage(index)}
-                >
-                  ✕
-                </button>
+                  // Ensure img_url is a string and not null/undefined
+                  if (typeof img_url === "string" && img_url.trim() !== "") {
+                    return (
+                      <img
+                        key={index}
+                        src={img_url.startsWith("/") ? img_url : `/${img_url}`}
+                        alt={`Preview ${index}`}
+                        className="w-20 h-20 object-cover rounded-lg"
+                      />
+                    );
+                  }
+                  return null; // Skip invalid entries
+                })}
               </div>
-            ))}
-          </div>
-        )}
+            )}
 
-        <div className="mt-6 border-t pt-4">
-          <h3 className="text-lg font-semibold text-gray-800">Product Type</h3>
-          <div className="flex items-center space-x-4">
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                name="productType"
-                checked={isGood}
-                onChange={() => setIsGood(true)}
-                className="form-radio text-orange-500"
-              />
-              <span className="text-gray-700">Good</span>
-            </label>
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                name="productType"
-                checked={!isGood}
-                onChange={() => setIsGood(false)}
-                className="form-radio text-orange-500"
-              />
-              <span className="text-gray-700">Skill</span>
-            </label>
+            {/* Existing Name */}
+            <p className="text-gray-700">
+              <span className="font-semibold">Name:</span>{" "}
+              {selectedItem?.good_name || selectedItem?.skill_name}
+            </p>
+
+            {/* Existing Description */}
+            <p className="text-gray-700 mt-2">
+              <span className="font-semibold">Description:</span>{" "}
+              {selectedItem?.good_description ||
+                selectedItem?.skill_description}
+            </p>
+
+            {/* Existing Price */}
+            <p className="text-gray-700 mt-2">
+              <span className="font-semibold">Price:</span> ₹
+              {selectedItem?.good_amount || selectedItem?.skill_amount}
+            </p>
           </div>
         </div>
 
+        {/* Edit Form */}
         <form onSubmit={handleSubmit}>
           <div className="mt-4">
-            <label className="block text-gray-700">Name:</label>
+            <label className="block text-gray-700">Edit Name:</label>
             <input
               type="text"
               className="w-full p-2 border rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none"
@@ -179,7 +134,7 @@ const Editpage = ({ closeModal }) => {
             />
           </div>
           <div className="mt-4">
-            <label className="block text-gray-700">Description:</label>
+            <label className="block text-gray-700">Edit Description:</label>
             <textarea
               className="w-full p-2 border rounded-md resize-none focus:ring-2 focus:ring-orange-500 focus:outline-none"
               value={description}
@@ -187,7 +142,7 @@ const Editpage = ({ closeModal }) => {
             />
           </div>
           <div className="mt-4">
-            <label className="block text-gray-700">Price:</label>
+            <label className="block text-gray-700">Edit Price:</label>
             <input
               type="number"
               className="w-full p-2 border rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none"
@@ -195,21 +150,8 @@ const Editpage = ({ closeModal }) => {
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-          <div className="mt-4">
-            <label className="block text-gray-700">Category:</label>
-            <select
-              className="w-full p-2 border rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none"
-              onChange={handleCategoryChange}
-            >
-              <option value="">Select a Category</option>
-              {categories.map((cat, index) => (
-                <option key={index} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             className={`mt-6 w-full bg-orange-500 text-white py-2 rounded-lg font-bold text-lg transition-transform transform hover:scale-105 ${
@@ -217,7 +159,7 @@ const Editpage = ({ closeModal }) => {
             }`}
             disabled={isLoading || skillLoading}
           >
-            {isLoading || skillLoading ? "Uploading..." : isGood ? "Add Good →" : "Add Skill →"}
+            {isLoading || skillLoading ? "Updating..." : "Update"}
           </button>
         </form>
       </div>

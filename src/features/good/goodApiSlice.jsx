@@ -4,19 +4,19 @@ export const goodApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getGood: builder.query({
       query: () => ({
-        url: "/good",
+        url: "/good/all",
         method: "GET",
       }),
     }),
     getGoodbyUser: builder.query({
       query: () =>({
-        url: "/good/usergood",
+        url: "/good/user",
         method: "GET",
       })
     }),
     getGoodById: builder.query({
       query: (goodId) => ({
-        url: `/good/${goodId}`,
+        url: `/good/${goodId}/details`,
         method: "GET",
       })
     }),
@@ -29,40 +29,40 @@ export const goodApiSlice = apiSlice.injectEndpoints({
     }),
     updateGood: builder.mutation({
       query: (data) => ({
-        url: `/good/`,
+        url: `/good/update`,
         method: "PUT",
         body: data,
       }),
     }),
     deleteGood: builder.mutation({
       query: (id) => ({
-        url: `/good/${id}`,
+        url: `/good/delete`,
         method: "DELETE",
       }),
     }),
-    fetchExchangeRequests: builder.query({
+    fetchGoodExchangeRequests: builder.query({
       query: () => ({
-        url: "/good/exchangerequest",
+        url: "/good/exchange/fetch",
         method: "GET",
       }),
     }),
-    respondtoexchange: builder.mutation({
+    respondtogoodexchange: builder.mutation({
       query: (data) => ({
-        url: `/good/exchange`,
+        url: `/good/exchange/respond`,
         method: "PUT",
         body: data,
       }),
     }),
-    sendexchangerequest: builder.mutation({
+    sendgoodexchangerequest: builder.mutation({
       query: (data) => ({
-        url: `/good/exchangerequest`,
+        url: `/good/exchange/request`,
         method: "POST",
         body: data,
       }),
     }),
-    exchangereview: builder.mutation({
+    GoodExchangereview: builder.mutation({
       query: (data) => ({
-        url: `/good/exchangereview/`,
+        url: `/good/exchange/review`,
         method: "PUT",
         body: data,
       }),
@@ -74,9 +74,9 @@ export const goodApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    boughtreview: builder.mutation({
+    boughtgoodreview: builder.mutation({
         query: (data) => ({
-            url: `/good/boughtreview/`,
+            url: `/good/buy/review`,
             method: "PUT",
             }),
     })
@@ -90,10 +90,10 @@ export const{
     useDeleteGoodMutation,
     useUpdateGoodMutation,
     useGetGoodByIdQuery,
-    useFetchExchangeRequestsQuery,
-    useRespondtoexchangeMutation,
-    useSendexchangerequestMutation,
-    useExchangereviewMutation,
+    useFetchGoodExchangeRequestsQuery,
+    useRespondtogoodexchangeMutation,
+    useSendgoodexchangerequestMutation,
+    useGoodExchangereviewMutation,
     useBuygoodMutation,
-    useBoughtreviewMutation
+    useBoughtgoodreviewMutation
 }= goodApiSlice

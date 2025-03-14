@@ -4,21 +4,21 @@ export const skillApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getSkill: builder.query({
       query: () => ({
-        url: "/skill",
+        url: "/skill/all",
         method: "GET",
       }),
     }),
     getSkillbyUser: builder.query({
-      query: () => ({
-        url: "/skill/userskill",
+      query: () =>({
+        url: "/skill/user",
         method: "GET",
-      }),
+      })
     }),
-    getSkillbyId: builder.query({
-      query: (skill_id) => ({
-        url: `/skill/${skill_id}`,
+    getSkillById: builder.query({
+      query: (skillId) => ({
+        url: `/skill/${skillId}/details`,
         method: "GET",
-        }),
+      })
     }),
     createSkill: builder.mutation({
       query: (data) => ({
@@ -29,40 +29,40 @@ export const skillApiSlice = apiSlice.injectEndpoints({
     }),
     updateSkill: builder.mutation({
       query: (data) => ({
-        url: `/skill/${skill_id}`,
+        url: `/skill/update`,
         method: "PUT",
         body: data,
       }),
     }),
     deleteSkill: builder.mutation({
       query: (id) => ({
-        url: `/skill/`,
+        url: `/skill/delete`,
         method: "DELETE",
       }),
     }),
-    fetchExchangeRequests: builder.query({
+    fetchSkillExchangeRequests: builder.query({
       query: () => ({
-        url: "/skill/exchangerequest",
+        url: "/skill/exchange/fetch",
         method: "GET",
       }),
     }),
-    respondtoexchange: builder.mutation({
+    respondtoskillexchange: builder.mutation({
       query: (data) => ({
-        url: `/skill/exchange`,
+        url: `/skill/exchange/respond`,
         method: "PUT",
         body: data,
       }),
     }),
-    sendexchangerequest: builder.mutation({
+    sendskillexchangerequest: builder.mutation({
       query: (data) => ({
-        url: `/skill/exchangerequest`,
+        url: `/skill/exchange/request`,
         method: "POST",
         body: data,
       }),
     }),
-    exchangereview: builder.mutation({
+    SkillExchangereview: builder.mutation({
       query: (data) => ({
-        url: `/skill/exchangereview/`,
+        url: `/skill/exchange/review`,
         method: "PUT",
         body: data,
       }),
@@ -74,9 +74,9 @@ export const skillApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    boughtreview: builder.mutation({
+    boughtskillreview: builder.mutation({
         query: (data) => ({
-            url: `/skill/boughtreview/`,
+            url: `/skill/buy/review`,
             method: "PUT",
             }),
     })
@@ -86,14 +86,14 @@ export const skillApiSlice = apiSlice.injectEndpoints({
 export const{
     useGetSkillQuery,
     useGetSkillbyUserQuery,
-    useGetSkillbyIdQuery,
     useCreateSkillMutation,
-    useUpdateSkillMutation,
     useDeleteSkillMutation,
-    useFetchExchangeRequestsQuery,
-    useRespondtoexchangeMutation,
-    useSendexchangerequestMutation,
-    useExchangereviewMutation,
+    useUpdateSkillMutation,
+    useGetSkillByIdQuery,
+    useFetchSkillExchangeRequestsQuery,
+    useRespondtoskillexchangeMutation,
+    useSendskillexchangerequestMutation,
+    useSkillExchangereviewMutation,
     useBuyskillMutation,
-    useBoughtreviewMutation
+    useBoughtskillreviewMutation
 }= skillApiSlice

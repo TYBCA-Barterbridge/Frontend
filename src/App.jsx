@@ -15,13 +15,10 @@ import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import YourListings from "./pages/YourListings/YourListings.jsx";
 import UploadPage from "./pages/UploadPage/UploadPage.jsx";
-import WorkshopDetails from "./pages/WorkshopDetails/WorkshopDetails.jsx"
-
 
   function App() {
     return (
       <Routes>
-        {/* Public Routes */}
          <Route path="/" element={<Layout />}>
         {/* Public Routes */}
         <Route index element={<Home />} />
@@ -47,12 +44,6 @@ import WorkshopDetails from "./pages/WorkshopDetails/WorkshopDetails.jsx"
     );
   }
 export default App;
-
-
-{/* Admin Protected Route
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-              <Route path="users" element={<User Management />} /> {/* Replace with your actual component
-          </Route> */}
 
 
 {/* Admin Protected Route
