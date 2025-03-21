@@ -119,7 +119,7 @@ const ProductCard = () => {
           {products.map((product) => (
             <div
               key={product.good_id}
-              className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[350px] bg-white"
+              className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[350px] bg-white hover:scale-[1.03]"
             >
               <Link 
                 to="/Product"
@@ -128,7 +128,7 @@ const ProductCard = () => {
                 <img
                   src={product.Good_imgs[0].img_url || "/placeholder.svg"}
                   alt={product.good_name}
-                  className="w-full h-[220px] rounded-md transition-transform duration-300 hover:scale-[1.03]"
+                  className="w-full h-[220px] object-contain rounded-md transition-transform duration-300 hover:scale-[1.03]"
                 />
               </Link>
               <h4 className="text-lg font-bold mb-2.5">{product.good_name}</h4>

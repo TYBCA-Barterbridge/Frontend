@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-
+import { useGetGoodQuery } from "../../features/good/goodApiSlice";
+import { useGetSkillQuery } from "../../features/skill/skillApiSLice";
+import { useGetUsersQuery } from "../../features/user/userApiSlice";
 
 const Navigation = () => {
+  const {data: goods} = useGetGoodQuery();
+  const {data: skills} = useGetSkillQuery();
+  const {data: user} = useGetUsersQuery();
+  const [search, setSearch] = useState('');
+
+  const handleSearch = () => {
+    if (search.startsWith('@')) {
+      // Search users
+      const searchTerm = search.slice(1).toLowerCase();
+      const filteredUsers = (user || []).filter(u => 
+        (u.fname || u.email || '').toLowerCase().includes(searchTerm)
+      );
+      console.log(filteredUsers);
+    } else {
+      // Search goods and skills
+      const combinedList = [...(goods || []), ...(skills || [])];
+      const filteredItems = combinedList.filter(item => 
+        (item.good_name || item.skill_name || '').toLowerCase().includes(search.toLowerCase())
+      );
+      console.log(filteredItems);
+    }
+  }
+
   return (
     <nav className="flex justify-between items-center w-full h-[75px] px-8 bg-[#1B6392] text-white shadow-md sticky top-0 z-50 backdrop-blur-md">
       {/* Logo */}
@@ -16,9 +40,13 @@ const Navigation = () => {
         <input
           type="text"
           placeholder="Search any Product or Skills"
-          className="w-[500px] h-10 px-4 text-lg outline-none shadow-md rounded-l-md placeholder-gray-400 bg-white text-gray-500" 
+          className="w-[500px] h-10 px-4 text-lg outline-none shadow-md rounded-l-md placeholder-gray-400 bg-white text-gray-500"
+          onChange= {(e) => setSearch(e.target.value)}
         />
-        <button className="bg-gray-300 p-2 shadow-md rounded-r-md hover:bg-gray-400 transition">
+        <button 
+          className="bg-gray-300 p-2 shadow-md rounded-r-md hover:bg-gray-400 transition"
+          onClick={handleSearch}
+        >
           <img
             src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
             alt="Search"

@@ -59,7 +59,15 @@ const SignIn = () => {
 
   const errClass = errMsg ? "errmsg" : "offscreen";
 
-  if (isLoading) return <CircleLoader style={{ alignContent: "center" }} />;
+  if (isLoading) return (
+    <div className="flex justify-center items-center h-screen">
+      <div>
+        <h1>Loading...</h1>
+        <CircleLoader color="blue" className="flex justify-center items-center" />
+      </div>
+    </div>
+  );
+  
 
   const content = (
     <>
@@ -68,7 +76,7 @@ const SignIn = () => {
       </p>
       <div className={styles.container}>
         <div className={styles.formContainer}>
-          <h1 className={styles.title}>Sign In</h1>
+          <h1 className={styles.title}>BarterBridge</h1>
           <div className={styles.orDivider}>
             <span className={styles.line}></span>
             <span className={styles.line}></span>

@@ -15,6 +15,7 @@ import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import YourListings from "./pages/YourListings/YourListings.jsx";
 import UploadPage from "./pages/UploadPage/UploadPage.jsx";
+import WorkshopDetails from "./pages/WorkshopDetails/WorkshopDetails.jsx"
 
   function App() {
     return (
@@ -27,6 +28,8 @@ import UploadPage from "./pages/UploadPage/UploadPage.jsx";
         <Route path="/Forgot" element={<ForgotPass />} />
         <Route path="/Reset" element={<ResetPass />} />
         <Route path="/Product" element={<Product />} />
+        <Route path="/CustomerCare" element={<CustomerCare />} />
+        <Route path="/WorkshopDetails" element={<WorkshopDetails />} />
   
         <Route path="/SignIn" element={<SignIn />}/>
           {/* Protected Routes */}
@@ -39,7 +42,7 @@ import UploadPage from "./pages/UploadPage/UploadPage.jsx";
               <Route path="/Upload" element={<UploadPage />} />
             </Route>
           </Route>
-          </Route>
+        </Route>
       </Routes>
     );
   }

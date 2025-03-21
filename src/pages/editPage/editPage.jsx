@@ -92,7 +92,7 @@ const Editpage = ({ closeModal, selectedItem }) => {
                         key={index}
                         src={img_url.startsWith("/") ? img_url : `/${img_url}`}
                         alt={`Preview ${index}`}
-                        className="w-20 h-20 object-cover rounded-lg"
+                        className="w-40 h-40 object-contain rounded-lg"
                       />
                     );
                   }

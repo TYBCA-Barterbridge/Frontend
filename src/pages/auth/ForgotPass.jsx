@@ -54,8 +54,14 @@ const ForgotPass = () => {
 
   const errClass = errMsg ? "errmsg" : "offscreen";
 
-  if (isLoading) return <CircleLoader color={"blue"} size={24} />;
-
+  if (isLoading) return (
+      <div className="flex justify-center items-center h-screen">
+        <div>
+          <h1>Loading...</h1>
+          <CircleLoader color={"blue"} className="flex justify-center items-center" />
+        </div>
+      </div>
+    );
   return (
     <>
       <p ref={errRef} className={errClass} aria-live="assertive" tabIndex="-1">

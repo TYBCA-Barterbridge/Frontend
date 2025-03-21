@@ -46,7 +46,14 @@ const PersistLogin = () => {
         content = <Outlet />;
     } else if (isLoading) { // persist: yes, token: no
         console.log('loading');
-        content = <CircleLoader color={"#FFF"} />;
+        content =  (
+            <div className="flex justify-center items-center h-screen">
+              <div>
+                <h1>Loading...</h1>
+                <CircleLoader color={"blue"} className="flex justify-center items-center" />
+              </div>
+            </div>
+          );
     } else if (isError) { // persist: yes, token: no
         console.log('error');
         content = (
