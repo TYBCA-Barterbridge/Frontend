@@ -14,10 +14,13 @@ const ResetPass = () => {
   const [resetToken, setResetToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const navigate = useNavigate();
-
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
+
   useEffect(() => {
     if (userRef.current) {
       userRef.current.focus();
@@ -26,20 +29,57 @@ const ResetPass = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [email]);
+  }, [email, resetToken, newPassword]);
+
+  // Email validation
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // OTP validation (only numbers, exactly 6 digits)
+  const validateOtp = (otp) => {
+    const otpRegex = /^\d{6}$/;
+    return otpRegex.test(otp);
+  };
+
+  // Password validation (at least 6 characters & 1 number)
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*\d).{6,}$/;
+    return passwordRegex.test(password);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validateEmail(email)) {
+      setEmailError("Invalid email format");
+      return;
+    }
+    if (!validateOtp(resetToken)) {
+      setOtpError("OTP must be 6 digits");
+      return;
+    }
+    if (!validatePassword(newPassword)) {
+      setPasswordError("Password must be at least 6 characters & include a number");
+      return;
+    }
+
+    setEmailError("");
+    setOtpError("");
+    setPasswordError("");
+
     const userData = { email, resetToken, newPassword };
-    console.log("Submitting userData:", userData); // Debug
+
     try {
       await resetPassword(userData).unwrap();
       console.log("Password reset successful");
       setEmail("");
+      setResetToken("");
+      setNewPassword("");
       navigate("/SignIn");
     } catch (err) {
-      console.error("Password reset error:", err); // Debug
+      console.error("Password reset error:", err);
       if (!err.status) {
         setErrMsg("No Server Response");
       } else if (err.status === 400) {
@@ -55,28 +95,35 @@ const ResetPass = () => {
     }
   };
 
-  const handleEmailInput = (e) => setEmail(e.target.value);
-  const handleResetTokenInput = (e) => setResetToken(e.target.value);
-  const handleNewPasswordInput = (e) => setNewPassword(e.target.value);
+  const handleEmailInput = (e) => {
+    setEmail(e.target.value);
+    setEmailError(validateEmail(e.target.value) ? "" : "Invalid email format");
+  };
+
+  const handleResetTokenInput = (e) => {
+    setResetToken(e.target.value);
+    setOtpError(validateOtp(e.target.value) ? "" : "OTP must be 6 digits");
+  };
+
+  const handleNewPasswordInput = (e) => {
+    setNewPassword(e.target.value);
+    setPasswordError(validatePassword(e.target.value) ? "" : "Password must be at least 6 characters & include a number");
+  };
 
   const errClass = errMsg ? "errmsg" : "offscreen";
 
-  if (isLoading) return (
-      <div className="flex justify-center items-center h-screen">
-        <div>
-          <h1>Loading...</h1>
-          <CircleLoader color={"blue"} className="flex justify-center items-center" />
-        </div>
-      </div>
-    );
+  if (isLoading) return <CircleLoader color={"blue"} size={24} />;
 
   return (
     <>
       <p
         ref={errRef}
-        className={errClass}
+        style={{
+          color: "red",
+          marginBottom: "10px",
+          fontSize: "14px",
+        }}
         aria-live="assertive"
-        color={"red"}
         tabIndex="-1"
       >
         {errMsg}
@@ -87,6 +134,7 @@ const ResetPass = () => {
           <p className={styles.description}>Enter the required fields.</p>
 
           <form className={styles.form} onSubmit={handleSubmit}>
+            {/* Email Input */}
             <label className={styles.label}>Email</label>
             <input
               type="email"
@@ -96,6 +144,13 @@ const ResetPass = () => {
               placeholder="Enter your email"
               required
             />
+            {emailError && (
+              <p style={{ color: "red", marginBottom: "10px", fontSize: "14px" }}>
+                {emailError}
+              </p>
+            )}
+
+            {/* OTP Input */}
             <label className={styles.label}>OTP</label>
             <input
               type="text"
@@ -105,16 +160,34 @@ const ResetPass = () => {
               placeholder="Enter OTP"
               required
             />
+            {otpError && (
+              <p style={{ color: "red", marginBottom: "10px", fontSize: "14px" }}>
+                {otpError}
+              </p>
+            )}
+
+            {/* New Password Input */}
             <label className={styles.label}>New Password</label>
             <input
-              type="text"
+              type="password"
               className={styles.input}
               onChange={handleNewPasswordInput}
               value={newPassword}
               placeholder="Enter your new password"
               required
             />
-            <button type="submit" className={styles.submitButton}>
+            {passwordError && (
+              <p style={{ color: "red", marginBottom: "10px", fontSize: "14px" }}>
+                {passwordError}
+              </p>
+            )}
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={emailError || otpError || passwordError}
+            >
               Send
             </button>
           </form>
@@ -127,22 +200,22 @@ const ResetPass = () => {
         </div>
       </div>
       <div
-               style={{
-                 backgroundColor: "white",
-                 padding: "10px",
-                 justifySelf: "center",
-               }}
-             >
-               <Link
-                 to="/"
-                 style={{
-                   color: "black",
-                   textDecoration: "none"
-                 }}
-               >
-                 Back to Home
-               </Link>
-             </div>
+        style={{
+          backgroundColor: "white",
+          padding: "10px",
+          justifySelf: "center",
+        }}
+      >
+        <Link
+          to="/"
+          style={{
+            color: "black",
+            textDecoration: "none",
+          }}
+        >
+          Back to Home
+        </Link>
+      </div>
     </>
   );
 };

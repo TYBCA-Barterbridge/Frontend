@@ -12,10 +12,11 @@ const ForgotPass = () => {
   const errRef = useRef(null);
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const navigate = useNavigate();
-
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+
   useEffect(() => {
     if (userRef.current) {
       userRef.current.focus();
@@ -25,43 +26,57 @@ const ForgotPass = () => {
   useEffect(() => {
     setErrMsg("");
   }, [email]);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const id = {email}
-    try {
-        const response = await forgotPassword(id).unwrap(); // Pass email as an object
-        console.log("Response:", response);
-        setEmail("");
-        navigate("/Reset");
-    } catch (err) {
-        if (!err.status) {
-            setErrMsg("No Server Response");
-        } else if (err.status === 400) {
-            setErrMsg("Missing input");
-        } else if (err.status === 401) {
-            setErrMsg("Unauthorized");
-        } else {
-            setErrMsg(err.data?.message || "Forgot Password failed");
-        }
-        if (errRef.current) {
-            errRef.current.focus();
-        }
+    
+    if (!validateEmail(email)) {
+      setEmailError("Invalid email format");
+      return;
     }
-};
+    
+    setEmailError(""); // Clear any previous error
+    const id = { email };
 
+    try {
+      const response = await forgotPassword(id).unwrap();
+      console.log("Response:", response);
+      setEmail("");
+      navigate("/Reset");
+    } catch (err) {
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg("Missing input");
+      } else if (err.status === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg(err.data?.message || "Forgot Password failed");
+      }
+      if (errRef.current) {
+        errRef.current.focus();
+      }
+    }
+  };
 
-  const handleEmailInput = (e) => setEmail(e.target.value);
+  const handleEmailInput = (e) => {
+    setEmail(e.target.value);
+    if (!validateEmail(e.target.value)) {
+      setEmailError("Invalid email format");
+    } else {
+      setEmailError("");
+    }
+  };
 
   const errClass = errMsg ? "errmsg" : "offscreen";
 
-  if (isLoading) return (
-      <div className="flex justify-center items-center h-screen">
-        <div>
-          <h1>Loading...</h1>
-          <CircleLoader color={"blue"} className="flex justify-center items-center" />
-        </div>
-      </div>
-    );
+  if (isLoading) return <CircleLoader color={"blue"} size={24} />;
+
   return (
     <>
       <p ref={errRef} className={errClass} aria-live="assertive" tabIndex="-1">
@@ -84,7 +99,26 @@ const ForgotPass = () => {
               placeholder="Enter your email"
               required
             />
-              <button type="submit" className={styles.submitButton}>Send</button>
+            
+            {emailError && (
+              <p
+                style={{
+                  color: "red",
+                  marginBottom: "10px",
+                  fontSize: "14px",
+                }}
+              >
+                {emailError}
+              </p>
+            )}
+
+            <button 
+              type="submit" 
+              className={styles.submitButton} 
+              disabled={emailError !== ""}
+            >
+              Send
+            </button>
           </form>
 
           <div className={styles.links}>
@@ -95,22 +129,22 @@ const ForgotPass = () => {
         </div>
       </div>
       <div
+        style={{
+          backgroundColor: "white",
+          padding: "10px",
+          justifySelf: "center",
+        }}
+      >
+        <Link
+          to="/"
           style={{
-            backgroundColor: "white",
-            padding: "10px",
-            justifySelf: "center",
+            color: "black",
+            textDecoration: "none"
           }}
         >
-          <Link
-            to="/"
-            style={{
-              color: "black",
-              textDecoration: "none"
-            }}
-          >
-            Back to Home
-          </Link>
-        </div>
+          Back to Home
+        </Link>
+      </div>
     </>
   );
 };

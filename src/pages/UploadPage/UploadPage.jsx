@@ -1,19 +1,22 @@
-import React, { useRef, useState } from "react";
-import { useCreateGoodMutation } from "../../features/good/goodApiSlice";
-import { useCreateSkillMutation } from "../../features/skill/skillApiSLice";
+"use client"
+
+import { useRef, useState } from "react"
+import { useCreateGoodMutation } from "../../features/good/goodApiSlice"
+import { useCreateSkillMutation } from "../../features/skill/skillApiSLice"
 
 const UploadPage = ({ closeModal }) => {
-  const modalRef = useRef();
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [createGood, { isLoading }] = useCreateGoodMutation();
-  const [createSkill, { isLoading: skillLoading }] = useCreateSkillMutation();
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [categoryIndex, setCategoryIndex] = useState(-1);
-  const [images, setImages] = useState([]);
-  const [isGood, setIsGood] = useState(true);
+  const modalRef = useRef()
+  const [selectedImages, setSelectedImages] = useState([])
+  const [createGood, { isLoading }] = useCreateGoodMutation()
+  const [createSkill, { isLoading: skillLoading }] = useCreateSkillMutation()
+  const [name, setName] = useState("")
+  const [amount, setAmount] = useState(0)
+  const [description, setDescription] = useState("")
+  const [category, setCategory] = useState("")
+  const [categoryIndex, setCategoryIndex] = useState(-1)
+  const [images, setImages] = useState([])
+  const [isGood, setIsGood] = useState(true)
+  const [errors, setErrors] = useState({})
 
   const categories = [
     "Technology",
@@ -36,57 +39,94 @@ const UploadPage = ({ closeModal }) => {
     "Marketing",
     "Home Improvement",
     "Entrepreneurship",
-  ];
+  ]
 
   const handleOutsideClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
-      closeModal();
+      closeModal()
     }
-  };
+  }
+
+  const handleblank = () => {
+    setIsGood(false)
+    setName("")
+    setAmount(0)
+    setDescription("")
+    setCategoryIndex(-1)
+    setCategory("")
+    setImages([])
+  }
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files)
 
     // Limit to 5 images
     if (files.length + images.length > 5) {
-      alert("You can upload up to 5 images only.");
-      return;
+      alert("You can upload up to 5 images only.")
+      return
     }
 
-    setImages((prevImages) => [...prevImages, ...files]);
-    const imagePreviews = files.map((file) => URL.createObjectURL(file));
-    setSelectedImages((prevImages) => [...prevImages, ...imagePreviews]);
-  };
+    setImages((prevImages) => [...prevImages, ...files])
+    const imagePreviews = files.map((file) => URL.createObjectURL(file))
+    setSelectedImages((prevImages) => [...prevImages, ...imagePreviews])
+
+    // Clear image error when images are added
+    if (files.length > 0 && errors.images) {
+      setErrors((prev) => {
+        const newErrors = { ...prev }
+        delete newErrors.images
+        return newErrors
+      })
+    }
+  }
 
   const handleRemoveImage = (index) => {
-    setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
+    setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index))
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index))
+  }
 
   const handleCategoryChange = (e) => {
-    const selectedIndex = e.target.selectedIndex;
-    setCategory(categories[selectedIndex]);
-    setCategoryIndex(selectedIndex);
-  };
+    const selectedIndex = e.target.selectedIndex
+    setCategory(categories[selectedIndex])
+    setCategoryIndex(selectedIndex)
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    const newErrors = {}
+    if (!name) newErrors.name = "Name is required"
+    
+    if (!description) newErrors.description = "Description is required"
+    if (amount <= 0) newErrors.amount = "Amount must be greater than 0"
+    if (categoryIndex === -1) newErrors.category = "Category is required"
 
-    const data = new FormData();
-    data.append("name", name);
-    data.append("amount", amount);
-    data.append("desc", description);
-    data.append("category_id", categoryIndex);
-    images.forEach((image) => data.append("images", image));
-
-    if (isGood) {
-      await createGood(data).unwrap();
-    } else {
-      await createSkill(data).unwrap();
+    // Add validation for images
+    if (images.length === 0) {
+      newErrors.images = "Please select at least one image"
     }
 
-    closeModal();
-  };
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!validateForm()) return
+
+    const data = new FormData()
+    data.append("name", name)
+    data.append("amount", amount)
+    data.append("desc", description)
+    data.append("category_id", categoryIndex)
+    images.forEach((image) => data.append("images", image))
+
+    if (isGood) {
+      await createGood(data).unwrap()
+    } else {
+      await createSkill(data).unwrap()
+    }
+
+    closeModal()
+  }
 
   return (
     <div
@@ -104,13 +144,11 @@ const UploadPage = ({ closeModal }) => {
           ✕
         </button>
 
-        <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">
-          {isGood ? "Upload Good" : "Upload Skill"}
-        </h2>
+        <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">{isGood ? "Upload Good" : "Upload Skill"}</h2>
 
         <div className="text-center mb-6">
           <label
-            className="w-44 h-40 border-2 border-dashed border-orange-500 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-orange-600 transition"
+            className={`w-44 h-40 border-2 border-dashed ${errors.images ? "border-red-500" : "border-orange-500"} flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-orange-600 transition`}
             htmlFor="upload-images"
           >
             <input
@@ -121,16 +159,21 @@ const UploadPage = ({ closeModal }) => {
               className="hidden"
               onChange={handleImageChange}
             />
-            <span className="text-3xl text-orange-500">+</span>
-            <p className="text-gray-600">Upload Images</p>
+            <span className={`text-3xl ${errors.images ? "text-red-500" : "text-orange-500"}`}>+</span>
+            <p className={`${errors.images ? "text-red-600" : "text-gray-600"}`}>Upload Images</p>
           </label>
+          {errors.images && <p className="text-red-500 text-sm mt-1">{errors.images}</p>}
         </div>
 
         {selectedImages.length > 0 && (
           <div className="flex flex-wrap gap-3 justify-center mt-4">
             {selectedImages.map((image, index) => (
               <div key={index} className="relative w-20 h-20 border rounded-lg overflow-hidden">
-                <img src={image} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
+                <img
+                  src={image || "/placeholder.svg"}
+                  alt={`Preview ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
                 <button
                   className="absolute top-1 right-1 bg-black bg-opacity-60 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 transition"
                   onClick={() => handleRemoveImage(index)}
@@ -177,6 +220,7 @@ const UploadPage = ({ closeModal }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>
           <div className="mt-4">
             <label className="block text-gray-700">Description:</label>
@@ -185,6 +229,7 @@ const UploadPage = ({ closeModal }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
+            {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
           </div>
           <div className="mt-4">
             <label className="block text-gray-700">Price:</label>
@@ -194,6 +239,7 @@ const UploadPage = ({ closeModal }) => {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
+            {errors.amount && <p className="text-red-500 text-sm">{errors.amount}</p>}
           </div>
           <div className="mt-4">
             <label className="block text-gray-700">Category:</label>
@@ -208,6 +254,7 @@ const UploadPage = ({ closeModal }) => {
                 </option>
               ))}
             </select>
+            {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
           </div>
 
           <button
@@ -222,7 +269,8 @@ const UploadPage = ({ closeModal }) => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UploadPage;
+export default UploadPage
+

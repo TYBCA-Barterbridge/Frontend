@@ -35,10 +35,9 @@ export const goodApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     deleteGood: builder.mutation({
-      query: (good_id) => ({
+      query: (id) => ({
         url: `/good/delete`,
         method: "DELETE",
-        body: good_id,
       }),
     }),
     fetchGoodExchangeRequests: builder.query({

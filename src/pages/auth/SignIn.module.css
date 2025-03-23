@@ -2,7 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 80vh;
+    padding: 20px;
     background-color: #f7f9fc;
     background-image: url(https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
     background-size: cover; 
@@ -12,22 +13,22 @@
   }
   
   .formContainer {
-    background: #ffffff;
+    background: white;
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
+    transition: transform 0.3s ease;
     text-align: center;
   }
   
   .title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
     font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #FFF;
-    padding: 4;
-    background-color:#1288a6;
-    border-radius: 10px;
+    font-weight: 600;
   }
   
   .googleButton {
@@ -58,13 +59,13 @@
   .orDivider {
     display: flex;
     align-items: center;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
   }
   
   .line {
     flex: 1;
     height: 1px;
-    background-color: #ddd;
+    background: #e0e0e0;
   }
   
   .orText {
@@ -75,46 +76,114 @@
   .form {
     display: flex;
     flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .inputGroup {
+    position: relative;
+    width: 100%;
   }
   
   .input {
     width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
     font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    outline: none;
+  }
+  
+  .input:focus {
+    border-color: #4a90e2;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  }
+  
+  .inputError {
+    border-color: #ff4d4f;
+  }
+  
+  .inputError:focus {
+    border-color: #ff4d4f;
+    box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.1);
+  }
+  
+  .errorMessage {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    color: #ff4d4f;
+    font-size: 0.85rem;
+    margin-top: 4px;
   }
   
   .signInButton {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #18abd7;
+    background: #4a90e2;
+    color: white;
+    padding: 12px;
     border: none;
-    color: #fff;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
   }
   
   .signInButton:hover {
-    background-color: #1288a6;
+    background: #357abd;
+  }
+  
+  .signInButton:active {
+    transform: scale(0.98);
+  }
+  
+  .persistCheck {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .persistCheck input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
   }
   
   .links {
     display: flex;
     justify-content: space-between;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
   }
   
   .link {
-    color: #18abd7;
+    color: #4a90e2;
     text-decoration: none;
     font-size: 0.9rem;
+    transition: color 0.3s ease;
   }
   
   .link:hover {
+    color: #357abd;
     text-decoration: underline;
+  }
+  
+  .errmsg {
+    background-color: #fff2f0;
+    border: 1px solid #ffccc7;
+    color: #ff4d4f;
+    padding: 12px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.9rem;
   }
   

@@ -48,9 +48,11 @@ const Carousel = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center relative m-10 overflow-hidden">
+    <>
+    <div className="flex items-center justify-center relative m-10 overflow-hidden"
+    data-aos="fade-up">
       <button
-        className="absolute left-2 cursor-pointer text-3xl text-white bg-gray-500 bg-opacity-10  p-2 w-13 rounded-full select-none z-10 hover:scale-[1.09] transition-transform duration-300"
+        className="absolute  left-2 cursor-pointer text-3xl text-white bg-gray-500 bg-opacity-10  p-2 w-13 rounded-full select-none z-10 hover:scale-[1.09] transition-transform duration-300"
         onClick={prevImage}
       >
         &#10094;
@@ -77,6 +79,7 @@ const Carousel = () => {
         &#10095;
       </button>
     </div>
+    </>
   );
 };
 

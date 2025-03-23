@@ -90,7 +90,7 @@ const Sidebar = ({ activeMenu, onMenuChange }) => {
       </ul>
 
       {isPopupVisible && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]">
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-[1000]">
           <div
             className="bg-white p-5 w-[300px] rounded-lg shadow-lg text-center z-[1001]"
             ref={popupRef}

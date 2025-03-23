@@ -35,10 +35,9 @@ export const skillApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     deleteSkill: builder.mutation({
-      query: (skill_id) => ({
+      query: (id) => ({
         url: `/skill/delete`,
         method: "DELETE",
-        body: skill_id
       }),
     }),
     fetchSkillExchangeRequests: builder.query({
