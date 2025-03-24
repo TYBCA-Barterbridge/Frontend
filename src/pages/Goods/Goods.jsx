@@ -134,7 +134,7 @@ const Goods = () => {
               <h4 className="text-lg font-bold mb-2.5">{product.good_name}</h4>
               <p className="text-sm mb-2.5 text-gray-600">
                 {product.good_description}
-              </p>
+              </p> 
               <p className="flex text-lg font-bold text-blue-500 ">
                 <FaRupeeSign className="size-5 flex translate-y-1"/>{product.good_amount}
               </p>

@@ -7,17 +7,17 @@ const CategorySection = () => {
   const categories = [
     {
       title: "Barter Exchange",
-      image: "/images/6.jpg", 
+      image: "images/6.jpg", 
       link: "/Goods", 
     },
     {
       title: "Skill Exchange",
-      image: "/images/4.jpg", 
+      image: "images/4.jpg", 
       link: "/Skills", 
     },
     {
       title: "Workshop",
-      image: "/images/5.jpg",
+      image: "images/5.jpg",
       link: "/WorkShop", 
     },
   ];

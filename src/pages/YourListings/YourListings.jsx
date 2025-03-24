@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UploadPage from "../UploadPage/UploadPage";
 import Editpage from "../editPage/editPage";
 import { useGetGoodbyUserQuery } from "../../features/good/goodApiSlice";
-import { useGetSkillbyUserQuery } from "../../features/skill/skillApiSLice";
+import { useGetSkillbyUserQuery } from "../../features/skill/skillApiSlice";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 const YourListings = () => {
@@ -45,7 +45,7 @@ const YourListings = () => {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 bg-gray-100 p-6">
           {/* Add Product/Skill Button */}
           <div
-            className="flex flex-col items-center justify-center w-[210px] h-[250px] border-2 border-dashed border-gray-300 rounded-lg text-[#f48024] font-bold cursor-pointer hover:bg-gray-200"
+            className="flex flex-col items-center justify-center w-[28  0px] h-[350px] border-2 border-dashed border-gray-300 rounded-lg text-[#f48024] font-bold cursor-pointer hover:bg-gray-200"
             onClick={openModal}
           >
             <div className="text-4xl mb-2">+</div>

@@ -1,57 +1,123 @@
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
+import { useGetSkillQuery } from "../../features/skill/skillApiSlice";
+import { setskills, setselectedskill } from "../../features/skill/skillSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { FaRupeeSign } from "react-icons/fa";
 
 const FeaturedSkills = () => {
-    const skills = [
-      { id: 1, name: "guitar", image: "./public/images/1.jpg", rating: 4, reviews: 994 },
-      { id: 2, name: "guitar", image:"./public/images/4.jpg", rating: 5, reviews: 798 },
-      { id: 3, name: "guitar", image: "./public/images/1.jpg", rating: 5, reviews: 600 },
-      { id: 4, name: "guitar", image: "./public/images/2.jpg", rating: 4, reviews: 740 },
-      { id: 5, name: "guitar", image: "./public/images/5.jpg", rating: 4, reviews: 556 },
-      { id: 6, name: "guitar", image: "./public/images/4.jpg", rating: 4, reviews: 536 },
-      { id: 7, name: "guitar", image: "./public/images/6.jpg", rating: 4, reviews: 536 },
-      { id: 8, name: "guitar", image: "./public/images/1.jpg", rating: 4, reviews: 536 },
-    ];
+    const { data: skills, isLoading } = useGetSkillQuery();
+    const dispatch = useDispatch();
+    const [activeCategory, setActiveCategory] = useState("All Skills");
+
     useEffect(() => {
       AOS.init({ duration: 400 });
     }, []);
+
+    useEffect(() => {
+      if (skills) {
+        dispatch(setskills({ skill: skills }));
+      }
+    }, [skills, dispatch]);
+
+    const handleCategoryClick = (category) => {
+      setActiveCategory(category);
+      if (!skills) return;
+
+      if (category === "All Skills") {
+        dispatch(setskills({ skill: skills }));
+        console.log(skills);
+      } else {
+        const filteredSkills = skills.filter(skill => 
+          skill.Category && skill.Category.category_name === category
+        );
+        dispatch(setskills({ skill: filteredSkills }));
+        console.log(filteredSkills);
+      }
+    }
+
+    const products = useSelector(state => state.skill.skill);
+    console.log(products);
+    //displays undefined
+    
+    if (isLoading) {
+      return <div className="container mx-auto mt-8 mb-8 py-4 px-9">Loading...</div>;
+    }
     
     return (
-       
         <div className="container mx-auto mt-8 mb-8 py-4 px-9 w-full max-w-screen-2xl">
           <h2 className="text-3xl font-semibold mb-6">Featured Skills</h2> 
           <div className="flex items-center gap-6 mb-6 border-b pb-2">
-            <span className="font-semibold border-b-2 border-orange-500 pb-1 cursor-pointer">All Skills</span>
-            <span className="text-gray-500 cursor-pointer">Language</span>
-            <span className="text-gray-500 cursor-pointer">Instrument</span>
-            <span className="text-gray-500 cursor-pointer">Finance</span>
-            <span className="text-gray-500 cursor-pointer">Education</span>
+            <span 
+              className={`cursor-pointer ${activeCategory === "All Skills" ? "font-semibold border-b-2 border-orange-500 pb-1" : "text-gray-500"}`}
+              onClick={() => handleCategoryClick("All Skills")}
+            >
+              All Skills
+            </span>
+            <span 
+              className={`cursor-pointer ${activeCategory === "Gaming" ? "font-semibold border-b-2 border-orange-500 pb-1" : "text-gray-500"}`}
+              onClick={() => handleCategoryClick("Gaming")}
+            >
+              Gaming
+            </span>
+            <span 
+              className={`cursor-pointer ${activeCategory === "Instrument" ? "font-semibold border-b-2 border-orange-500 pb-1" : "text-gray-500"}`}
+              onClick={() => handleCategoryClick("Instrument")}
+            >
+              Instrument
+            </span>
+            <span 
+              className={`cursor-pointer ${activeCategory === "Finance" ? "font-semibold border-b-2 border-orange-500 pb-1" : "text-gray-500"}`}
+              onClick={() => handleCategoryClick("Finance")}
+            >
+              Finance
+            </span>
+            <span 
+              className={`cursor-pointer ${activeCategory === "Education" ? "font-semibold border-b-2 border-orange-500 pb-1" : "text-gray-500"}`}
+              onClick={() => handleCategoryClick("Education")}
+            >
+              Education
+            </span>
             <Link to="/Skills" className="text-orange-500 font-medium ml-auto cursor-pointer">
                Browse All Skills →
             </Link>
           </div>
           <div className="grid grid-cols-1 bg-gray-50 p-6 rounded-xl h-190 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           data-aos="zoom-in">
-            {skills.map(skill => (
-              <div key={skill.id} className="border-gray rounded-lg p-4 shadow-sm hover:shadow-md transition bg-white">
-                <img src={skill.image} alt={skill.name} className="w-full h-50 object-cover" />
-                <div className="flex items-center mt-4">
-                  <span className="text-orange-500">{'★'.repeat(skill.rating)}{'☆'.repeat(5 - skill.rating)}</span>
-                  <span className="text-gray-500 ml-2">({skill.reviews})</span>
-                </div>
-                <p className="text-lg font-medium mt-2 text-center">{skill.name}</p>
+           {products && products.length > 0 ? (
+             products.map((product) => (
+              <div
+                key={product.skill_id}
+                className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[350px] bg-white"
+              >
+                <Link 
+                  to="/Product"
+                  onClick={() => dispatch(setselectedskill({ selectedskill: product }))}
+                >
+                  <img
+                    src={product.Skill_imgs?.[0]?.img_url || "/placeholder.svg"}
+                    alt={product.skill_name}
+                    className="w-full h-[220px] rounded-md transition-transform duration-300 hover:scale-[1.03]"
+                  />
+                </Link>
+                <h4 className="text-lg font-bold mb-2.5">{product.skill_name}</h4>
+                <p className="text-sm mb-2.5 text-gray-600">
+                  {product.skill_description}
+                </p> 
+                <p className="flex text-lg font-bold text-blue-500 ">
+                  <FaRupeeSign className="size-5 flex translate-y-1"/>{product.skill_amount}
+                </p>
               </div>
-            ))}
+            ))
+           ) : (
+             <div className="col-span-full text-center text-gray-500">No skills found in this category</div>
+           )}
           </div>
         </div>
-      
-      
-
     );
-  };
-  
-  export default FeaturedSkills;
+};
+
+export default FeaturedSkills;
   

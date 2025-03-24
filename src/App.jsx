@@ -19,11 +19,13 @@ import WorkshopDetails from "./pages/WorkshopDetails/WorkshopDetails.jsx";
 import Goods from "./pages/Goods/Goods.jsx"
 import WorkShop from "./pages/WorkShop/WorkShop.jsx"
 import Skills from "./pages/Skills/Skills.jsx"
+import ChatLayout from "./pages/Chat/ChatLayout.jsx"
+import ChatProfile from "./pages/Chat/Profile.jsx"
 
   function App() {
     return (
       <Routes>
-         <Route path="/" element={<Layout />}>
+         <Route path="/" element={<Layout  className="overflow-x-hidden"/> }>
         {/* Public Routes */}
         <Route index element={<Home />} />
         <Route path="/SignUp" element={<SignUp />} />
@@ -36,7 +38,6 @@ import Skills from "./pages/Skills/Skills.jsx"
         <Route path="/WorkShop" element={<WorkShop/>} />
         <Route path="/Skills" element={<Skills/>} />
         <Route path="/customercare" element={<CustomerCare/>} />
-  
         <Route path="/SignIn" element={<SignIn />}/>
           {/* Protected Routes */}
           <Route element={<PersistLogin />}>
@@ -46,6 +47,8 @@ import Skills from "./pages/Skills/Skills.jsx"
               <Route path="/Care" element={<CustomerCare />} />
               <Route path="/YourListings" element={<YourListings />} />
               <Route path="/Upload" element={<UploadPage />} />
+              <Route path="/Chat" index element={<ChatLayout />} />
+              <Route path="/Chat/Profile" element={<ChatProfile />} />
             </Route>
           </Route>
           </Route>

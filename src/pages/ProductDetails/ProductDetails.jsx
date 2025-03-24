@@ -4,14 +4,19 @@ import { FaRupeeSign } from "react-icons/fa";
 
 const Product = () => {
   const product = useSelector((state) => state.good.selectedgood);
-  console.log(product);
+  const skill = useSelector((state) => state.skill.selectedskill);
 
-  if (!product) {
-    return <div className="p-5">No product selected</div>;
+  if (!product && !skill) {
+    return <div className="p-5">No product or skill selected</div>;
   }
 
+  const images = product
+    ? product.Good_imgs
+    : skill
+    ? skill.Skill_imgs
+    : [];
+
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [quantity, setQuantity] = useState(1);
 
   const handlePrevImage = () => {
     if (selectedImageIndex > 0) {
@@ -20,14 +25,8 @@ const Product = () => {
   };
 
   const handleNextImage = () => {
-    if (selectedImageIndex < product.Good_imgs.length - 1) {
+    if (selectedImageIndex < images.length - 1) {
       setSelectedImageIndex(selectedImageIndex + 1);
-    }
-  };
-
-  const handleQuantityChange = (change) => {
-    if (quantity + change > 0) {
-      setQuantity(quantity + change);
     }
   };
 
@@ -35,16 +34,16 @@ const Product = () => {
     <>
       <div className="h-10 bg-sky-600 -mt-10"></div>
       <div className="flex flex-col md:flex-row p-5 gap-5 font-sans mt-5 mb-10">
-        {/* Left: Product Good_imgs */}
+        {/* Left: Images Section */}
         <div className="flex-1 flex flex-col items-center gap-2.5 max-w-3xl">
-          <div className="w-[full] text-center">
+          <div className="w-full text-center">
             <img
               src={
-                product.Good_imgs[0]?.img_url
-                  ? `/${product.Good_imgs[selectedImageIndex].img_url.split('/').pop()}`
+                images[selectedImageIndex]?.img_url
+                  ? `/${images[selectedImageIndex].img_url.split('/').pop()}`
                   : "/placeholder.svg"
               }
-              alt={`Product Image ${selectedImageIndex + 1}`}
+              alt={`Image ${selectedImageIndex + 1}`}
               className="max-w-full max-h-[400px] rounded-lg border border-gray-200 shadow-md p-10 md:p-[60px] object-cover"
             />
           </div>
@@ -60,7 +59,7 @@ const Product = () => {
             >
               &#8592;
             </button>
-            {product.Good_imgs.map((image, index) => (
+            {images.map((image, index) => (
               <img
                 key={index}
                 src={image.img_url ? `/${image.img_url.split('/').pop()}` : "/placeholder.svg"}
@@ -75,17 +74,16 @@ const Product = () => {
             ))}
             <button
               className={`bg-gray-100 border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-colors ${
-                selectedImageIndex === product.Good_imgs.length - 1
+                selectedImageIndex === images.length - 1
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-sky-500 hover:text-white"
               }`}
               onClick={handleNextImage}
-              disabled={selectedImageIndex === product.Good_imgs.length - 1}
+              disabled={selectedImageIndex === images.length - 1}
             >
               &#8594;
             </button>
           </div>
-
           <div className="flex justify-center items-center mt-10 mb-10">
             <button className="mt-7 w-[300px] bg-sky-500 text-white border-none py-3 px-5 text-base font-bold cursor-pointer transition-all hover:bg-sky-600 active:bg-sky-700 active:scale-100">
               Chat with Seller
@@ -93,34 +91,38 @@ const Product = () => {
           </div>
         </div>
 
-        {/* Right: Product */}
+        {/* Right: Details Section */}
         <div className="flex-1 flex flex-col gap-4">
-          {/* <div className="text-base text-gray-600 font-light">
-            ⭐ {product.rating} ({product.reviews} User feedback)
-          </div> */}
           <h2 className="text-5xl font-medium">
-            {product.good_name || product.skill_name}
+            {product?.good_name || skill?.skill_name}
           </h2>
           <div className="flex-col text-lg">
-            <p className="text-lg font-normal ">
+            <p className="text-lg font-normal">
               Listed by:{" "}
-              {product.GoodListedByGeneralUsers[0]?.GeneralUser?.User?.fname}
+              {product?.GoodListedByGeneralUsers?.[0]?.GeneralUser?.User?.fname ||
+                skill?.SkillListedByGeneralUsers?.[0]?.GeneralUser?.User?.fname}
             </p>
-            {product.status === "Available" ? (
-              <p className="text-lg font-normal text-green-500 ">
-                Status: {product.status}
-              </p>
-            ) : (
-              <p className="text-lg font-normal text-red-500 ">
-                Status: {product.status}
-              </p>
-            )}
-
-            <p>Category: {product.Category.category_name}</p>
+           {
+            !skill?.skill_name ? (
+              <p
+              className={`text-lg font-normal ${
+                product?.status === "Available" || ""
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              Status: {product?.status || ""}
+            </p>
+            ):(
+              null
+            )
+           }
+            <p>Category: {product?.Category?.category_name || skill?.Category?.category_name}</p>
           </div>
           <div className="flex items-center gap-2.5 text-xl">
             <span className="text-2xl font-bold text-green-600 flex">
-              <FaRupeeSign className="translate-y-1 size-7"/>{product.good_amount}
+              <FaRupeeSign className="translate-y-1 size-7" />
+              {product?.good_amount || skill?.skill_amount}
             </span>
           </div>
           <hr className="my-5" />
@@ -159,7 +161,7 @@ const Product = () => {
           <div className="p-5 bg-gray-50 rounded mt-2.5">
             <h2 className="text-lg font-bold">Description</h2>
             <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
-              {product.good_description}
+              {product?.good_description || skill?.skill_description}
             </p>
           </div>
         </div>
