@@ -5,16 +5,16 @@ const Wishlist = () => {
     {
       id: 1,
       name: "Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear Headphones for Workouts and Running, Triple Black",
-      price: "$1299",
-      discountedPrice: "$999",
+      price: "₹1299",
+      discountedPrice: "₹999",
       status: "IN STOCK",
       image: "https://i.pinimg.com/474x/e2/42/be/e242be10b729b9f3c39c4d57ca5068b4.jpg", 
     },
     {
       id: 2,
       name: "TOZO T6 True Wireless Earbuds Bluetooth Headphones Touch Control with Wireless Charging Case IPX8 Waterproof Stereo Earphones in-Ear",
-      price: "$250.00",
-      discountedPrice: "$220.00",
+      price: "₹250.00",
+      discountedPrice: "₹220.00",
       status: "OUT OF STOCK",
       image: "https://i.pinimg.com/474x/dd/64/c8/dd64c8ca8efb6a87e969be80c217a66a.jpg", 
     },
@@ -51,7 +51,7 @@ const Wishlist = () => {
                   <span className="font-bold text-gray-900">{item.discountedPrice}</span>
                 </td>
                 <td className="p-3">
-                  <span className={`font-bold ${item.status === "IN STOCK" ? "text-green-600" : "text-red-500"}`}>
+                  <span className={`font-bold ₹{item.status === "IN STOCK" ? "text-green-600" : "text-red-500"}`}>
                     {item.status}
                   </span>
                 </td>

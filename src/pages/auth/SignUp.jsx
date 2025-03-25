@@ -14,6 +14,7 @@ const SignUp = () => {
   const errRef = useRef(null);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCPassword] = useState("");
@@ -22,6 +23,7 @@ const SignUp = () => {
   // Validation states
   const [fnameError, setFnameError] = useState("");
   const [lnameError, setLnameError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [cpasswordError, setCPasswordError] = useState("");
@@ -38,7 +40,7 @@ const SignUp = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [fname, lname, email, password, cpassword]);
+  }, [fname, lname, username, email, password, cpassword]);
 
   const validateName = (name, type) => {
     if (!name.trim()) {
@@ -83,6 +85,19 @@ const SignUp = () => {
     return "";
   };
 
+  const validateUsername = (username) => {
+    if (!username) {
+      return "Username is required";
+    }
+    if (username.length < 4) {
+      return "Username must be at least 4 characters";
+    }
+    if (!/^[a-zA-Z0-9_@]+$/.test(username)) {
+      return "Username can only contain letters, numbers, underscores, and @ symbols";
+    }
+    return "";
+  };
+
   const validateConfirmPassword = (confirmPassword) => {
     if (!confirmPassword) {
       return "Please confirm your password";
@@ -99,26 +114,29 @@ const SignUp = () => {
     // Validate all fields
     const fnameValidation = validateName(fname, "First name");
     const lnameValidation = validateName(lname, "Last name");
+    const usernameValidation = validateUsername(username);
     const emailValidation = validateEmail(email);
     const passwordValidation = validatePassword(password);
     const cpasswordValidation = validateConfirmPassword(cpassword);
 
     setFnameError(fnameValidation);
     setLnameError(lnameValidation);
+    setUsernameError(usernameValidation);
     setEmailError(emailValidation);
     setPasswordError(passwordValidation);
     setCPasswordError(cpasswordValidation);
 
-    if (fnameValidation || lnameValidation || emailValidation || passwordValidation || cpasswordValidation) {
+    if (fnameValidation || lnameValidation || usernameValidation || emailValidation || passwordValidation || cpasswordValidation) {
       return;
     }
 
-    const userData = { fname, lname, email, password };
+    const userData = { fname, lname, username, email, password };
 
     try {
       await register(userData).unwrap();
       setFname("");
       setLname("");
+      setUsername("");
       setEmail("");
       setPassword("");
       setCPassword("");
@@ -147,6 +165,11 @@ const SignUp = () => {
   const handleLnameInput = (e) => {
     setLname(e.target.value);
     setLnameError(validateName(e.target.value, "Last name"));
+  };
+
+  const handleUsernameInput = (e) => {
+    setUsername(e.target.value);
+    setUsernameError(validateUsername(e.target.value));
   };
 
   const handleEmailInput = (e) => {
@@ -258,6 +281,32 @@ const SignUp = () => {
                 )}
               </AnimatePresence>
             </div>
+
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>Username</label>
+              <motion.input
+                whileFocus={{ scale: 1.02 }}  
+                type="text"
+                className={`${styles.input} ${usernameError ? styles.inputError : ''}`}
+                value={username}
+                onChange={handleUsernameInput}
+                placeholder="Enter your username"
+                required
+              />
+              <AnimatePresence>
+                {usernameError && (
+                  <motion.span
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className={styles.errorMessage}
+                  >
+                    {usernameError}
+                  </motion.span>
+                )}
+              </AnimatePresence>  
+            </div>
+
 
             <div className={styles.inputGroup}>
               <label className={styles.label}>Email</label>

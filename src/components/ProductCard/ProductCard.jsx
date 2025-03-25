@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetGoodQuery } from "../../features/good/goodApiSlice";
 import { FaRupeeSign } from "react-icons/fa";
@@ -8,11 +9,14 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 const ProductCard = () => {
-  const [priceRange, setPriceRange] = useState([100, 1000]);
-  const [activeCategory, setActiveCategory] = useState("All Products");
   const dispatch = useDispatch();
-  const { data: goods, isLoading } = useGetGoodQuery();
+  const [activeCategory, setActiveCategory] = useState("All Products");
+  const [priceRange, setPriceRange] = useState([0, 70000]);
+  const [sortOption, setSortOption] = useState('default');
+  const [dateSort, setDateSort] = useState('newest');
+  const { data: goods, isLoading, refetch } = useGetGoodQuery();
   const products = useSelector(state => state.good.good);
+  const navigate = useNavigate();
 
   useEffect(() => {
     AOS.init({ duration: 400 });
@@ -40,8 +44,50 @@ const ProductCard = () => {
 
   const handlePriceChange = (event) => {
     const value = Number.parseInt(event.target.value, 10);
-    setPriceRange([priceRange[0], value]);
+    setPriceRange([0, value]);
   };
+
+  const handleSortChange = (option) => {
+    setSortOption(option);
+  };
+
+  const handleDateSortChange = (option) => {
+    setDateSort(option);
+  };
+
+  const handleClick = (good) => {
+    dispatch(setselectedgood({ selectedgood: good }));
+    navigate("/product");
+  };
+
+  // Filter and sort goods
+  const filteredAndSortedGoods = goods
+    ?.filter(good => {
+      // Category filter
+      const categoryMatch = activeCategory === "All Products" || (good.Category && good.Category.category_name === activeCategory);
+      // Price filter
+      const priceMatch = good.good_amount >= priceRange[0] && good.good_amount <= priceRange[1];
+      return categoryMatch && priceMatch;
+    })
+    ?.sort((a, b) => {
+      // First apply price sorting if selected
+      if (sortOption === 'price-low-high') {
+        return a.good_amount - b.good_amount;
+      }
+      if (sortOption === 'price-high-low') {
+        return b.good_amount - a.good_amount;
+      }
+      
+      // Then apply date sorting
+      if (dateSort === 'newest') {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      if (dateSort === 'oldest') {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      }
+      
+      return 0;
+    });
 
   if (isLoading) {
     return <div className="container mx-auto mt-8 mb-8 py-4 px-9">Loading...</div>;
@@ -99,7 +145,7 @@ const ProductCard = () => {
               <input
                 type="range"
                 min="0"
-                max="1000"
+                max="70000"
                 value={priceRange[1]}
                 onChange={handlePriceChange}
                 className="w-full mt-2.5"
@@ -115,12 +161,10 @@ const ProductCard = () => {
                 <input
                   type="number"
                   value={priceRange[1]}
-                  onChange={(e) =>
-                    setPriceRange([
-                      priceRange[0],
-                      Number.parseInt(e.target.value, 10),
-                    ])
-                  }
+                  onChange={(e) => {
+                    const value = Number.parseInt(e.target.value, 10) || 0;
+                    setPriceRange([0, value]);
+                  }}
                   className="w-[45%] p-1.5 text-sm text-center border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
                 />
               </div>
@@ -131,13 +175,25 @@ const ProductCard = () => {
             <ul className="list-none p-0 mt-5 mb-5">
               <li className="mb-2.5">
                 <label className="flex items-center text-sm cursor-pointer">
-                  <input type="radio" name="price" className="mr-2.5" />
+                  <input 
+                    type="radio" 
+                    name="price" 
+                    checked={sortOption === 'price-low-high'}
+                    onChange={() => handleSortChange('price-low-high')}
+                    className="mr-2.5 accent-blue-600" 
+                  />
                   Price: Low to High
                 </label>
               </li>
               <li className="mb-2.5">
                 <label className="flex items-center text-sm cursor-pointer">
-                  <input type="radio" name="price" className="mr-2.5" />
+                  <input 
+                    type="radio" 
+                    name="price" 
+                    checked={sortOption === 'price-high-low'}
+                    onChange={() => handleSortChange('price-high-low')}
+                    className="mr-2.5 accent-blue-600" 
+                  />
                   Price: High to Low
                 </label>
               </li>
@@ -149,13 +205,25 @@ const ProductCard = () => {
             <ul className="list-none p-0 m-0">
               <li className="mb-2.5">
                 <label className="flex items-center text-sm cursor-pointer">
-                  <input type="radio" name="date" className="mr-2.5" />
+                  <input 
+                    type="radio" 
+                    name="date" 
+                    checked={dateSort === 'newest'}
+                    onChange={() => handleDateSortChange('newest')}
+                    className="mr-2.5 accent-blue-600" 
+                  />
                   Newest First
                 </label>
               </li>
               <li className="mb-2.5">
                 <label className="flex items-center text-sm cursor-pointer">
-                  <input type="radio" name="date" className="mr-2.5" />
+                  <input 
+                    type="radio" 
+                    name="date" 
+                    checked={dateSort === 'oldest'}
+                    onChange={() => handleDateSortChange('oldest')}
+                    className="mr-2.5 accent-blue-600" 
+                  />
                   Oldest First
                 </label>
               </li>
@@ -171,15 +239,15 @@ const ProductCard = () => {
           </div>
         </div>
         <div className="bg-gray-50 flex flex-wrap gap-5 flex-grow rounded-lg p-5 mr-10 mb-10">
-          {products && products.length > 0 ? (
-            products.map((product) => (
+          {filteredAndSortedGoods && filteredAndSortedGoods.length > 0 ? (
+            filteredAndSortedGoods.map((product) => (
               <div
                 key={product.good_id}
                 className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[350px] bg-white"
+                onClick={() => handleClick(product)}
               >
                 <Link 
                   to="/Product"
-                  onClick={() => dispatch(setselectedgood({ selectedgood: product }))}
                 >
                   <img
                     src={product.Good_imgs?.[0]?.img_url || "/placeholder.svg"}

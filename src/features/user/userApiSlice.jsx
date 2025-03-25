@@ -24,14 +24,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    // Delete User
-    deleteUser: builder.mutation({
-      query: (id) => ({
-        url: `/user`,
-        method: "DELETE",
-        body: id,
-      }),
-    }),
      // Search for users
      searchUsers: builder.query({
       query: (name) => `/user/search?name=${name}`,
@@ -104,7 +96,6 @@ export const {
   useGetUsersQuery,
   useGetUserByIdQuery,
   useEditUserMutation,
-  useDeleteUserMutation,
   useSearchUsersQuery,
   useSendFriendRequestMutation,
   useFetchFriendRequestsQuery,
