@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { FaRupeeSign } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Product = () => {
   const product = useSelector((state) => state.good.selectedgood);
@@ -10,11 +11,7 @@ const Product = () => {
     return <div className="p-5">No product or skill selected</div>;
   }
 
-  const images = product
-    ? product.Good_imgs
-    : skill
-    ? skill.Skill_imgs
-    : [];
+  const images = product ? product.Good_imgs : skill ? skill.Skill_imgs : [];
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -40,7 +37,7 @@ const Product = () => {
             <img
               src={
                 images[selectedImageIndex]?.img_url
-                  ? `/${images[selectedImageIndex].img_url.split('/').pop()}`
+                  ? `/${images[selectedImageIndex].img_url.split("/").pop()}`
                   : "/placeholder.svg"
               }
               alt={`Image ${selectedImageIndex + 1}`}
@@ -62,7 +59,11 @@ const Product = () => {
             {images.map((image, index) => (
               <img
                 key={index}
-                src={image.img_url ? `/${image.img_url.split('/').pop()}` : "/placeholder.svg"}
+                src={
+                  image.img_url
+                    ? `/${image.img_url.split("/").pop()}`
+                    : "/placeholder.svg"
+                }
                 alt={`Thumbnail ${index + 1}`}
                 className={`w-[120px] h-[90px] object-cover border ${
                   index === selectedImageIndex
@@ -99,25 +100,26 @@ const Product = () => {
           <div className="flex-col text-lg">
             <p className="text-lg font-normal">
               Listed by:{" "}
-              {product?.GoodListedByGeneralUsers?.[0]?.GeneralUser?.User?.fname ||
+              {product?.GoodListedByGeneralUsers?.[0]?.GeneralUser?.User
+                ?.fname ||
                 skill?.SkillListedByGeneralUsers?.[0]?.GeneralUser?.User?.fname}
             </p>
-           {
-            !skill?.skill_name ? (
+            {!skill?.skill_name ? (
               <p
-              className={`text-lg font-normal ${
-                product?.status === "Available" || ""
-                  ? "text-green-500"
-                  : "text-red-500"
-              }`}
-            >
-              Status: {product?.status || ""}
+                className={`text-lg font-normal ${
+                  product?.status === "Available" || ""
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
+              >
+                Status: {product?.status || ""}
+              </p>
+            ) : null}
+            <p>
+              Category:{" "}
+              {product?.Category?.category_name ||
+                skill?.Category?.category_name}
             </p>
-            ):(
-              null
-            )
-           }
-            <p>Category: {product?.Category?.category_name || skill?.Category?.category_name}</p>
           </div>
           <div className="flex items-center gap-2.5 text-xl">
             <span className="text-2xl font-bold text-green-600 flex">
@@ -135,9 +137,11 @@ const Product = () => {
             <button className="flex-1 py-2.5 px-2.5 text-sm border-none bg-gray-100 rounded cursor-pointer transition-colors hover:bg-gray-200">
               ♡ Add to Wishlist
             </button>
-            <button className="flex-1 py-2.5 px-2.5 text-sm border-none bg-gray-100 rounded cursor-pointer transition-colors hover:bg-gray-200">
-              Exchange
-            </button>
+            <Link href="/TradePage">
+              <button className="flex-1 py-2.5 px-2.5 text-sm border-none bg-gray-100 rounded cursor-pointer transition-colors hover:bg-gray-200">
+                Exchange
+              </button>
+            </Link>
           </div>
           <div className="flex items-center gap-2.5 text-sm text-gray-500 border border-gray-200 p-5">
             <span>100% Guarantee Safe Checkout</span>
