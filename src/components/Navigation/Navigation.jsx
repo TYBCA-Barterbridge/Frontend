@@ -223,6 +223,16 @@ const Navigation = () => {
       {/* Desktop Navigation Icons */}
       <ul className="hidden md:flex gap-6 md:gap-12 items-center">
         <li className="flex flex-col items-center text-center cursor-pointer transition-transform hover:scale-110">
+          <Link to="/AboutUs">
+            <img
+              src="/images/aboutus.png"
+              alt="Like"
+              className="w-9 h-9"
+            />
+          </Link>
+          <span className="text-sm font-semibold">About Us</span>
+        </li>
+        <li className="flex flex-col items-center text-center cursor-pointer transition-transform hover:scale-110">
           <Link to="/Wishlist">
             <img
               src="https://img.icons8.com/?size=100&id=37975&format=png&color=FFFFFF"

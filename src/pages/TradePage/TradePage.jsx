@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 
+
 export default function TradePage() {
   const [currentStep, setCurrentStep] = useState(2);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);

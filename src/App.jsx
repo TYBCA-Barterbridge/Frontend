@@ -30,6 +30,7 @@ import AdminTrades from './components/AdminDashboard/AdminTrades';
 import OrderHistory from "./pages/OrderHistory/OrderHistory.jsx";
 import OrderHistoryDetails from "./pages/OrderHistoryDetails/OrderHistoryDetails.jsx";
 import TradePage from "./pages/TradePage/TradePage.jsx";
+import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 
 
 
@@ -66,6 +67,7 @@ function App() {
         <Route path="/OrderHistory" element={<OrderHistory/>} />
         <Route path="/OrderHistoryDetails" element={<OrderHistoryDetails/>} />
         <Route path="/TradePage" element={<TradePage/>} />
+        <Route path="/AboutUs" element={<AboutUs/>} />
         <Route path="/SignIn" element={<SignIn />} />
 
         {/* Protected User Routes */}
