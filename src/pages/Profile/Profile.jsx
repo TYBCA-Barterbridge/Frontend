@@ -10,9 +10,10 @@ import { CgProfile } from "react-icons/cg";
 // Sidebar Component
 const Sidebar = ({ activeMenu, onMenuChange }) => {
   const menuItems = [
+    { name: "Dashboard", path: "/Profile" },
+    { name: "Order History", path: "/OrderHistory" },
     { name: "Your Listings", path: "/YourListings" },
-    { name: "Cards & Address", path: "" },
-    { name: "Setting", path: "/Profile" },
+    { name: "Create Workshop", path: "/CreateWorkshop" },
     { name: "Logout", path: null },
   ];
 
@@ -139,7 +140,7 @@ const Profile = () => {
   const [profilePic, setProfilePic] = useState(null); // State for profile picture file
   const fileInputRef = useRef(null); // Ref for file input
 
-  const [activeMenu, setActiveMenu] = useState("Setting");
+  const [activeMenu, setActiveMenu] = useState("Dashboard");
 
   // Populate form data when user data is fetched
   useEffect(() => {

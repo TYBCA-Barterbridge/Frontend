@@ -27,6 +27,9 @@ import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import AdminUsers from './components/AdminDashboard/AdminUsers';
 import AdminWorkshops from './components/AdminDashboard/AdminWorkshops';
 import AdminTrades from './components/AdminDashboard/AdminTrades';
+import OrderHistory from "./pages/OrderHistory/OrderHistory.jsx";
+import OrderHistoryDetails from "./pages/OrderHistoryDetails/OrderHistoryDetails.jsx";
+
 
 
 function App() {
@@ -59,6 +62,8 @@ function App() {
         <Route path="/WorkShop" element={<WorkShop />} />
         <Route path="/Skills" element={<Skills />} />
         <Route path="/customercare" element={<CustomerCare />} />
+        <Route path="/OrderHistory" element={<OrderHistory/>} />
+        <Route path="/OrderHistoryDetails" element={<OrderHistoryDetails/>} />
         <Route path="/SignIn" element={<SignIn />} />
 
         {/* Protected User Routes */}
