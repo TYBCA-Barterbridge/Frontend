@@ -32,7 +32,6 @@ import OrderHistoryDetails from "./pages/UserDashboard/OrderHistory/OrderHistory
 import Workshops from "./pages/UserDashboard/Workshops/Workshops.jsx";
 import TradePage from "./pages/TradePage.jsx";
 
-
 function App() {
 
   return (
