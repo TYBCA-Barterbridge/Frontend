@@ -8,6 +8,7 @@ import chatReducer from '../features/chat/chatSlice'
 import groupReducer from '../features/groups/groupSlice'
 import skillReducer from '../features/skill/skillSlice'
 import adminReducer from '../features/admin/adminSlice'
+import workshopReducer from '../features/workshop/workshopSlice'
 
 
 export const store = configureStore({
@@ -20,6 +21,7 @@ export const store = configureStore({
         group: groupReducer,
         skill: skillReducer,
         admin: adminReducer,
+        workshop: workshopReducer,
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware().concat(apiSlice.middleware),

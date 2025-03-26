@@ -11,10 +11,6 @@ import SignUp from "./pages/auth/SignUp.jsx";
 import ForgotPass from "./pages/auth/ForgotPass.jsx";
 import Home from "./pages/Homee/Home.jsx";
 import CustomerCare from "./pages/CustomerCare/CustomerCare.jsx";
-import Wishlist from "./pages/Wishlist/Wishlist.jsx";
-import Profile from "./pages/Profile/Profile.jsx";
-import YourListings from "./pages/YourListings/YourListings.jsx";
-import UploadPage from "./pages/UploadPage/UploadPage.jsx";
 import WorkshopDetails from "./pages/WorkshopDetails/WorkshopDetails.jsx";
 import Goods from "./pages/Goods/Goods.jsx";
 import WorkShop from "./pages/WorkShop/WorkShop.jsx";
@@ -27,10 +23,14 @@ import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import AdminUsers from './components/AdminDashboard/AdminUsers';
 import AdminWorkshops from './components/AdminDashboard/AdminWorkshops';
 import AdminTrades from './components/AdminDashboard/AdminTrades';
-import OrderHistory from "./pages/OrderHistory/OrderHistory.jsx";
-import OrderHistoryDetails from "./pages/OrderHistoryDetails/OrderHistoryDetails.jsx";
-import TradePage from "./pages/TradePage/TradePage.jsx";
-
+import OrderSummary from './components/OrderSummary/OrderSummary';
+import UserMenus from './pages/UserDashboard/UserMenus';
+import Profile from "./pages/UserDashboard/Profile.jsx";
+import YourListings from "./pages/UserDashboard/YourListings/YourListings.jsx";
+import OrderHistory from "./pages/UserDashboard/OrderHistory/OrderHistory.jsx";
+import OrderHistoryDetails from "./pages/UserDashboard/OrderHistory/OrderHistoryDetails.jsx";
+import Workshops from "./pages/UserDashboard/Workshops/Workshops.jsx";
+import TradePage from "./pages/TradePage.jsx";
 
 
 function App() {
@@ -63,22 +63,24 @@ function App() {
         <Route path="/WorkShop" element={<WorkShop />} />
         <Route path="/Skills" element={<Skills />} />
         <Route path="/customercare" element={<CustomerCare />} />
-        <Route path="/OrderHistory" element={<OrderHistory/>} />
-        <Route path="/OrderHistoryDetails" element={<OrderHistoryDetails/>} />
-        <Route path="/TradePage" element={<TradePage/>} />
         <Route path="/SignIn" element={<SignIn />} />
 
         {/* Protected User Routes */}
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-            <Route path="/Wishlist" element={<Wishlist />} />
-            <Route path="/Profile" element={<Profile />} />
+            <Route path="/order-summary" element={<OrderSummary />} />
             <Route path="/Care" element={<CustomerCare />} />
-            <Route path="/YourListings" element={<YourListings />} />
-            <Route path="/Upload" element={<UploadPage />} />
+            <Route path="/Trade" element={<TradePage />} />
             <Route path="/Chat" element={<ChatLayout />} />
             <Route path="/Chat/Profile" element={<ChatProfile />} />
             <Route path="/Users/:userId" element={<UserProfileView />} />
+            <Route path="/dashboard" element={<UserMenus />} >
+              <Route index element={<Profile />} />
+              <Route path="YourListings" element={<YourListings />} />
+              <Route path="Workshops" element={<Workshops />} />
+              <Route path="OrderHistory" element={<OrderHistory />} />
+              <Route path="OrderHistoryDetails" element={<OrderHistoryDetails />} />
+            </Route>
           </Route>
         </Route>
       </Route>

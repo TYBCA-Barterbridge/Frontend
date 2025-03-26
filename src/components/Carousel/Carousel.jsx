@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 const Carousel = () => {
   const images = [
-    "./images/1.jpg",
-    "./images/2.jpg",
-    "./images/4.jpg",
-    "./images/5.jpg",
-    "./images/6.jpg",
+    "./images/banner-1.png",
+    "./images/banner-2.png",
+    "./images/carousel-banner.avif",
+    "./images/4.png",
+    "./images/5.png",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -57,7 +57,7 @@ const Carousel = () => {
       >
         &#10094;
       </button>
-      <div className="relative w-screen  h-[350px] flex justify-center items-center overflow-hidden">
+      <div className="relative w-screen rounded-lg h-[450px] flex justify-center items-center overflow-hidden">
         <div
           className="w-full h-full flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}

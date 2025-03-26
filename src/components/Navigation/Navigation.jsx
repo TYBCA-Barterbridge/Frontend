@@ -29,7 +29,7 @@ const SearchResult = ({ type, name, image, onClick, item }) => (
       <p className="text-sm font-medium text-gray-900">
         {type === 'Skill' ? item.skill_name : 
          type === 'Good' ? item.good_name : 
-         type === 'User' ? item.username : name}
+         type === 'User' ? item.User.username : name}
       </p>
       <p className="text-xs text-gray-500">{type}</p>
     </div>
@@ -109,7 +109,7 @@ const Navigation = () => {
         navigate(`/product`);
         break;
       case 'user':
-        navigate(`/user/${item.GeneralUser.user_id}`);
+        navigate(`/user/${item.User.user_id}`);
         break;
       default:
         break;
@@ -178,10 +178,10 @@ const Navigation = () => {
                   <h3 className="text-xs font-semibold text-gray-500 px-2 mb-1">USERS</h3>
                   {searchResults.users.map(user => (
                     <SearchResult
-                      key={user.id}
+                      key={user.User.user_id}
                       type="User"
-                      name={user.username}
-                      image={user.profilepic}
+                      name={user.User.username}
+                      image={user.User.profilepic}
                       item={user}
                       onClick={() => handleResultClick('user', user)}
                     />
@@ -223,17 +223,7 @@ const Navigation = () => {
       {/* Desktop Navigation Icons */}
       <ul className="hidden md:flex gap-6 md:gap-12 items-center">
         <li className="flex flex-col items-center text-center cursor-pointer transition-transform hover:scale-110">
-          <Link to="/Wishlist">
-            <img
-              src="https://img.icons8.com/?size=100&id=37975&format=png&color=FFFFFF"
-              alt="Like"
-              className="w-9 h-9"
-            />
-          </Link>
-          <span className="text-sm font-semibold">Wishlist</span>
-        </li>
-        <li className="flex flex-col items-center text-center cursor-pointer transition-transform hover:scale-110">
-          <Link to="/Profile">
+          <Link to="/dashboard">
             <img
               src="https://img.icons8.com/?size=100&id=7819&format=png&color=FFFFFF"
               alt="Profile"

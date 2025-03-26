@@ -96,8 +96,8 @@ const ProductCard = () => {
   return (
     <div className="w-full">
       <div className="container mx-auto mt-10 ml-4 mr-4 py-4 px-6 w-full max-w-screen-2xl">
-        <h2 className="text-3xl font-semibold mb-6">Featured Products</h2>
-        <div className="flex items-center gap-6 mb-6 border-b pb-2">
+        <h2 className="text-3xl font-semibold mb-6">Featured Goods</h2>
+        <div className="flex items-center gap-6 mb-6 pb-2">
           <span 
             className={`cursor-pointer ${activeCategory === "All Products" ? "font-semibold border-b-2 border-orange-500 pb-1" : "text-gray-500"}`}
             onClick={() => handleCategoryClick("All Products")}
@@ -134,7 +134,7 @@ const ProductCard = () => {
         </div>
       </div>
       <div className="flex w-full" data-aos="zoom-in">
-        <div className="bg-gray-50 p-5 rounded-lg shadow-sm w-[250px] ml-10 mb-10 flex-shrink-0 mr-5 h-[940px]">
+        <div className="bg-gray-50 p-5 rounded-lg shadow-sm w-[250px] ml-10 mb-10 flex-shrink-0 mr-5 h-[1130px]">
           <div className="mt-2.5">
             <h3 className="mb-4 text-lg text-gray-800">Categories</h3>
           </div>
@@ -232,7 +232,7 @@ const ProductCard = () => {
           <hr className="my-4" />
           <div className="flex justify-center items-center">
             <img
-              className="w-350 h-[400px] mt-5 rounded-2xl"
+              className="w-350 h-[500px] my-15 rounded-2xl"
               src="./images/banner1.png"
               alt=""
             />
@@ -257,7 +257,11 @@ const ProductCard = () => {
                 </Link>
                 <h4 className="text-lg font-bold mb-2.5">{product.good_name}</h4>
                 <p className="text-sm mb-2.5 text-gray-600">
-                  {product.good_description}
+                  {product.good_description 
+                    ? product.good_description.length > 20 
+                      ? product.good_description.substring(0, 20) + '...'
+                      : product.good_description
+                    : "No description"}
                 </p>
                 <p className="flex text-lg font-bold text-blue-500">
                   <FaRupeeSign className="size-5 flex translate-y-1"/>{product.good_amount}

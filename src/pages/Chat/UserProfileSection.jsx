@@ -275,7 +275,7 @@ const UserProfileSection = ({ onClose, refetch, reconnect, friends }) => {
         animate={{ y: 0 }}
         exit={{ y: "-100%" }}
         transition={{ type: "spring", damping: 20 }}
-        className="fixed top-0 left-[22.5%] right-0 bg-white shadow-lg z-50"
+        className="fixed top-[90px] left-[22.5%] right-0 bg-white shadow-lg z-50"
       >
         <div className="w-full mx-auto p-6">
           <div className="flex items-center justify-between mb-6">

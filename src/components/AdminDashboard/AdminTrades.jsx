@@ -14,11 +14,10 @@ const AdminTrades = () => {
     setSelectedTrade(trade);
     setShowDetails(true);
   };
+  console.log(trades)
 
   const filteredTrades = trades?.filter(trade => {
-    const matchesSearch = 
-      trade.seller?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      trade.buyer?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch =
       trade.exchange_id.toString().includes(searchTerm);
 
     const matchesStatus = 
@@ -69,25 +68,25 @@ const AdminTrades = () => {
             
             <div>
               <h4 className="font-medium">Seller</h4>
-              <p>{trade.seller?.username}</p>
+              <p>{trade.seller}</p>
             </div>
             
             <div>
               <h4 className="font-medium">Buyer</h4>
-              <p>{trade.buyer?.username}</p>
+              <p>{trade.buyer}</p>
             </div>
             
             <div>
               <h4 className="font-medium">Items</h4>
               {trade.type === 'good' ? (
                 <div className="space-y-2">
-                  <p>Good A: {trade.goodA?.name}</p>
-                  <p>Good B: {trade.goodB?.name}</p>
+                  <p>Good A: {trade.goodA?.good_name}</p>
+                  <p>Good B: {trade.goodB?.good_name}</p>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <p>Skill A: {trade.skillA?.name}</p>
-                  <p>Skill B: {trade.skillB?.name}</p>
+                  <p>Skill A: {trade.skillA?.skill_name}</p>
+                  <p>Skill B: {trade.skillB?.skill_name}</p>
                 </div>
               )}
             </div>
@@ -162,10 +161,10 @@ const AdminTrades = () => {
                     {trade.exchange_id}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {trade.seller?.username}
+                    {trade.seller}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {trade.buyer?.username}
+                    {trade.buyer}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
                     {trade.type}

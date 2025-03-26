@@ -7,18 +7,18 @@ const CategorySection = () => {
   const categories = [
     {
       title: "Barter Exchange",
-      image: "images/6.jpg", 
+      image: "images/goodexchange.png",
       link: "/Goods", 
     },
     {
       title: "Skill Exchange",
-      image: "images/4.jpg", 
+      image: "images/skillexchange.png",
       link: "/Skills", 
     },
     {
       title: "Workshop",
-      image: "images/5.jpg",
-      link: "/WorkShop", 
+      image: "images/workshop.png",
+      link: "/WorkShop",
     },
   ];
   useEffect(() => {

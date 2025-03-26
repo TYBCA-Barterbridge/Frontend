@@ -79,7 +79,13 @@ export const skillApiSlice = apiSlice.injectEndpoints({
             url: `/skill/buy/review`,
             method: "PUT",
             }),
-    })
+    }),
+    getOrderHistory: builder.query({
+      query: () => ({
+        url: "/skill/order-history",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -95,5 +101,6 @@ export const{
     useSendskillexchangerequestMutation,
     useSkillExchangereviewMutation,
     useBuyskillMutation,
-    useBoughtskillreviewMutation
+    useBoughtskillreviewMutation,
+    useGetOrderHistoryQuery,
 }= skillApiSlice

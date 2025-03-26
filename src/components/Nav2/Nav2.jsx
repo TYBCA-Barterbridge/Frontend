@@ -36,16 +36,6 @@ const Nav2 = () => {
 
       {/* Right Side */}
       <div className="flex items-center gap-4">
-        <a href="https://facebook.com" target="_blank" rel="noreferrer">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" className="w-8 h-8 hover:scale-110 transition" />
-        </a>
-        <a href="https://twitter.com" target="_blank" rel="noreferrer">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" className="w-8 h-8 hover:scale-110 transition" />
-        </a>
-        <a href="https://instagram.com" target="_blank" rel="noreferrer">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram" className="w-8 h-8 hover:scale-110 transition" />
-        </a>
-
         <Link to="/signin" className="flex items-center px-4 py-2 text-black hover:bg-gray-300 rounded-md">
           Sign in
           <img

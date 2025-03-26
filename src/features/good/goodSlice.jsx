@@ -8,6 +8,8 @@ const goodSlice = createSlice({
     selectedcategory: null,
     priceRange: [0, 100000],
     sortOption: "default",
+    orderHistory: [],
+    selectedOrder: null,
   },
   reducers: {
     setselectedgood: (state, action) => {
@@ -39,6 +41,14 @@ const goodSlice = createSlice({
       const { good } = action.payload;
       state.good = state.good.filter((item) => item.id !== good.id);
     },
+    setorderHistory: (state, action) => {
+      const { orderHistory } = action.payload;
+      state.orderHistory = orderHistory;
+    },
+    setselectedOrder: (state, action) => {
+      const { selectedOrder } = action.payload;
+      state.selectedOrder = selectedOrder;
+    },
   },
 });
 
@@ -50,6 +60,8 @@ export const {
   setselectedcategory,
   setPriceRange,
   setSortOption,
+  setorderHistory,
+  setselectedOrder,
 } = goodSlice.actions;
 
 export default goodSlice.reducer;

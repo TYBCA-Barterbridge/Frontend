@@ -51,6 +51,13 @@ const AdminWorkshops = () => {
       console.error(`Error ${actionType}ing workshop:`, error);
     }
   };
+
+  const calculateDuration = (start, end) => {
+    const startTime = new Date(`1970-01-01T${start}Z`);
+    const endTime = new Date(`1970-01-01T${end}Z`);
+    const durationInHours = (endTime - startTime) / (1000 * 60 * 60); // Convert ms to hours
+    return durationInHours === 1 ? "1 hour" : `${durationInHours} hours`;
+  };
   
   const workshops = useSelector(state => state.admin.workshops);
 
@@ -181,10 +188,10 @@ const AdminWorkshops = () => {
                     {workshop.GeneralUser?.User?.username}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {format(new Date(`${workshop.workshop_date}T${workshop.workshop_time}`), 'PPP p')}
+                    {format(new Date(`${workshop.workshop_date}T${workshop.workshop_starttime}`), 'PPP p')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {workshop.duration} hours
+                  <p> {calculateDuration(workshop.workshop_starttime, workshop.workshop_endtime)}</p>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
