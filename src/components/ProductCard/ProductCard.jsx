@@ -7,6 +7,7 @@ import { setgoods, setselectedgood } from "../../features/good/goodSlice";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import useAuth from "../../hooks/useAuth";
 
 const ProductCard = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,8 @@ const ProductCard = () => {
   const { data: goods, isLoading, refetch } = useGetGoodQuery();
   const products = useSelector(state => state.good.good);
   const navigate = useNavigate();
+  const {user_id} = useAuth();
+  console.log(user_id);
 
   useEffect(() => {
     AOS.init({ duration: 400 });

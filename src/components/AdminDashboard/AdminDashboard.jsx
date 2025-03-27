@@ -106,7 +106,7 @@ const AdminDashboard = () => {
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ChartCard title="Trades by Status" showPercentage>
+        <ChartCard title="Trades by Status" >
           <TradeStatusChart trades={trades} />
         </ChartCard>
         <ChartCard title="User Growth (Weekly)">

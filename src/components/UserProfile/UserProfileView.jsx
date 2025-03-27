@@ -1,11 +1,17 @@
-import React from "react";
-import { useGetUserByIdQuery } from "../../features/user/userApiSlice";
+import React, { useState, useEffect } from 'react';
+import { useGetUserByIdQuery, useSendFriendRequestMutation, useFetchFriendRequestsQuery } from "../../features/user/userApiSlice";
+import { useParams } from 'react-router-dom';
 import {
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
+  FaUser,
+  FaCalendarAlt,
+  FaClock,
   FaProductHunt,
   FaUserTie,
+  FaUserPlus,
+  FaSpinner,
 } from "react-icons/fa";
 import { format, isValid } from "date-fns";
 
@@ -86,22 +92,35 @@ const ActivityItem = ({ icon: Icon, title, time, link, linkText }) => (
   </div>
 );
 
-const UserProfileView = ({ userId }) => {
+const UserProfileView = () => {
+  const { userId } = useParams();
   const { data: user, isLoading, error } = useGetUserByIdQuery(userId);
-  console.log(user);
+  const [sendFriendRequest, { isLoading: isSendingRequest }] = useSendFriendRequestMutation();
+  const { data: friendRequests = [], refetch: refetchRequests } = useFetchFriendRequestsQuery();
+  const [requestSent, setRequestSent] = useState(false);
+
+  const handleSendRequest = async () => {
+    try {
+      await sendFriendRequest({ receiver_id: userId }).unwrap();
+      setRequestSent(true);
+      refetchRequests(); // Refresh the friend requests list
+    } catch (error) {
+      console.error('Failed to send friend request:', error);
+    }
+  };
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center text-red-600 p-4">
-        Error loading user profile
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-red-500">Error loading user profile</div>
       </div>
     );
   }
@@ -133,8 +152,21 @@ const UserProfileView = ({ userId }) => {
           <p className="text-lg text-gray-500 mt-1">{user.user.state}</p>
 
           <div className="flex justify-center space-x-4 mt-4">
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              Add to Friends
+            <button
+              onClick={handleSendRequest}
+              disabled={isSendingRequest || requestSent}
+              className={`flex items-center px-4 py-2 rounded-lg ${
+                requestSent
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
+            >
+              {isSendingRequest ? (
+                <FaSpinner className="animate-spin mr-2" />
+              ) : (
+                <FaUserPlus className="mr-2" />
+              )}
+              {requestSent ? 'Request Sent' : 'Add Friend'}
             </button>
           </div>
         </div>

@@ -190,7 +190,7 @@ const SignUp = () => {
     setCPasswordError(validateConfirmPassword(e.target.value));
   };
 
-  if (isLoading) return <CircleLoader color={"#4a90e2"} />;
+  if (isLoading) return <CircleLoader color={"#4a90e2"} className="flex justify-center items-center h-screen"/>;
 
   return (
     <motion.div

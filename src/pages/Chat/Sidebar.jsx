@@ -34,6 +34,7 @@ const Sidebar = ({ refetch, reconnect }) => {
   const dispatch = useDispatch();
   const friends = useSelector((state) => state.user.friends) || [];
   const friendRequests = useSelector((state) => state.user.friendRequests) || [];
+  
 
   // API hooks
   const { data: users, isLoading: isUsersLoading } = useSearchUsersQuery(

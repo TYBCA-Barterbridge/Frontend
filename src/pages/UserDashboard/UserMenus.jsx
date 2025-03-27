@@ -107,6 +107,7 @@ const UserMenus = () => {
             <SidebarLink to="/dashboard/YourListings" icon={FaList} label="Your Listings" />
             <SidebarLink to="/dashboard/Workshops" icon={FaChalkboard} label="Workshops" />
             <SidebarLink to="/dashboard/OrderHistory" icon={FaHistory} label="Order History" />
+            <SidebarLink to="/dashboard/Exchanges" icon={FaHistory} label="Exchanges" />
           </div>
           <div className="pt-4 mt-4 border-t border-gray-200">
             <SidebarLink

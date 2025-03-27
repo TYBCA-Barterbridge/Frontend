@@ -11,8 +11,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     // Get user by id
     getUserById: builder.query({
-      query: () => ({
-        url: `/user/id`,
+      query: (user_id) => ({
+        url: `/user/${user_id}`,
         method: "GET",
       }),
     }),
@@ -24,71 +24,70 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-     // Search for users
-     searchUsers: builder.query({
+    // Search for users
+    searchUsers: builder.query({
       query: (name) => `/user/search?name=${name}`,
-  }),
+    }),
 
-  // Send a friend request
-  sendFriendRequest: builder.mutation({
+    // Send a friend request
+    sendFriendRequest: builder.mutation({
       query: (Request) => ({
-      url: `/user/friend-request`,
-          method: 'POST',
-          body: Request,
+        url: `/user/friend-request`,
+        method: 'POST',
+        body: Request,
       }),
-  }),
+    }),
 
-  // Fetch pending friend requests
-  fetchFriendRequests: builder.query({
+    // Fetch pending friend requests
+    fetchFriendRequests: builder.query({
       query: () => ({
-          url: `/user/friend-requests`,
-          method: 'GET',
+        url: `/user/friend-requests`,
+        method: 'GET',
       })
-  }),
+    }),
 
-  fetchFriends: builder.query({
+    // Fetch friends
+    fetchFriends: builder.query({
       query: () => ({
-          url: `/user/friends`,
-          method: 'GET',
-      }),
-  }),
-  
-  removeFriend: builder.mutation({
-      query: (data) => ({
-          url: `/user/remove-friend`,
-          method: 'DELETE',
-          body: data,
+        url: `/user/friends`,
+        method: 'GET',
       })
-  }), 
+    }),
 
-  // Update user bio
-  updateBio: builder.mutation({
-      query: ( bio ) => ({
-          url: `/user/bio`,
-          method: 'PUT',
-          body: bio ,
-      }),
-  }),
+    // Remove friend
+    removeFriend: builder.mutation({
+      query: (friendId) => ({
+        url: `/user/friend-request/${friendId}`,
+        method: 'DELETE',
+      })
+    }),
 
-  // Update user profile picture
-  updateProfile: builder.mutation({
+    // Update bio
+    updateBio: builder.mutation({
+      query: (bio) => ({
+        url: `/user/bio`,
+        method: 'PUT',
+        body: { bio },
+      })
+    }),
+
+    // Update profile picture
+    updateProfile: builder.mutation({
       query: (formData) => ({
-          url: `/user/profile`,
-          method: 'PUT',
-          body: formData,
-      }),
-  }),
+        url: `/user/profile`,
+        method: 'PUT',
+        body: formData,
+      })
+    }),
 
-  // Update user username
-  updateUsername: builder.mutation({
-      query: ({ username }) => ({
-          url: `/user/username`,
-          method: 'PUT',
-          body: { username },
-      }),
-      invalidatesTags: ['User'],
-  }),
-
+    // Update username
+    updateUsername: builder.mutation({
+      query: (username) => ({
+        url: `/user/username`,
+        method: 'PUT',
+        body: { username },
+      })
+    }),
   }),
 });
 

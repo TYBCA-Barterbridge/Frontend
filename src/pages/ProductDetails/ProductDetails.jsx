@@ -34,6 +34,12 @@ const Product = () => {
     }
   };
 
+  const handleExchange = () => {
+    const itemId = product ? product.good_id : skill.skill_id;
+    const itemType = product ? 'good' : 'skill';
+    navigate(`/trade/${itemType}/${itemId}`);
+  };
+
   if (showBuyForm) {
     return <BuyPage />;
   }
@@ -141,7 +147,10 @@ const Product = () => {
             >
               BUY NOW
             </button>
-            <button className="flex-1 py-2.5 px-2.5 text-sm border-none bg-gray-100 rounded cursor-pointer transition-colors hover:bg-gray-200">
+            <button 
+              onClick={handleExchange}
+              className="flex-1 py-2.5 px-2.5 text-sm border-none bg-gray-100 rounded cursor-pointer transition-colors hover:bg-gray-200"
+            >
               Exchange
             </button>
           </div>

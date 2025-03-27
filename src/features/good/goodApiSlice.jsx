@@ -35,10 +35,12 @@ export const goodApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     deleteGood: builder.mutation({
-      query: (id) => ({
+      query: (good_id) => ({
         url: `/good/delete`,
         method: "DELETE",
+        body: { good_id }
       }),
+      invalidatesTags: ["Good"],
     }),
     fetchGoodExchangeRequests: builder.query({
       query: () => ({
@@ -86,6 +88,12 @@ export const goodApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    getExchangeHistory: builder.query({
+      query: () => ({
+        url: '/good/exchange/history',
+        method: 'GET',
+      })
+    }),
   }),
 });
 
@@ -103,4 +111,5 @@ export const{
     useBuygoodMutation,
     useBoughtgoodreviewMutation,
     useGetOrderHistoryQuery,
-}= goodApiSlice
+    useGetExchangeHistoryQuery,
+}=  goodApiSlice

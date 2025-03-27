@@ -78,7 +78,9 @@ const WorkshopEdit = ({ closeModal, selectedWorkshop }) => {
 
   const handleDelete = async () => {
     try {
-      await deleteWorkshop(selectedWorkshop.workshop_id).unwrap();
+      const workshop_id = selectedWorkshop.workshop_id;
+      console.log('Deleting workshop with ID:', workshop_id);
+      await deleteWorkshop(workshop_id).unwrap();
       closeModal();
     } catch (err) {
       setError(err.data?.message || 'Failed to delete workshop');
@@ -86,7 +88,7 @@ const WorkshopEdit = ({ closeModal, selectedWorkshop }) => {
   };
 
   const DeleteConfirmationModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0  bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 max-w-sm w-full">
         <h3 className="text-xl font-semibold mb-4">Confirm Delete</h3>
         <p className="mb-4">Are you sure you want to delete this workshop? This action cannot be undone.</p>
@@ -110,7 +112,7 @@ const WorkshopEdit = ({ closeModal, selectedWorkshop }) => {
   );
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex mt-20 items-center justify-center p-4 z-40">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">

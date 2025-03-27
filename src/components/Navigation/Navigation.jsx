@@ -109,7 +109,7 @@ const Navigation = () => {
         navigate(`/product`);
         break;
       case 'user':
-        navigate(`/user/${item.User.user_id}`);
+        navigate(`/Users/${item.User.user_id}`);
         break;
       default:
         break;
@@ -231,16 +231,6 @@ const Navigation = () => {
             />
           </Link>
           <span className="text-sm font-semibold">Profile</span>
-        </li>
-        <li className="flex flex-col items-center text-center cursor-pointer transition-transform hover:scale-110">
-        <Link to="/AboutUs">
-            <img
-              src="/images/aboutus.png"
-              alt="Like"
-              className="w-9 h-9"
-            />
-          </Link>
-          <span className="text-sm font-semibold">About Us</span>
         </li>
       </ul>
 

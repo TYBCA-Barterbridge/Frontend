@@ -1,13 +1,20 @@
 import { apiSlice } from "../../app/api/apiSlice";
 
-
 export const workshopApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getWorkshop: builder.query({
+        getAllWorkshops: builder.query({
             query: () => ({
                 url: "/workshop",
                 method: "GET",
-            })
+            }),
+            providesTags: ['Workshop'],
+        }),
+        getWorkshopById: builder.query({
+            query: (id) => ({
+                url: `/workshop/${id}`,
+                method: "GET",
+            }),
+            providesTags: (result, error, id) => [{ type: 'Workshop', id }],
         }),
         createWorkshop: builder.mutation({
             query: (data) => ({
@@ -24,23 +31,10 @@ export const workshopApiSlice = apiSlice.injectEndpoints({
             })
         }),
         deleteWorkshop: builder.mutation({
-            query: (data) =>({
-                url: `/workshop/${data.id}`,
-                method: 'DELETE',
-                
-            })
-        }),
-        getWorkshopsByUser: builder.query({
-            query: () => ({
-                url: "/workshop/user",
-                method: "POST",
-            })
-        }),
-        getWorkshopById: builder.query({
             query: (id) => ({
                 url: `/workshop/${id}`,
-                method: "GET",
-            })
+                method: 'DELETE',
+            }),
         }),
         getWorkshopByAdmin: builder.query({
             query: () => ({
@@ -48,54 +42,61 @@ export const workshopApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
             })
         }),
+        getWorkshopByUser: builder.query({
+            query: () => ({
+                url: "/workshop/user",
+                method: "POST",
+            })
+        }),
         addParticipant: builder.mutation({
-            query: (participant) => ({
-                url: `/workshop/${workshop.id}/participants`,
+            query: (data) => ({
+                url: `/workshop/${data.workshop_id}/participants`,
                 method: "POST",
-                body: participant
-            })
-        }),
-        editParticipantStatus: builder.mutation({
-            query: (participant) => ({
-                url: `/workshop/${workshop.id}/participants`,
-                method: "PUT",
-                body: participant
-            })
-        }), 
-        removeParticipant: builder.mutation({
-            query: (participant) => ({
-                url: `/workshop/${workshop.id}/participants`,
-                method: "DELETE",
-                body: participant
-            })  
-        }),
-        addReview: builder.mutation({
-            query: (review) => ({
-                url: `/workshop/${workshop.id}/review`,
-                method: "POST",
-                body: review
+                body: data
             })
         }),
         getWorkshopParticipants: builder.query({
             query: (id) => ({
-                url: `/workshop/${workshop.id}/participants`,
-                method: "GET",  
+                url: `/workshop/${id}/participants`,
+                method: "GET",
+            }),
+            providesTags: ['WorkshopParticipant'],
+        }),
+        editParticipantStatus: builder.mutation({
+            query: (data) => ({
+                url: `/workshop/${data.workshop_id}/participants`,
+                method: "PUT",
+                body: data
             })
-        })
+        }),
+        removeParticipant: builder.mutation({
+            query: (data) => ({
+                url: `/workshop/${data.workshop_id}/participants`,
+                method: "DELETE",
+                body: data
+            })
+        }),
+        addReview: builder.mutation({
+            query: (data) => ({
+                url: `/workshop/${data.workshop_id}/review`,
+                method: "PUT",
+                body: data
+            })
+        }),
     })
-})
+});
 
 export const {
-    useGetWorkshopQuery,
+    useGetAllWorkshopsQuery,
+    useGetWorkshopByIdQuery,
     useCreateWorkshopMutation,
     useEditWorkshopMutation,
     useDeleteWorkshopMutation,
-    useGetWorkshopsByUserQuery,
-    useGetWorkshopByIdQuery,
     useGetWorkshopByAdminQuery,
+    useGetWorkshopByUserQuery,
     useAddParticipantMutation,
+    useGetWorkshopParticipantsQuery,
     useEditParticipantStatusMutation,
     useRemoveParticipantMutation,
     useAddReviewMutation,
-    useGetWorkshopParticipantsQuery
 } = workshopApiSlice;

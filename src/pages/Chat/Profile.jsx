@@ -17,12 +17,14 @@ import {
   useUpdateBioMutation,
   useUpdateUsernameMutation,
 } from "../../features/user/userApiSlice";
+import useAuth from "../../hooks/useAuth";
 
 
 const Profile = () => {
+  const {user_id} = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data: user, refetch } = useGetUserByIdQuery();
+  const { data: user, refetch } = useGetUserByIdQuery(user_id);
   const [updateProfile] = useUpdateProfileMutation();
   const [updateBio] = useUpdateBioMutation();
   const [updateUsername] = useUpdateUsernameMutation();
@@ -32,14 +34,15 @@ const Profile = () => {
   const [localBio, setLocalBio] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  
 
   console.log(user)
 
   useEffect(() => {
     if (user) {
-      setProfileImage(user.User.profilepic);
-      setLocalUsername(user.User.username || "");
-      setLocalBio(user.User.bio || "");
+      setProfileImage(user.user.User.profilepic);
+      setLocalUsername(user.user.User.username || "");
+      setLocalBio(user.user.User.bio || "");
     }
   }, [user]);
 
@@ -175,7 +178,7 @@ const Profile = () => {
                   </label>
                   <input
                     type="email"
-                    value={user?.User?.email}
+                    value={user?.user?.User?.email}
                     disabled
                     className="block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />

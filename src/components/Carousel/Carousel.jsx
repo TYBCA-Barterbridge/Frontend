@@ -4,9 +4,9 @@ const Carousel = () => {
   const images = [
     "./images/banner-1.png",
     "./images/banner-2.png",
-    "./images/carousel-banner.avif",
-    "./images/4.png",
-    "./images/5.png",
+    "./images/3.jpg",
+    "./images/4.jpg",
+    "./images/5.jpg",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -17,12 +17,12 @@ const Carousel = () => {
     setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       setIsSliding(false);
-    }, 500);
+    }, 1000);
     setIsSliding(true);
     setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       setIsSliding(false);
-    }, 500);
+    }, 1000);
   };
 
   const prevImage = () => {

@@ -2,14 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import {
   useGetUserByIdQuery,
   useEditUserMutation,
-  } from "../../features/user/userApiSlice";
+} from "../../features/user/userApiSlice";
+import useAuth from "../../hooks/useAuth";
 
 // Profile Component
 const Profile = () => {
-  const { data: user, isLoading, isError, refetch } = useGetUserByIdQuery();
+  const { user_id } = useAuth();
+  const { data: user, isLoading, isError, refetch } = useGetUserByIdQuery(user_id);
   const [editUser, { isLoading: isEditing }] = useEditUserMutation();
 
-  console.log(user);
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -21,7 +22,8 @@ const Profile = () => {
     state: "",
   });
 
-  const [profilePic, setProfilePic] = useState(null); 
+  const [validationErrors, setValidationErrors] = useState({});
+  const [profilePic, setProfilePic] = useState(null);
   const fileInputRef = useRef(null);
 
   // Populate form data when user data is fetched
@@ -40,6 +42,20 @@ const Profile = () => {
     }
   }, [user]);
 
+  // Validate form fields
+  const validateForm = () => {
+    const errors = {};
+    if (!formData.fname.trim()) errors.fname = "First name is required.";
+    if (!formData.lname.trim()) errors.lname = "Last name is required.";
+    if (!formData.phone.trim() || !/^\d{10}$/.test(formData.phone))
+      errors.phone = "Valid phone number is required.";
+    if (!formData.zipcode.trim() || !/^\d{5,6}$/.test(formData.zipcode))
+      errors.zipcode = "Valid zip code is required.";
+    if (!formData.state.trim()) errors.state = "State is required.";
+    if (!formData.address.trim()) errors.address = "Address is required.";
+    return errors;
+  };
+
   // Handle file input change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -51,6 +67,12 @@ const Profile = () => {
   // Handle form submission
   const handleConfirm = async (e) => {
     e.preventDefault();
+
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
 
     const data = new FormData();
     data.append("fname", formData.fname);
@@ -76,19 +98,22 @@ const Profile = () => {
     }
   };
 
+  // Handle real-time validation on field change
+  const handleFieldChange = (field, value) => {
+    setFormData({ ...formData, [field]: value });
+    setValidationErrors({ ...validationErrors, [field]: "" });
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading user data.</div>;
 
   return (
     <>
       <div className="flex gap-5 p-5 bg-[#f5f7fa] min-h-screen font-sans">
-        {/* Profile Settings Section */}
         <div className="flex-1 bg-white border border-gray-200 rounded-lg shadow-md p-7">
-          <div className="mb-7">
-            <h2 className="text-2xl text-gray-800 font-bold">
-              Account Setting
-            </h2>
-          </div>
+          <h2 className="text-2xl text-gray-800 font-bold mb-7">
+            Account Setting
+          </h2>
 
           {/* Profile Picture */}
           <div className="flex items-center gap-4 mb-15">
@@ -96,15 +121,15 @@ const Profile = () => {
               <img
                 src={
                   profilePic
-                    ? URL.createObjectURL(profilePic) 
-                    : user.user.User.profilepic
-                    ? user.user.User.profilepic.startsWith("/uploads")
-                      ? user.user.User.profilepic 
-                      : `/uploads/${user.user.User.profilepic}` 
-                    : "/profile.webp"
+                  ? URL.createObjectURL(profilePic) 
+                  : user.user.User.profilepic
+                  ? user.user.User.profilepic.startsWith("/uploads")
+                    ? user.user.User.profilepic 
+                    : `/uploads/${user.user.User.profilepic}` 
+                  : "/profile.webp"
                 }
                 alt="Profile"
-                className="w-full h-full object-cover object-center" // Ensure the image fits and is centered
+                className="w-full h-full object-cover"
               />
             </div>
             <input
@@ -115,7 +140,7 @@ const Profile = () => {
               accept="image/*"
             />
             <button
-              className="px-4 py-2.5 text-sm font-bold bg-[#18abd7] text-white border-none rounded-lg cursor-pointer transition-all duration-300 hover:bg-[#1B6392]"
+              className="px-4 py-2.5 text-sm font-bold bg-[#18abd7] text-white rounded-lg hover:bg-[#1B6392]"
               onClick={() => fileInputRef.current.click()}
             >
               Upload New Photo
@@ -126,144 +151,54 @@ const Profile = () => {
           <form className="flex flex-wrap gap-5">
             {/* Left Column */}
             <div className="flex-1 min-w-[280px]">
-              <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="fname" className="text-sm text-gray-800">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="fname"
-                  name="fname"
-                  placeholder="First Name"
-                  value={formData.fname}
-                  onChange={(e) =>
-                    setFormData({ ...formData, fname: e.target.value })
-                  }
-                  className="p-2.5 text-sm text-gray-600 border border-gray-200 rounded-lg transition-all duration-300 bg-gray-50 focus:border-[#18abd7] focus:outline-none focus:shadow-[0_0_4px_#18abd7]"
-                />
-              </div>
-              <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="lname" className="text-sm text-gray-800">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="lname"
-                  name="lname"
-                  placeholder="Last Name"
-                  value={formData.lname}
-                  onChange={(e) =>
-                    setFormData({ ...formData, lname: e.target.value })
-                  }
-                  className="p-2.5 text-sm text-gray-600 border border-gray-200 rounded-lg transition-all duration-300 bg-gray-50 focus:border-[#18abd7] focus:outline-none focus:shadow-[0_0_4px_#18abd7]"
-                />
-              </div>
-              <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="email" className="text-sm text-gray-800">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  disabled
-                  className="p-2.5 text-sm text-gray-600 border border-gray-200 rounded-lg transition-all duration-300 bg-gray-50 focus:border-[#18abd7] focus:outline-none focus:shadow-[0_0_4px_#18abd7]"
-                />
-              </div>
-              <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="bio" className="text-sm text-gray-800">
-                  Bio
-                </label>
-                <input
-                  type="textbox"
-                  id="bio"
-                  name="bio"
-                  placeholder="Bio"
-                  value={formData.bio}
-                  onChange={(e) =>
-                    setFormData({ ...formData, bio: e.target.value })
-                  }
-                  className="p-3 text-sm text-gray-600 border border-gray-200 rounded-lg transition-all duration-300 bg-gray-50 focus:border-[#18abd7] focus:outline-none focus:shadow-[0_0_4px_#18abd7]"
-                />
-              </div>
+              {["fname", "lname", "bio"].map((field) => (
+                <div key={field} className="flex flex-col gap-2 mb-5">
+                  <label htmlFor={field} className="text-sm text-gray-800 capitalize">
+                    {field.replace(/_/g, " ")}
+                  </label>
+                  <input
+                    type="text"
+                    id={field}
+                    name={field}
+                    placeholder={field.replace(/_/g, " ")}
+                    value={formData[field]}
+                    onChange={(e) => handleFieldChange(field, e.target.value)}
+                    className="p-2.5 text-sm text-gray-600 border rounded-lg bg-gray-50"
+                  />
+                  {validationErrors[field] && (
+                    <span className="text-xs text-red-500">{validationErrors[field]}</span>
+                  )}
+                </div>
+              ))}
             </div>
 
             {/* Right Column */}
             <div className="flex-1 min-w-[280px]">
-              <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="phone" className="text-sm text-gray-800">
-                  Phone Number
-                </label>
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  placeholder="Phone Number"
-                  value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                  className="p-2.5 text-sm text-gray-600 border border-gray-200 rounded-lg transition-all duration-300 bg-gray-50 focus:border-[#18abd7] focus:outline-none focus:shadow-[0_0_4px_#18abd7]"
-                />
-              </div>
-              <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="state" className="text-sm text-gray-800">
-                  State
-                </label>
-                <input
-                  type="text"
-                  id="state"
-                  name="state"
-                  placeholder="State"
-                  value={formData.state}
-                  onChange={(e) =>
-                    setFormData({ ...formData, state: e.target.value })
-                  }
-                  className="p-2.5 text-sm text-gray-600 border border-gray-200 rounded-lg transition-all duration-300 bg-gray-50 focus:border-[#18abd7] focus:outline-none focus:shadow-[0_0_4px_#18abd7]"
-                />
-              </div>
-              <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="zipcode" className="text-sm text-gray-800">
-                  Zip Code
-                </label>
-                <input
-                  type="text"
-                  id="zipcode"
-                  name="zipcode"
-                  placeholder="Zip Code"
-                  value={formData.zipcode}
-                  onChange={(e) =>
-                    setFormData({ ...formData, zipcode: e.target.value })
-                  }
-                  className="p-2.5 text-sm text-gray-600 border border-gray-200 rounded-lg transition-all duration-300 bg-gray-50 focus:border-[#18abd7] focus:outline-none focus:shadow-[0_0_4px_#18abd7]"
-                />
-              </div>
-              <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="address" className="text-sm text-gray-800">
-                  Address
-                </label>
-                <input
-                  type="text"
-                  id="address"
-                  name="address"
-                  placeholder="Address"
-                  value={formData.address}
-                  onChange={(e) =>
-                    setFormData({ ...formData, address: e.target.value })
-                  }
-                  className="p-2.5 text-sm text-gray-600 border border-gray-200 rounded-lg transition-all duration-300 bg-gray-50 focus:border-[#18abd7] focus:outline-none focus:shadow-[0_0_4px_#18abd7]"
-                />
-              </div>
-              <div>
-                <button
-                  className="flex mt-15 justify-self-end p-3 bg-[#18abd7] text-white rounded-2xl hover: scale-110"
-                  onClick={handleConfirm}
-                >
-                  Save
-                </button>
-              </div>
+              {["phone", "state", "zipcode", "address"].map((field) => (
+                <div key={field} className="flex flex-col gap-2 mb-5">
+                  <label htmlFor={field} className="text-sm text-gray-800 capitalize">
+                    {field.replace(/_/g, " ")}
+                  </label>
+                  <input
+                    type="text"
+                    id={field}
+                    name={field}
+                    placeholder={field.replace(/_/g, " ")}
+                    value={formData[field]}
+                    onChange={(e) => handleFieldChange(field, e.target.value)}
+                    className="p-2.5 text-sm text-gray-600 border rounded-lg bg-gray-50"
+                  />
+                  {validationErrors[field] && (
+                    <span className="text-xs text-red-500">{validationErrors[field]}</span>
+                  )}
+                </div>
+              ))}
+              <button
+                className="p-3 mt-15 bg-[#18abd7] text-white rounded-2xl hover:scale-110"
+                onClick={handleConfirm}
+              >
+                Save
+              </button>
             </div>
           </form>
         </div>

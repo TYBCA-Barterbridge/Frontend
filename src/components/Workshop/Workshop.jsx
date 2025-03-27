@@ -2,17 +2,16 @@ import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
-import { useGetWorkshopQuery } from "../../features/workshop/workshopApiSlice";
+import { useGetAllWorkshopsQuery } from "../../features/workshop/workshopApiSlice";
 import { setWorkshops, setSelectedWorkshop } from "../../features/workshop/workshopSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRupeeSign } from "react-icons/fa";
 
 const WorkShop = () => {
-    const { data: workshops, isLoading, error } = useGetWorkshopQuery();
+    const { data: workshops, isLoading, error } = useGetAllWorkshopsQuery();
     const dispatch = useDispatch();
     const [activeCategory, setActiveCategory] = useState("All Workshops");
     const [filteredWorkshops, setFilteredWorkshops] = useState([]);
-
 
     useEffect(() => {
       AOS.init({ duration: 400 });
@@ -79,7 +78,7 @@ const WorkShop = () => {
                 className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[350px] bg-white"
               >
                 <Link 
-                  to="/Workshop"
+                  to={`/Workshop/${workshop.workshop_id}`}
                   onClick={() => dispatch(setSelectedWorkshop({ selectedWorkshop: workshop }))}
                 >
                   <img

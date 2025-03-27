@@ -1,3 +1,4 @@
+import { method } from "lodash";
 import { apiSlice } from "../../app/api/apiSlice";
 
 export const skillApiSlice = apiSlice.injectEndpoints({
@@ -35,10 +36,12 @@ export const skillApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     deleteSkill: builder.mutation({
-      query: (id) => ({
+      query: (skill_id) => ({
         url: `/skill/delete`,
         method: "DELETE",
+        body: skill_id
       }),
+      invalidatesTags: ["Skill"],
     }),
     fetchSkillExchangeRequests: builder.query({
       query: () => ({
@@ -86,6 +89,12 @@ export const skillApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getExchangeHistory: builder.mutation({
+      query: (data) => ({
+        url: "/skill/exchangehistory",
+        method: "GET",
+    })
+    })
   }),
 });
 
@@ -99,6 +108,7 @@ export const{
     useFetchSkillExchangeRequestsQuery,
     useRespondtoskillexchangeMutation,
     useSendskillexchangerequestMutation,
+    useGetExchangeHistoryMutation,
     useSkillExchangereviewMutation,
     useBuyskillMutation,
     useBoughtskillreviewMutation,

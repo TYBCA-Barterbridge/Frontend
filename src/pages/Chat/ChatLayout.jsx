@@ -17,6 +17,7 @@ const ChatLayout = () => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const { data: friends, isLoading: isFriendsLoading, refetch } = useFetchFriendsQuery();
+  
 
   useEffect(() => {
     if (friends && Array.isArray(friends)) {

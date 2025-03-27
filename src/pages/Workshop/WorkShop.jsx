@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
-import { useGetWorkshopQuery } from "../../features/workshop/workshopApiSlice";
-
+import { useGetAllWorkshopsQuery } from "../../features/workshop/workshopApiSlice";
+import {setWorkshops, setSelectedWorkshop} from '../../features/workshop/workshopSlice'
+import { useDispatch } from 'react-redux'
 const WorkShop = () => {
-  const { data: workshops = [], isLoading, isError } = useGetWorkshopQuery();
+  const dispatch = useDispatch()
+  const { data: workshops = [], isLoading, isError, refetch } = useGetAllWorkshopsQuery();
 
   if (isLoading) {
     return (
@@ -19,6 +21,16 @@ const WorkShop = () => {
       </div>
     );
   }
+
+  useEffect(() => {
+    dispatch(setWorkshops(workshops))
+  }, [workshops])
+
+  const handleWorkshopClick = (workshop) => {
+    dispatch(setSelectedWorkshop(workshop))
+    navigate(`/workshop/${workshop.workshop_id}`)
+  }
+  
 
   return (
     <div className="w-full p-3"> 
