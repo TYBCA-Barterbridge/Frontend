@@ -1,24 +1,47 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { FaRupeeSign } from "react-icons/fa";
+import { FaRupeeSign, FaSpinner, FaUserPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import BuyPage from "../../components/BuyPage/BuyPage";
+import { useSendFriendRequestMutation } from "../../features/user/userApiSlice";
 
 const Product = () => {
   const navigate = useNavigate();
   const product = useSelector((state) => state.good.selectedgood);
   const skill = useSelector((state) => state.skill.selectedskill);
   const [showBuyForm, setShowBuyForm] = useState(false);
+  const [sendFriendRequest, { isLoading: isSendingRequest }] =
+    useSendFriendRequestMutation();
+  const [requestSent, setRequestSent] = useState(false);
+  const [chatError, setChatError] = useState(null);
+
+  console.log(
+    "userId:",
+    skill?.SkillListedByGeneralUsers?.[0]?.general_user_id
+  );
+
+  const handleSendRequest = async () => {
+    const userId =
+      product?.GoodListedByGeneralUsers?.[0]?.general_user_id ||
+      skill?.SkillListedByGeneralUsers?.[0]?.general_user_id;
+    console.log(userId);
+    try {
+      await sendFriendRequest({ receiver_id: userId }).unwrap();
+      setRequestSent(true);
+      refetchRequests();
+    } catch (error) {
+      console.error("Failed to send friend request:", error);
+      if (error.status === 400) {
+         setChatError("Already sent friend request");
+      }
+    }
+  };
+  console.log(chatError);
 
   if (!product && !skill) {
     return <div className="p-5">No product or skill selected</div>;
   }
 
-  const images = product
-    ? product.Good_imgs
-    : skill
-    ? skill.Skill_imgs
-    : [];
+  const images = product ? product.Good_imgs : skill ? skill.Skill_imgs : [];
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -36,12 +59,12 @@ const Product = () => {
 
   const handleExchange = () => {
     const itemId = product ? product.good_id : skill.skill_id;
-    const itemType = product ? 'good' : 'skill';
+    const itemType = product ? "good" : "skill";
     navigate(`/trade/${itemType}/${itemId}`);
   };
 
   if (showBuyForm) {
-    return <BuyPage />;
+    return navigate("/BuyPage");
   }
 
   return (
@@ -49,12 +72,12 @@ const Product = () => {
       <div className="h-10 bg-sky-600 -mt-10"></div>
       <div className="flex flex-col md:flex-row p-5 gap-5 font-sans mt-5 mb-10">
         {/* Left: Images Section */}
-        <div className="bg-gray-300/20 flex-1 shadow-lg pt-10 flex flex-col justify-center items-center gap-2.5 max-w-3xl">
+        <div className="bg-gray-300/20 rounded-lg flex-1 shadow-lg pt-10 flex flex-col justify-center items-center gap-2.5 max-w-3xl">
           <div className="w-full flex items-center justify-center">
             <img
               src={
                 images[selectedImageIndex]?.img_url
-                  ? `/${images[selectedImageIndex].img_url.split('/').pop()}`
+                  ? `/${images[selectedImageIndex].img_url.split("/").pop()}`
                   : "/placeholder.svg"
               }
               alt={`Image ${selectedImageIndex + 1}`}
@@ -76,7 +99,11 @@ const Product = () => {
             {images.map((image, index) => (
               <img
                 key={index}
-                src={image.img_url ? `/${image.img_url.split('/').pop()}` : "/placeholder.svg"}
+                src={
+                  image.img_url
+                    ? `/${image.img_url.split("/").pop()}`
+                    : "/placeholder.svg"
+                }
                 alt={`Thumbnail ${index + 1}`}
                 className={`w-[120px] h-[90px] object-cover border ${
                   index === selectedImageIndex
@@ -99,8 +126,21 @@ const Product = () => {
             </button>
           </div>
           <div className="flex justify-center items-center mt-10 mb-10">
-            <button className="mt-7 w-[300px] bg-orange-500 text-white border-none py-3 px-5 text-base font-bold cursor-pointer transition-all hover:bg-sky-600 active:bg-sky-700 active:scale-100">
-              Chat with Seller
+            <button
+              onClick={handleSendRequest}
+              disabled={isSendingRequest || requestSent}
+              className={`text-lg flex items-center px-8 py-4 rounded-lg ${
+                requestSent
+                  ? "bg-green-100 text-green-800"
+                  : "bg-orange-500 text-white hover:bg-sky-600"
+              }`}
+            >
+              {isSendingRequest ? (
+                <FaSpinner className="animate-spin mr-2" />
+              ) : (
+                <FaUserPlus className="mr-2" />
+              )}
+              {chatError ? "Already sent friend request" : requestSent ? "Request Sent" : "Add Friend"}
             </button>
           </div>
         </div>
@@ -113,25 +153,26 @@ const Product = () => {
           <div className="flex-col text-lg">
             <p className="text-lg font-normal">
               Listed by:{" "}
-              {product?.GoodListedByGeneralUsers?.[0]?.GeneralUser?.User?.fname ||
+              {product?.GoodListedByGeneralUsers?.[0]?.GeneralUser?.User
+                ?.fname ||
                 skill?.SkillListedByGeneralUsers?.[0]?.GeneralUser?.User?.fname}
             </p>
-           {
-            !skill?.skill_name ? (
+            {!skill?.skill_name ? (
               <p
-              className={`text-lg font-normal ${
-                product?.status === "Available" || ""
-                  ? "text-green-500"
-                  : "text-red-500"
-              }`}
-            >
-              Status: {product?.status || ""}
+                className={`text-lg font-normal ${
+                  product?.status === "Available" || ""
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
+              >
+                Status: {product?.status || ""}
+              </p>
+            ) : null}
+            <p>
+              Category:{" "}
+              {product?.Category?.category_name ||
+                skill?.Category?.category_name}
             </p>
-            ):(
-              null
-            )
-           }
-            <p>Category: {product?.Category?.category_name || skill?.Category?.category_name}</p>
           </div>
           <div className="flex items-center gap-2.5 text-xl">
             <span className="text-2xl font-bold text-green-600 flex">
@@ -141,13 +182,13 @@ const Product = () => {
           </div>
           <hr className="my-5" />
           <div className="flex gap-2.5">
-          <button 
+            <button
               onClick={() => setShowBuyForm(true)}
               className="flex-1 py-2.5 px-2.5 text-base border-none rounded cursor-pointer transition-colors bg-orange-500 text-white hover:bg-sky-600"
             >
               BUY NOW
             </button>
-            <button 
+            <button
               onClick={handleExchange}
               className="flex-1 py-2.5 px-2.5 text-sm border-none bg-gray-100 rounded cursor-pointer transition-colors hover:bg-gray-200"
             >

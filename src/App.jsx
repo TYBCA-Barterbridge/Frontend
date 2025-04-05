@@ -28,11 +28,13 @@ import UserMenus from "./pages/UserDashboard/UserMenus";
 import Profile from "./pages/UserDashboard/Profile.jsx";
 import YourListings from "./pages/UserDashboard/YourListings/YourListings.jsx";
 import OrderHistory from "./pages/UserDashboard/OrderHistory/OrderHistory.jsx";
+import OrderDetails from "./pages/UserDashboard/OrderHistory/Order_Details.jsx";
 import Workshops from "./pages/UserDashboard/Workshops/Workshops.jsx";
 import TradePage from "./pages/TradePage.jsx";
 import WorkshopParticipants from "./pages/UserDashboard/Workshops/WorkshopParticipants";
 import Exchanges from "./pages/UserDashboard/Exchanges/Exchanges.jsx";
 import ExchangeDetails from "./pages/UserDashboard/Exchanges/Exchange_Details.jsx";
+import BuyPage from "./components/BuyPage/BuyPage.jsx";
 
 
 function App() {
@@ -73,6 +75,7 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
             <Route path="/order-summary" element={<OrderSummary />} />
+            <Route path="/BuyPage" element={<BuyPage />} />
             <Route path="/Care" element={<CustomerCare />} />
             <Route path="/trade/:type/:id" element={<TradePage />} />
             <Route path="/Chat" element={<ChatLayout />} />
@@ -84,8 +87,9 @@ function App() {
               <Route path="Workshops" index element={<Workshops />} />
               <Route path="Workshops/:id" element={<WorkshopParticipants />} />
               <Route path="OrderHistory" element={<OrderHistory />} />
+              <Route path="OrderHistory/:type/:id" element={<OrderDetails />} />
               <Route path="Exchanges" element={<Exchanges />} />
-              <Route path="Exchanges/:id" element={<ExchangeDetails />} />
+              <Route path="Exchanges/:id/:type" element={<ExchangeDetails />} />
             </Route>
           </Route>
         </Route>

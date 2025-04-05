@@ -11,7 +11,7 @@ function Layout() {
       <Navigation />
       <Outlet />
       
-      <ChatIcon />
+      {/* <ChatIcon /> */}
       <Footer />
     </>
   );

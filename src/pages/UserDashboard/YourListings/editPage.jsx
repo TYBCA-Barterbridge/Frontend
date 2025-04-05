@@ -35,17 +35,22 @@ const Editpage = ({ closeModal, selectedItem }) => {
     e.preventDefault();
 
     const data = new FormData();
-    data.append("good_id" || "skill_id", id);
+    
     data.append("name", name);
     data.append("amount", amount);
     data.append("desc", description);
     data.append("category_id", category);
     images.forEach((image) => data.append("images", image));
+    console.log(data)
 
     if (isGood) {
+      data.append("good_id", id);
       await updateGood(data).unwrap();
+      console.log(data)
     } else {
+      data.append("skill_id", id);
       await updateSkill(data).unwrap();
+      console.log(data)
     }
 
     closeModal();

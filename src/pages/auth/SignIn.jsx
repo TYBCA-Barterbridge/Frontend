@@ -8,10 +8,11 @@ import useTitle from "../../hooks/useTitle";
 import usePersist from "../../hooks/usePersist";
 import styles from "./SignIn.module.css";
 import { CircleLoader } from "react-spinners";
+import useAuth from "../../hooks/useAuth";
 
 const SignIn = () => {
   useTitle("Login");
-
+  const { isAdmin } = useAuth();
   const userRef = useRef();
   const errRef = useRef();
   const [email, setEmail] = useState("");
@@ -63,21 +64,28 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
 
     if (!isEmailValid || !isPasswordValid) {
       return;
     }
-    
 
     try {
       const { accessToken } = await login({ email, password }).unwrap();
       dispatch(setCredentials({ accessToken }));
       setEmail("");
       setPassword("");
-      navigate("/");
+      console.log({accessToken})
+      
+      if(isAdmin) {
+        navigate("/admin");
+      }
+      else {
+        navigate("/");
+      }
+      console.log(isAdmin)
     } catch (err) {
       if (!err.status) {
         setErrMsg("No Server Response");
@@ -153,7 +161,9 @@ const SignIn = () => {
                 whileFocus={{ scale: 1.02 }}
                 type="email"
                 placeholder="Email"
-                className={`${styles.input} ${emailError ? styles.inputError : ''}`}
+                className={`${styles.input} ${
+                  emailError ? styles.inputError : ""
+                }`}
                 ref={userRef}
                 value={email}
                 onChange={handleUserInput}
@@ -178,7 +188,9 @@ const SignIn = () => {
                 whileFocus={{ scale: 1.02 }}
                 type="password"
                 placeholder="Password"
-                className={`${styles.input} ${passwordError ? styles.inputError : ''}`}
+                className={`${styles.input} ${
+                  passwordError ? styles.inputError : ""
+                }`}
                 onChange={handlePwdInput}
                 value={password}
                 required
@@ -249,7 +261,7 @@ const SignIn = () => {
           to="/"
           style={{
             color: "black",
-            textDecoration: "none"
+            textDecoration: "none",
           }}
         >
           Back to Home

@@ -1,139 +1,189 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { BiArrowToRight, BiArrowToLeft } from 'react-icons/bi';
-import { useFetchGoodExchangeRequestsQuery } from '../../../features/good/goodApiSlice';
-import { useFetchSkillExchangeRequestsQuery } from '../../../features/skill/skillApiSlice';
-import { useGetExchangeHistoryQuery } from '../../../features/good/goodApiSlice';
-import { FaExchangeAlt } from 'react-icons/fa';
-FaExchangeAlt
+import { Link } from "react-router-dom";
+import { useGetGoodExchangeHistoryQuery as GoodHistory } from "../../../features/good/goodApiSlice";
+import { useGetExchangeHistoryQuery as SkillHistory } from "../../../features/skill/skillApiSlice";
+import { FaExchangeAlt } from "react-icons/fa";
+import useAuth from "../../../hooks/useAuth";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Animation Variants
+const cardVariant = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const sectionVariant = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.7 } },
+};
+
+const buttonVariant = {
+  hover: { scale: 1.1, transition: { duration: 0.3 } },
+};
 
 export default function Exchanges() {
-  const { data: exchangeHistory, isLoading: isExchangeHistoryLoading } = useGetExchangeHistoryQuery();
-  console.log("ExchangeHistory:", exchangeHistory);
+  const { data: exchangeHistory, isLoading: isExchangeHistoryLoading } = GoodHistory();
+  const { data: skillExchangeHistory, isLoading: isSkillExchangeHistoryLoading } = SkillHistory();
+  const { user_id } = useAuth();
 
-  if (isExchangeHistoryLoading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (isExchangeHistoryLoading || isSkillExchangeHistoryLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">Loading...</div>
+    );
   }
-  console.log(Array.isArray(exchangeHistory))
 
-  // Ensure exchangeHistory is an array before filtering
-  const pendingExchanges = Array.isArray(exchangeHistory.exchanges)
-    ? exchangeHistory.exchanges.filter(exchange => exchange.pending === true)
-    : [];
-  const approvedExchanges = Array.isArray(exchangeHistory.exchanges)
-    ? exchangeHistory.exchanges.filter(exchange => exchange.pending === false)
-    : [];
+  const pendingExchanges = exchangeHistory?.exchanges?.filter(
+    (e) => e.pending && (e.UserA.user_id === user_id || e.UserB.user_id === user_id)
+  ) || [];
 
-  console.log("Pending Exchanges:", pendingExchanges);
-  console.log("Approved Exchanges:", approvedExchanges);
+  const approvedExchanges = exchangeHistory?.exchanges?.filter(
+    (e) => !e.pending && (e.UserA.user_id === user_id || e.UserB.user_id === user_id)
+  ) || [];
+
+  const pendingSkillExchanges = skillExchangeHistory?.exchanges?.filter(
+    (e) => e.pending && (e.UserA.user_id === user_id || e.UserB.user_id === user_id)
+  ) || [];
+
+  const approvedSkillExchanges = skillExchangeHistory?.exchanges?.filter(
+    (e) => !e.pending && (e.UserA.user_id === user_id || e.UserB.user_id === user_id)
+  ) || [];
 
   const renderExchangeCard = (exchange) => {
-    const isGood = exchange.type === 'good';
-    const itemA = isGood ? exchange.goodA : exchange.skillA;
-    const itemB = isGood ? exchange.goodB : exchange.skillB;
-    const userA = isGood
-      ? exchange.goodA?.GoodListedByGeneralUsers?.[0]?.GeneralUser?.User
-      : exchange.skillA?.SkillListedByGeneralUsers?.[0]?.GeneralUser?.User;
-      console.log(userA)
-
+    const isUser = exchange.UserA.user_id === user_id;
     return (
-      <div key={exchange.id} className="bg-white rounded-lg shadow-md p-6 mb-4">
+      <motion.div
+        key={exchange.id}
+        className="bg-white rounded-lg shadow-md p-6 mb-6"
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        variants={cardVariant}
+      >
         <div className="flex items-center justify-between mb-4">
+          <span
+            className={`px-3 py-1 rounded-full text-sm ${
+              exchange.pending ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-800"
+            }`}
+          >
+            {exchange.pending ? "Pending" : "Approved"}
+          </span>
           <div className="flex items-center">
             <img
-              src={exchange.profile}
-              className="w-10 h-10 rounded-full mr-3"
+              src={!isUser ? exchange.UserA.profile : exchange.UserB.profile}
+              className="w-14 h-14 rounded-full mr-3"
+              alt="User"
             />
             <div>
-              <p className="font-medium">{exchange.seller}</p>
-              <p className="text-sm text-gray-600">{exchange.email}</p>
+              <p className="font-medium">
+                {!isUser ? exchange.UserA.username : exchange.UserB.username}
+              </p>
+              <p className="text-sm text-gray-600">
+                {!isUser ? exchange.UserA.email : exchange.UserB.email}
+              </p>
             </div>
           </div>
-          <Link
-            to={`/dashboard/exchanges/${exchange.id}/${exchange.type}`}
-            className="text-orange-500 flex items-center hover:text-orange-600"
-          >
-            View Details <BiArrowToRight className="ml-1" />
-          </Link>
         </div>
 
-        <div className="flex items-center justify-between">
-          {/* Your Item */}
-          <div className="text-center">
-            <img
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="text-center mb-4 md:mb-0">
+            <motion.img
               src={exchange.itemB.images[0]}
-              className="mx-auto mb-2 w-32 h-32 rounded-lg mt-2 object-cover"
+              className="mx-auto mb-2 w-40 h-40 rounded-lg object-cover"
+              whileHover={{ scale: 1.05 }}
+              alt="Your Item"
             />
-            <p className="text-sm font-medium">
-              {exchange.itemB.name}
-            </p>
-            <p className="text-sm text-gray-600">
-              {exchange.itemB.amount}
-            </p>
+            <p className="text-sm font-medium">{exchange.itemB.name}</p>
+            <p className="text-sm text-gray-600">₹{exchange.itemB.amount}</p>
           </div>
 
-          <div className="flex-shrink-0">
-            <div className="w-12 h-12 rounded-full border-2 border-orange-400 flex items-center justify-center">
-              <FaExchangeAlt className="h-8 w-8 text-orange-500" />
-            </div>
+          <div className="flex-shrink-0 mx-6 my-4 md:my-0">
+            <motion.div
+              className="w-12 h-12 rounded-full border-2 border-orange-400 flex items-center justify-center"
+              whileHover={{ rotate: 90 }}
+            >
+              <FaExchangeAlt className="h-6 w-6 text-orange-500" />
+            </motion.div>
           </div>
 
-          {/* Their Item */}
           <div className="text-center">
-            <img
+            <motion.img
               src={exchange.itemA.images[0]}
-              className="mx-auto mb-2 w-32 h-32 rounded-lg mt-2 object-cover"
+              className="mx-auto mb-2 w-40 h-40 rounded-lg object-cover"
+              whileHover={{ scale: 1.05 }}
+              alt="Their Item"
             />
-            <p className="text-sm font-medium">
-              {exchange.itemA.name}
-            </p>
-            <p className="text-sm text-gray-600">
-              {exchange.itemA.amount}
-            </p>
+            <p className="text-sm font-medium">{exchange.itemA.name}</p>
+            <p className="text-sm text-gray-600">₹{exchange.itemA.amount}</p>
           </div>
         </div>
 
         <div className="mt-4 pt-4 border-t">
-          <div className="flex justify-between items-center text-sm">
+          <div className="flex justify-between items-center text-lg font-medium">
             <span className="text-gray-600">
-              {new Date(exchange.date).toLocaleDateString()}
+              {new Date(exchange.date).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
             </span>
-            <span
-              className={`px-3 py-1 rounded-full text-sm ${
-                exchange.pending ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
-              }`}
-            >
-              {exchange.pending ? 'Pending' : 'Approved'}
-            </span>
+            <motion.div variants={buttonVariant} whileHover="hover">
+              <Link
+                to={`/dashboard/exchanges/${exchange.id}/${exchange.type}`}
+                className="text-orange-500 hover:text-orange-600 text-base flex items-center"
+              >
+                View Details
+              </Link>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
+  const renderExchangeSection = (title, exchanges) => (
+    <motion.div variants={sectionVariant} className="mb-6">
+      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      <AnimatePresence>
+        {exchanges.length > 0 ? (
+          exchanges.map((exchange) => renderExchangeCard(exchange))
+        ) : (
+          <motion.div className="text-center py-8 text-gray-500">
+            No {title.toLowerCase()}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">My Exchanges</h1>
+    <motion.div
+      className="container mx-auto px-4 md:px-6 py-8"
+      initial="hidden"
+      animate="visible"
+      variants={sectionVariant}
+    >
+      <h1 className="text-3xl font-bold mb-8 text-center">My Exchanges</h1>
 
-      {/* Pending Exchanges Section */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Pending Exchanges</h2>
-        {pendingExchanges.length > 0 ? (
-          pendingExchanges.map(exchange => renderExchangeCard(exchange))
-        ) : (
-          <div className="text-center py-8 text-gray-500">No pending exchanges</div>
-        )}
+      {/* Good Exchanges */}
+      <div className="mb-12 rounded-xl p-6 bg-gray-100 shadow-lg">
+        <h2 className="text-2xl font-bold mb-6 text-gray-600">Good Exchanges</h2>
+        <div className="bg-white p-4 rounded-lg mb-8">
+          {renderExchangeSection("Pending Exchanges", pendingExchanges)}
+        </div>
+        <div className="bg-white p-4 rounded-lg">
+          {renderExchangeSection("Approved Exchanges", approvedExchanges)}
+        </div>
       </div>
 
-      {/* Approved Exchanges Section */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Approved Exchanges</h2>
-        {approvedExchanges.length > 0 ? (
-          approvedExchanges.map(exchange => renderExchangeCard(exchange))
-        ) : (
-          <div className="text-center py-8 text-gray-500">No approved exchanges</div>
-        )}
+      {/* Skill Exchanges */}
+      <div className="rounded-xl p-6 bg-gray-100 shadow-lg">
+        <h2 className="text-2xl font-bold mb-6 text-gray-600">Skill Exchanges</h2>
+        <div className="bg-white p-4 rounded-lg mb-8">
+          {renderExchangeSection("Pending Exchanges", pendingSkillExchanges)}
+        </div>
+        <div className="bg-white p-4 rounded-lg">
+          {renderExchangeSection("Approved Exchanges", approvedSkillExchanges)}
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

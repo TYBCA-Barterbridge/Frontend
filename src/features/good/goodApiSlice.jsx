@@ -80,15 +80,16 @@ export const goodApiSlice = apiSlice.injectEndpoints({
         query: (data) => ({
             url: `/good/buy/review`,
             method: "PUT",
+            body: data,
             }),
     }),
-    getOrderHistory: builder.query({
+    getGoodOrderHistory: builder.query({
       query: () => ({
         url: "/good/history",
         method: "POST",
       }),
     }),
-    getExchangeHistory: builder.query({
+    getGoodExchangeHistory: builder.query({
       query: () => ({
         url: '/good/exchange/history',
         method: 'GET',
@@ -110,6 +111,6 @@ export const{
     useGoodExchangereviewMutation,
     useBuygoodMutation,
     useBoughtgoodreviewMutation,
-    useGetOrderHistoryQuery,
-    useGetExchangeHistoryQuery,
+    useGetGoodOrderHistoryQuery,
+    useGetGoodExchangeHistoryQuery,
 }=  goodApiSlice

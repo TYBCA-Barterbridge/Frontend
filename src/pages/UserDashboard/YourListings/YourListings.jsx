@@ -46,10 +46,10 @@ const YourListings = () => {
     try {
       if (selectedItem.good_name) {
         console.log('Deleting good with ID:', good_id);
-        await deleteGood({ good_id }).unwrap();
+        await deleteGood(good_id).unwrap();
       } else {
         console.log('Deleting skill with ID:', skill_id);
-        await deleteSkill({ skill_id }).unwrap();
+        await deleteSkill(skill_id).unwrap();
       }
       setIsConfirmationOpen(false);
       refetchGoods();
@@ -77,9 +77,9 @@ const YourListings = () => {
   const listings = [...goods, ...skills];
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen py-12">
+    <div className="bg-gradient-to-b shadow-md  shadow-gray-400  rounded-xl min-h-screen py-12">
       {/* Header */}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 bg-gray-50">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 tracking-tight">Your Listings</h1>
           <select className="border border-gray-200 text-sm p-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f48024] bg-white shadow-sm hover:border-gray-300 transition-colors duration-200">

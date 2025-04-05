@@ -25,7 +25,7 @@ export const workshopApiSlice = apiSlice.injectEndpoints({
         }),
         editWorkshop: builder.mutation({
             query: (data) => ({
-                url: `/workshop/${data.id}`,
+                url: "/workshop",
                 method: "PUT",
                 body: data
             })
@@ -60,7 +60,7 @@ export const workshopApiSlice = apiSlice.injectEndpoints({
                 url: `/workshop/${id}/participants`,
                 method: "GET",
             }),
-            providesTags: ['WorkshopParticipant'],
+            providesTags: ['Workshop'],
         }),
         editParticipantStatus: builder.mutation({
             query: (data) => ({
@@ -78,7 +78,7 @@ export const workshopApiSlice = apiSlice.injectEndpoints({
         }),
         addReview: builder.mutation({
             query: (data) => ({
-                url: `/workshop/${data.workshop_id}/review`,
+                url: `/workshop/review`,
                 method: "PUT",
                 body: data
             })

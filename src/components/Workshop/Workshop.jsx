@@ -6,12 +6,15 @@ import { useGetAllWorkshopsQuery } from "../../features/workshop/workshopApiSlic
 import { setWorkshops, setSelectedWorkshop } from "../../features/workshop/workshopSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRupeeSign } from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
 
 const WorkShop = () => {
     const { data: workshops, isLoading, error } = useGetAllWorkshopsQuery();
+    console.log(workshops)
     const dispatch = useDispatch();
     const [activeCategory, setActiveCategory] = useState("All Workshops");
     const [filteredWorkshops, setFilteredWorkshops] = useState([]);
+    const { user_id } = useAuth();
 
     useEffect(() => {
       AOS.init({ duration: 400 });
@@ -19,24 +22,15 @@ const WorkShop = () => {
 
     useEffect(() => {
       if (workshops) {
-        dispatch(setWorkshops({ workshops: workshops }));
-        setFilteredWorkshops(workshops);
+        const filteredWorkshops = workshops.filter((workshop) => {
+          const createdby = workshop.workshop_admin 
+          return createdby !== user_id;
+        })
+        dispatch(setWorkshops({ workshops: filteredWorkshops }));
+        setFilteredWorkshops(filteredWorkshops);
       }
     }, [workshops, dispatch]);
 
-    const handleCategoryClick = (category) => {
-      setActiveCategory(category);
-      if (!workshops) return;
-
-      if (category === "All Workshops") {
-        setFilteredWorkshops(workshops);
-      } else {
-        const filtered = workshops.filter(workshop => 
-          workshop.Category && workshop.Category.category_name === category
-        );
-        setFilteredWorkshops(filtered);
-      }
-    }
 
     if (isLoading) {
       return (
@@ -69,7 +63,7 @@ const WorkShop = () => {
                Browse All Workshops →
             </Link>
           </div>
-          <div className="grid grid-cols-1 bg-gray-50 p-6 rounded-xl h-190 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          <div className="grid grid-cols-1 bg-gray-100 p-6 rounded-xl h-190 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           data-aos="zoom-in">
            {filteredWorkshops && filteredWorkshops.length > 0 ? (
              filteredWorkshops.map((workshop) => (

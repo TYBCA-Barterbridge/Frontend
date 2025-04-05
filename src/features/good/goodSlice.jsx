@@ -12,9 +12,6 @@ const goodSlice = createSlice({
     selectedOrder: null,
   },
   reducers: {
-    setselectedgood: (state, action) => {
-      state.selectedgood = action.payload.selectedgood;
-    },
     setselectedcategory: (state, action) => {
       state.selectedcategory = action.payload.selectedcategory;
     },

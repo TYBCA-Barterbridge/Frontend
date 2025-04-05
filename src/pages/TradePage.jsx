@@ -71,8 +71,8 @@ export default function TradePage() {
     try {
       if (type === "good") {
         await sendGoodExchange({
-          good_id_a: id,
-          good_id_b: selectedItem.good_id,
+          good_id_a: selectedItem.good_id,
+          good_id_b: id,
         }).unwrap();
       } else if (type === "skill") {
         await sendSkillExchange({

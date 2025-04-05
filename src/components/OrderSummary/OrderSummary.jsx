@@ -5,6 +5,7 @@ import { FaRupeeSign, FaCheckCircle, FaMapMarkerAlt, FaEnvelope, FaShoppingBag }
 const OrderSummary = () => {
   const location = useLocation();
   const { orderId, item, orderDetails, type } = location.state || {};
+  console.log(type, orderDetails, item);
 
   if (!item || !orderDetails) {
     return (
@@ -66,7 +67,8 @@ const OrderSummary = () => {
           </div>
 
           {/* Delivery Details */}
-          <div className="p-6 bg-gray-50">
+          {type === 'good' && (
+            <div className="p-6 bg-gray-50">
             <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-4">Delivery Information</h4>
             <div className="space-y-3">
               <div className="flex items-start">
@@ -76,17 +78,9 @@ const OrderSummary = () => {
                   <p className="text-sm font-medium text-gray-900">{orderDetails.address}</p>
                 </div>
               </div>
-              {orderDetails.email && (
-                <div className="flex items-start">
-                  <FaEnvelope className="text-gray-400 mt-1 mr-3" />
-                  <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <p className="text-sm font-medium text-gray-900">{orderDetails.email}</p>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
+          )}
 
           {/* Price Summary */}
           <div className="p-6 border-t border-gray-200">
@@ -95,10 +89,13 @@ const OrderSummary = () => {
                 <span className="text-gray-500">Subtotal</span>
                 <span className="font-medium">₹{item[`${type}_amount`]}</span>
               </div>
-              <div className="flex justify-between text-sm">
+              {type === 'good' && (
+                <div className="flex justify-between text-sm">
                 <span className="text-gray-500">Shipping</span>
                 <span className="text-green-500 font-medium">Free</span>
               </div>
+              )
+              }
               <div className="pt-4 mt-2 border-t border-gray-200">
                 <div className="flex justify-between items-center">
                   <span className="text-base font-semibold text-gray-900">Total</span>

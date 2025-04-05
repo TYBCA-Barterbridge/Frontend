@@ -4,7 +4,6 @@ const Footer = () => {
 
   return (
   <>
-    
   <footer className=" bg-gray-800 text-white py-14 font-sans overflow-x-hidden">
       <div className="max-w-6xl mx-auto flex flex-wrap justify-between gap-8 min-h-[26vh] px-6">
         <div className="flex-1">

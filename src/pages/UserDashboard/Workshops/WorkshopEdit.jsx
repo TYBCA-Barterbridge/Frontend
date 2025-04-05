@@ -1,115 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { useEditWorkshopMutation, useDeleteWorkshopMutation } from '../../../features/workshop/workshopApiSlice';
-import { FaTimes } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import { useEditWorkshopMutation } from "../../../features/workshop/workshopApiSlice";
+import { FaTimes } from "react-icons/fa";
 
 const WorkshopEdit = ({ closeModal, selectedWorkshop }) => {
   const [updateWorkshop, { isLoading: isUpdating }] = useEditWorkshopMutation();
-  const [deleteWorkshop, { isLoading: isDeleting }] = useDeleteWorkshopMutation();
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [workshopData, setWorkshopData] = useState({
-    workshop_name: '',
-    workshop_description: '',
-    workshop_date: '',
-    workshop_starttime: '',
-    workshop_endtime: '',
-    workshop_amount: '',
-    images: []
+    workshop_name: "",
+    workshop_description: "",
+    workshop_date: "",
+    workshop_starttime: "",
+    workshop_endtime: "",
+    workshop_amount: "",
+    images: [],
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (selectedWorkshop) {
       setWorkshopData({
-        workshop_name: selectedWorkshop.workshop_name || '',
-        workshop_description: selectedWorkshop.workshop_description || '',
-        workshop_date: selectedWorkshop.workshop_date || '',
-        workshop_starttime: selectedWorkshop.workshop_starttime || '',
-        workshop_endtime: selectedWorkshop.workshop_endtime || '',
-        workshop_amount: selectedWorkshop.workshop_amount || '',
-        images: []
+        workshop_name: selectedWorkshop.workshop_name || "",
+        workshop_description: selectedWorkshop.workshop_description || "",
+        workshop_date: selectedWorkshop.workshop_date || "",
+        workshop_starttime: selectedWorkshop.workshop_starttime || "",
+        workshop_endtime: selectedWorkshop.workshop_endtime || "",
+        workshop_amount: selectedWorkshop.workshop_amount || "",
+        images: [],
       });
     }
   }, [selectedWorkshop]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setWorkshopData(prev => ({
+    setWorkshopData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 5) {
-      setError('Maximum 5 images allowed');
-      e.target.value = '';
+      setError("Maximum 5 images allowed");
+      e.target.value = "";
       return;
     }
-    setWorkshopData(prev => ({
+    setWorkshopData((prev) => ({
       ...prev,
-      images: files
+      images: files,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      
-      // Add all workshop data except images
-      Object.keys(workshopData).forEach(key => {
-        if (key !== 'images') {
-          formData.append(key, workshopData[key]);
-        }
-      });
+
+      const data = new FormData();
+      data.append("name", workshopData.workshop_name);
+      data.append("desc", workshopData.workshop_description);
+      data.append("date", workshopData.workshop_date);
+      data.append("start", workshopData.workshop_starttime);
+      data.append("end", workshopData.workshop_endtime);
+      data.append("fee", workshopData.workshop_amount);
+      data.append("workshop_id", selectedWorkshop.workshop_id);
 
       // Add actual image files with the correct field name
-      workshopData.images.forEach((image) => {
-        formData.append('img_urls', image);
-      });
-
-      await updateWorkshop({ id: selectedWorkshop.workshop_id, data: formData }).unwrap();
+      if (workshopData.images.length > 0) {
+        workshopData.images.forEach((image) => {
+          data.append("img_urls", image);
+        });
+      }
+      // Debugging: Log Data contents
+      for (let pair of data.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
+      await updateWorkshop(data).unwrap();
       closeModal();
     } catch (err) {
-      setError(err.data?.message || 'Failed to update workshop');
+      setError(err.data?.message || "Failed to update workshop");
     }
   };
-
-  const handleDelete = async () => {
-    try {
-      const workshop_id = selectedWorkshop.workshop_id;
-      console.log('Deleting workshop with ID:', workshop_id);
-      await deleteWorkshop(workshop_id).unwrap();
-      closeModal();
-    } catch (err) {
-      setError(err.data?.message || 'Failed to delete workshop');
-    }
-  };
-
-  const DeleteConfirmationModal = () => (
-    <div className="fixed inset-0  bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-sm w-full">
-        <h3 className="text-xl font-semibold mb-4">Confirm Delete</h3>
-        <p className="mb-4">Are you sure you want to delete this workshop? This action cannot be undone.</p>
-        <div className="flex justify-end gap-4">
-          <button
-            onClick={() => setShowDeleteConfirm(false)}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleDelete}
-            disabled={isDeleting}
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
-          >
-            {isDeleting ? 'Deleting...' : 'Delete'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex mt-20 items-center justify-center p-4 z-40">
@@ -230,14 +199,6 @@ const WorkshopEdit = ({ closeModal, selectedWorkshop }) => {
             </div>
 
             <div className="flex justify-between">
-              <button
-                type="button"
-                onClick={() => setShowDeleteConfirm(true)}
-                className="px-4 py-2 text-red-600 hover:text-red-700"
-              >
-                Delete Workshop
-              </button>
-
               <div className="flex gap-4">
                 <button
                   type="button"
@@ -251,17 +212,15 @@ const WorkshopEdit = ({ closeModal, selectedWorkshop }) => {
                   disabled={isUpdating}
                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
                 >
-                  {isUpdating ? 'Updating...' : 'Update Workshop'}
+                  {isUpdating ? "Updating..." : "Update Workshop"}
                 </button>
               </div>
             </div>
           </form>
         </div>
       </div>
-
-      {showDeleteConfirm && <DeleteConfirmationModal />}
     </div>
   );
 };
 
-export default WorkshopEdit; 
+export default WorkshopEdit;
