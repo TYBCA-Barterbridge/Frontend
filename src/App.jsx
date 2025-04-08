@@ -35,6 +35,7 @@ import WorkshopParticipants from "./pages/UserDashboard/Workshops/WorkshopPartic
 import Exchanges from "./pages/UserDashboard/Exchanges/Exchanges.jsx";
 import ExchangeDetails from "./pages/UserDashboard/Exchanges/Exchange_Details.jsx";
 import BuyPage from "./components/BuyPage/BuyPage.jsx";
+import Aboutus from "./pages/Aboutus/Aboutus.jsx";
 import { Toaster } from 'react-hot-toast';
 
 
@@ -73,6 +74,7 @@ function App() {
         <Route path="/Skills" element={<Skills />} />
         <Route path="/customercare" element={<CustomerCare />} />
         <Route path="/SignIn" element={<SignIn />} />
+        <Route path="/Aboutus" element={<Aboutus />} />
 
         {/* Protected User Routes */}
         <Route element={<PersistLogin />}>
