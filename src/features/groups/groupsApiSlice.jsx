@@ -51,6 +51,13 @@ export const groupsApiSlice = apiSlice.injectEndpoints({
         body: { group_id },
       }),
     }),
+    joinGroup: builder.mutation({
+      query: ({ title }) => ({
+        url: "/group/join-group",
+        method: "POST",
+        body: { title },
+        }),
+    })
   }), 
 });
 
@@ -61,4 +68,5 @@ export const {
   useAddMemberMutation,
   useRemoveMemberMutation,
   useLeaveGroupMutation,
+  useJoinGroupMutation
 } = groupsApiSlice;

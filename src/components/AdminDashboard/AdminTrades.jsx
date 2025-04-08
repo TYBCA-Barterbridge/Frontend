@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { FaSearch, FaEye } from 'react-icons/fa';
-import { useGetAllTradesQuery } from '../../features/admin/adminApiSlice';
-import { format } from 'date-fns';
+import { useState, useEffect } from "react";
+import { FaSearch, FaEye } from "react-icons/fa";
+import { useGetAllTradesQuery } from "../../features/admin/adminApiSlice";
+import { format } from "date-fns";
 
 const AdminTrades = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedTrade, setSelectedTrade] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const { data: trades, isLoading, error } = useGetAllTradesQuery();
@@ -14,19 +14,19 @@ const AdminTrades = () => {
     setSelectedTrade(trade);
     setShowDetails(true);
   };
-  console.log(trades)
+  console.log(trades);
 
-  const filteredTrades = trades?.filter(trade => {
-    const matchesSearch =
-      trade.exchange_id.toString().includes(searchTerm);
+  const filteredTrades =
+    trades?.filter((trade) => {
+      const matchesSearch = trade.exchange_id.toString().includes(searchTerm);
 
-    const matchesStatus = 
-      selectedStatus === 'all' ||
-      (selectedStatus === 'pending' && trade.pending) ||
-      (selectedStatus === 'completed' && !trade.pending);
+      const matchesStatus =
+        selectedStatus === "all" ||
+        (selectedStatus === "pending" && trade.pending) ||
+        (selectedStatus === "completed" && !trade.pending);
 
-    return matchesSearch && matchesStatus;
-  }) || [];
+      return matchesSearch && matchesStatus;
+    }) || [];
 
   const TradeDetailsModal = ({ trade, onClose }) => {
     if (!trade) return null;
@@ -36,49 +36,56 @@ const AdminTrades = () => {
         <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-semibold">Trade Details</h3>
-            <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <button
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700"
+            >
               ✕
             </button>
           </div>
-          
+
           <div className="space-y-4">
             <div>
               <h4 className="font-medium">Trade ID</h4>
               <p>{trade.exchange_id}</p>
             </div>
-            
+
             <div>
               <h4 className="font-medium">Type</h4>
               <p className="capitalize">{trade.type}</p>
             </div>
-            
+
             <div>
               <h4 className="font-medium">Status</h4>
-              <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                trade.pending ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
-              }`}>
-                {trade.pending ? 'Pending' : 'Completed'}
+              <span
+                className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                  trade.pending
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-green-100 text-green-800"
+                }`}
+              >
+                {trade.pending ? "Pending" : "Completed"}
               </span>
             </div>
-            
+
             <div>
               <h4 className="font-medium">Date</h4>
-              <p>{format(new Date(trade.exchange_date), 'PPP')}</p>
+              <p>{format(new Date(trade.exchange_date), "PPP")}</p>
             </div>
-            
+
             <div>
               <h4 className="font-medium">Seller</h4>
               <p>{trade.seller}</p>
             </div>
-            
+
             <div>
               <h4 className="font-medium">Buyer</h4>
               <p>{trade.buyer}</p>
             </div>
-            
+
             <div>
               <h4 className="font-medium">Items</h4>
-              {trade.type === 'good' ? (
+              {trade.type === "good" ? (
                 <div className="space-y-2">
                   <p>Good A: {trade.goodA?.good_name}</p>
                   <p>Good B: {trade.goodB?.good_name}</p>
@@ -97,7 +104,8 @@ const AdminTrades = () => {
   };
 
   if (isLoading) return <div className="p-6">Loading...</div>;
-  if (error) return <div className="p-6 text-red-600">Error loading trades</div>;
+  if (error)
+    return <div className="p-6 text-red-600">Error loading trades</div>;
 
   return (
     <div className="p-6">
@@ -155,8 +163,8 @@ const AdminTrades = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredTrades.map((trade) => (
-                <tr key={trade.exchange_id}>
+              {filteredTrades.map((trade, index) => (
+                <tr key={`${trade.exchange_id}-${index}`}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {trade.exchange_id}
                   </td>
@@ -170,14 +178,18 @@ const AdminTrades = () => {
                     {trade.type}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      !trade.pending ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {trade.pending ? 'Pending' : 'Completed'}
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        !trade.pending
+                          ? "bg-green-100 text-green-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {trade.pending ? "Pending" : "Completed"}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {format(new Date(trade.exchange_date), 'PPP')}
+                    {format(new Date(trade.exchange_date), "PPP")}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <button
@@ -207,4 +219,4 @@ const AdminTrades = () => {
   );
 };
 
-export default AdminTrades; 
+export default AdminTrades;

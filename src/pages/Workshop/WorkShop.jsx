@@ -7,6 +7,8 @@ import { setWorkshops, setSelectedWorkshop } from "../../features/workshop/works
 import { useDispatch, useSelector } from "react-redux";
 import { FaRupeeSign } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
+import { useCreateGroupMutation } from "../../features/groups/groupsApiSlice";
+
 
 const WorkShop = () => {
     const { data: workshops, isLoading, error } = useGetAllWorkshopsQuery();
@@ -23,18 +25,18 @@ const WorkShop = () => {
     useEffect(() => {
       if (workshops) {
         const filteredWorkshops = workshops.filter((workshop) => {
-          const createdby = workshop.workshop_admin 
-          return createdby !== user_id;
-        })
+          const createdBySomeoneElse = workshop.workshop_admin !== user_id;
+          const isApproved = workshop.approval_status === "approved";
+          return createdBySomeoneElse && isApproved;
+        });
         dispatch(setWorkshops({ workshops: filteredWorkshops }));
         setFilteredWorkshops(filteredWorkshops);
       }
-    }, [workshops, dispatch]);
-
+    }, [workshops, dispatch, user_id]);   
 
     if (isLoading) {
       return (
-        <div className="container mx-auto mt-8 mb-8 py-4 px-9 flex justify-center items-center">
+        <div className=" mx-auto mt-8 mb-8 py-4 px-9 flex justify-center items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       );
@@ -42,14 +44,14 @@ const WorkShop = () => {
 
     if (error) {
       return (
-        <div className="container mx-auto mt-8 mb-8 py-4 px-9 text-center text-red-600">
+        <div className=" mx-auto mt-8 mb-8 py-4 px-9 text-center text-red-600">
           Error loading workshops. Please try again later.
         </div>
       );
     }
     
     return (
-        <div className="container mx-auto mt-8 mb-8 py-4 px-9 w-full max-w-screen-2xl">
+        <div className=" mx-auto mt-8 mb-20 py-4 px-9 w-full h-[800px] ">
           <h2 className="text-3xl font-semibold mb-6">Workshops</h2> 
           <div className="flex items-center gap-6 mb-6 pb-2 overflow-x-auto">
             <span 
@@ -69,7 +71,7 @@ const WorkShop = () => {
              filteredWorkshops.map((workshop) => (
               <div
                 key={workshop.workshop_id}
-                className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[350px] bg-white"
+                className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[340px] bg-white"
               >
                 <Link 
                   to={`/Workshop/${workshop.workshop_id}`}
@@ -81,7 +83,13 @@ const WorkShop = () => {
                     className="w-full h-[220px] rounded-md transition-transform duration-300 hover:scale-[1.03]"
                   />
                 </Link>
-                <h4 className="text-lg font-bold mb-2.5">{workshop.workshop_name}</h4>
+                <h4 className="text-lg font-bold mb-2.5">
+                {workshop.workshop_name 
+                    ? workshop.workshop_name.length > 30 
+                      ? workshop.workshop_name.substring(0, 30) + '...'
+                      : workshop.workshop_name
+                    : "No name"}
+                </h4>
                 <p className="text-sm mb-2.5 text-gray-600">
                 {workshop.workshop_description 
                     ? workshop.workshop_description.length > 20 

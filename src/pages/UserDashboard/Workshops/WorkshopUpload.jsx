@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCreateWorkshopMutation } from '../../../features/workshop/workshopApiSlice';
 import { FaTimes } from 'react-icons/fa';
+import { useCreateGroupMutation } from '../../../features/groups/groupsApiSlice';
 
 const WorkshopUpload = ({ closeModal }) => {
   const [createWorkshop, { isLoading }] = useCreateWorkshopMutation();
@@ -15,6 +16,7 @@ const WorkshopUpload = ({ closeModal }) => {
   });
   const [error, setError] = useState('');
   const [previewImages, setPreviewImages] = useState([]);
+  const [createGroup, { isLoading: isLoadingGroup }] = useCreateGroupMutation();
 
   const validateFields = () => {
     const { workshop_name, workshop_description, workshop_date, workshop_starttime, workshop_endtime, workshop_amount, images } = workshopData;
@@ -74,7 +76,7 @@ const WorkshopUpload = ({ closeModal }) => {
       setError(validationError);
       return;
     }
-
+  
     try {
       const formData = new FormData();
       Object.keys(workshopData).forEach((key) => {
@@ -85,13 +87,23 @@ const WorkshopUpload = ({ closeModal }) => {
       workshopData.images.forEach((image) => {
         formData.append('img_urls', image);
       });
-
+  
       await createWorkshop(formData).unwrap();
+  
+      // Group creation after successful workshop creation
+      const groupFormData = new FormData();
+      groupFormData.append("title", workshopData.workshop_name);
+      groupFormData.append("description", workshopData.workshop_description);
+      groupFormData.append("profile", workshopData.images[0]); // use first image
+  
+      await createGroup(groupFormData).unwrap();
+  
       closeModal();
     } catch (err) {
-      setError(err.data?.message || 'Failed to create workshop.');
+      setError(err.data?.message || 'Failed to create workshop or group.');
     }
   };
+  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">

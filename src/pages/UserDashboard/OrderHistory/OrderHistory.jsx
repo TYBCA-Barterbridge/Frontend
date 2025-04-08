@@ -46,7 +46,7 @@ const OrderHistory = () => {
       <p className="text-sm mt-1">Amount: ₹{order.item.amount}</p>
       {order.type === 'good' && (
         <p className="text-sm mt-1">
-        Status: <span className="font-medium">{order.item.status || 'Ordered'}</span>
+        Status: <span className="font-medium">{order.item.status || 'Completed'}</span>
       </p>
       )
       }

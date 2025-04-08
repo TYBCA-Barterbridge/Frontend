@@ -29,6 +29,7 @@ const Workshops = () => {
     isLoading: isLoadingjoined,
     refetch: refetchUser,
   } = useGetWorkshopByUserQuery();
+  console.log(workshopsUser)
   const [addReview, { isLoading: isReviewUpdating }] = useAddReviewMutation();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [review, setReview] = useState();
@@ -140,9 +141,7 @@ const Workshops = () => {
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-800">
-                Add Review
-              </h2>
+              <h2 className="text-xl font-semibold text-gray-800">Review</h2>
               <button
                 onClick={closeReviewModal}
                 className="text-gray-500 hover:text-gray-700"
@@ -151,53 +150,74 @@ const Workshops = () => {
               </button>
             </div>
 
-            {/* Existing Review */}
-            <div className="mb-4 p-3 bg-gray-100 rounded-lg">
-              <p className="text-sm">
-                <strong>Review:</strong>{" "}
-                {selectedWorkshop.review || "No review yet"}
-              </p>
-              <p className="text-sm">
-                <strong>Rating:</strong>{" "}
-                {selectedWorkshop.rating || "No rating yet"}
-              </p>
-            </div>
+            {selectedWorkshop.review ? (
+              <div className="mb-4 p-3 bg-gray-100 rounded-lg">
+                <p className="text-sm">
+                  <strong>Review:</strong>{" "}
+                  {selectedWorkshop.review || "No review yet"}
+                </p>
+                <p className="text-sm">
+                  <strong>Rating:</strong>{" "}
+                  {selectedWorkshop.rating || "No rating yet"}
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleReviewSubmit} className="mt-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Rating
+                  </label>
+                  <div className="flex space-x-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        type="button"
+                        key={star}
+                        onClick={() => setRating(star)}
+                        className={`text-2xl ${
+                          star <= rating ? "text-yellow-500" : "text-gray-300"
+                        }`}
+                      >
+                        ★
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-            {/* Review Form */}
-            <form onSubmit={handleReviewSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Your Review
-                </label>
-                <textarea
-                  value={review}
-                  onChange={(e) => setReview(e.target.value)}
-                  rows="3"
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Rating (1-5)
-                </label>
-                <input
-                  type="integer"
-                  value={rating}
-                  onChange={(e) => setRating(e.target.value)}
-                  min="1"
-                  max="5"
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-              >
-                Submit Review
-              </button>
-            </form>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Review
+                  </label>
+                  <textarea
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                    className="w-full p-2 border rounded-md"
+                    rows={4}
+                    placeholder="Write something about your experience..."
+                  ></textarea>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <button
+                    type="submit"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                  >
+                    Submit Review
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      isReviewModalOpen(false);
+                      setErrors({});
+                      setRating(0);
+                      setReview("");
+                    }}
+                    className="text-sm text-gray-600 hover:underline"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
           </motion.div>
         </div>
       )}
@@ -414,7 +434,7 @@ const Workshops = () => {
                     {workshop.Workshop.workshop_starttime} -{" "}
                     {workshop.Workshop.workshop_endtime}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 ">
                     <span className="font-medium">Fee:</span> ₹
                     {workshop.Workshop.fee}
                   </p>
@@ -423,6 +443,14 @@ const Workshops = () => {
                   <span className="text-lg font-semibold text-[#f48024]">
                     ₹{workshop.Workshop.fee}
                   </span>
+                  {workshop.rating ? (
+                    <span className="text-yellow-500 text-xl">
+                      {"★".repeat(workshop.rating)}
+                      {"☆".repeat(5 - workshop.rating)}
+                    </span>
+                  ) : (
+                    <span>No Review Added</span>
+                  )}
                 </div>
               </div>
             </motion.div>

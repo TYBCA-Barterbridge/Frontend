@@ -14,6 +14,7 @@ const AdminWorkshops = () => {
   const dispatch = useDispatch();
 
   const { data: workshopsData, isLoading, error } = useGetPendingWorkshopsQuery();
+  console.log(workshopsData)
   const [handleWorkshopApproval] = useHandleWorkshopApprovalMutation();
 
   useEffect(() => {

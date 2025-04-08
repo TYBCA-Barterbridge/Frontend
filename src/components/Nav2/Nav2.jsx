@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth"
 
 const Nav2 = () => {
+  const {user_id} = useAuth()
   return (
     <div className="hidden md:flex justify-between items-center px-8 py-2 bg-gray-100 shadow-md mb-5 relative z-40">
       {/* Left Side */}
@@ -36,7 +38,8 @@ const Nav2 = () => {
 
       {/* Right Side */}
       <div className="flex items-center gap-4">
-        <Link to="/signin" className="flex items-center px-4 py-2 text-black hover:bg-gray-300 rounded-md">
+        {user_id === "" && (
+          <Link to="/signin" className="flex items-center px-4 py-2 text-black hover:bg-gray-300 rounded-md">
           Sign in
           <img
             src="https://img.icons8.com/?size=100&id=52625&format=png&color=000000"
@@ -44,6 +47,7 @@ const Nav2 = () => {
             className="w-5 h-5 ml-2"
           />
         </Link>
+        )}
       </div>
     </div>
   );

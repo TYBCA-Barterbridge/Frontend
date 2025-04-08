@@ -72,7 +72,7 @@ const Skills = () => {
   return (
     <div className="w-full">
       <div className="container mx-auto mt-10 ml-4 mr-4 py-4 px-6 w-full max-w-screen-2xl">
-        <h2 className="text-3xl font-semibold mb-6">Skills</h2>
+        <h2 className="text-3xl font-semibold mb-6">Featured Skills</h2>
         <div className="flex items-center gap-6 mb-6 pb-2">
           {["All Products", "Education", "Gaming", "Music", "Accessories"].map(
             (category) => (

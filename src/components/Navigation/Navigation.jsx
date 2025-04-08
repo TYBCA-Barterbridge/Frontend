@@ -6,6 +6,7 @@ import { debounce } from 'lodash';
 import { setselectedgood } from "../../features/good/goodSlice";
 import { setselectedskill } from "../../features/skill/skillSlice";
 import { useDispatch } from "react-redux";
+import useAuth from "../../hooks/useAuth"
 
 const SearchResult = ({ type, name, image, onClick, item }) => (
   <div
@@ -53,6 +54,8 @@ const Navigation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchAll] = useSearchAllMutation();
+  const { username, profile } = useAuth();
+  console.log(username, profile)
 
   // Close results when clicking outside
   useEffect(() => {
@@ -225,12 +228,12 @@ const Navigation = () => {
         <li className="flex flex-col items-center text-center cursor-pointer transition-transform hover:scale-110">
           <Link to="/dashboard">
             <img
-              src="https://img.icons8.com/?size=100&id=7819&format=png&color=FFFFFF"
+              src={profile ? profile : `https://img.icons8.com/?size=100&id=7819&format=png&color=FFFFFF`}
               alt="Profile"
-              className="w-9 h-9"
-            />
+              className="w-12 h-12 rounded-full"
+             />
           </Link>
-          <span className="text-sm font-semibold">Profile</span>
+          <span className="text-sm font-semibold">{username}</span>
         </li>
       </ul>
 
@@ -238,28 +241,16 @@ const Navigation = () => {
       {isOpen && (
         <div className="absolute top-16 left-0 w-full bg-[#1B6392] py-6 flex flex-col items-center space-y-6 shadow-lg">
           <Link
-            to="/Wishlist"
+            to="/dashboard"
             className="flex items-center gap-2 text-lg font-semibold"
             onClick={() => setIsOpen(false)}
           >
             <img
-              src="https://img.icons8.com/?size=100&id=37975&format=png&color=FFFFFF"
-              alt="Wishlist"
-              className="w-7 h-7"
-            />
-            Wishlist
-          </Link>
-          <Link
-            to="/Profile"
-            className="flex items-center gap-2 text-lg font-semibold"
-            onClick={() => setIsOpen(false)}
-          >
-            <img
-              src="https://img.icons8.com/?size=100&id=7819&format=png&color=FFFFFF"
+              src={profile ? profile : `https://img.icons8.com/?size=100&id=7819&format=png&color=FFFFFF`}
               alt="Profile"
               className="w-7 h-7"
             />
-            Profile
+            {username}
           </Link>
         </div>
       )}

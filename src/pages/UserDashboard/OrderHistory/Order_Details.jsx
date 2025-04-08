@@ -21,7 +21,6 @@ const OrderDetails = () => {
 
   const orders = type === "good" ? goodData?.orders : skillData?.orders;
   const order = orders?.find((o) => o.id === parseInt(id));
-  console.log(order)
 
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [rating, setRating] = useState(0);
@@ -44,7 +43,6 @@ const OrderDetails = () => {
       setErrors(newErrors);
       return;
     }
-//Great guitar best deal that I could get.
     try {
         if (type === "good") {
             const data = {
@@ -52,7 +50,6 @@ const OrderDetails = () => {
                 rating,
                 review: reviewText,
             };
-            console.log(data)
             boughtgoodreview(data).unwrap();
         }
         else {
@@ -61,9 +58,8 @@ const OrderDetails = () => {
                 rating,
                 review: reviewText,
             };
-            boughtskillreview().unwrap();
+            boughtskillreview(data).unwrap();
         }
-      // Reset on success
       setShowReviewForm(false);
       setRating(0);
       setReviewText("");
@@ -100,7 +96,8 @@ const OrderDetails = () => {
             <span className="font-semibold">Seller:</span>{" "}
             {order.item.seller || "Unknown"}
           </p>
-          <p>
+          {order.type === "good" && (
+            <p>
             <span className="font-semibold">Status:</span>{" "}
             <span
               className={`px-2 py-1 rounded text-sm ${
@@ -112,6 +109,7 @@ const OrderDetails = () => {
               {order.item.status || "Completed"}
             </span>
           </p>
+          )}
 
           {order.review ? (
             <div className="mt-4">

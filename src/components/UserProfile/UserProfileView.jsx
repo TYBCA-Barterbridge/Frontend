@@ -3,6 +3,7 @@ import {
   useGetUserByIdQuery,
   useSendFriendRequestMutation,
   useFetchFriendRequestsQuery,
+  useGetReviewsQuery
 } from "../../features/user/userApiSlice";
 import { useParams } from "react-router-dom";
 import {
@@ -112,6 +113,10 @@ const UserProfileView = () => {
     useFetchFriendRequestsQuery();
   const [requestSent, setRequestSent] = useState(false);
   const [chatError, setChatError] = useState(null);
+  const {data: getReviews = {}} = useGetReviewsQuery({user_id: userId})
+const { goodsSoldReview = [], skillsSoldReview = [], goodreviews = [], skillreviews = [] } = getReviews;
+
+  console.log(getReviews)
 
   const handleSendRequest = async () => {
     try {
@@ -141,6 +146,56 @@ const UserProfileView = () => {
       </div>
     );
   }
+
+  // ReviewCard Component
+const ReviewCard = ({ name, review, rating }) => (
+  <motion.div
+    className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all duration-200"
+    variants={cardVariant}
+  >
+    <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+    <p className="mt-2 text-sm text-gray-600">{review || "No review provided"}</p>
+    <p className="mt-2 text-sm text-gray-500">Rating: 
+      {!rating.length ? (<span className="text-yellow-500 text-xl">
+       {"★".repeat(rating)}
+       {"☆".repeat(5 - rating)}
+     </span> ): ("NA")} </p>
+  </motion.div>
+);
+
+// Reviews Section
+const ReviewsSection = ({ title, reviews }) => (
+  <motion.div className="bg-gray rounded-xl shadow-sm p-6 mb-6" variants={cardVariant}>
+    <h2 className="text-xl font-semibold text-gray-900 mb-4">{title}</h2>
+    {reviews.length > 0 ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-auto ">
+        {reviews.map((review, index) => (
+          <ReviewCard key={index} {...review} />
+        ))}
+      </div>
+    ) : (
+      <p className="text-gray-500">No reviews available.</p>
+    )}
+  </motion.div>
+);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-red-500">Error loading user profile</div>
+      </div>
+    );
+  }
+  
+
 
   return (
     <motion.div
@@ -287,6 +342,16 @@ const UserProfileView = () => {
           </motion.div>
         </motion.div>
       </div>
+
+      <motion.div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white pb-6 rounded-2xl shadow-sm">
+        <h2 className="text-2xl font-semibold text-gray-900 mt-12 pt-6 mb-6">
+          Reviews
+        </h2>
+        <ReviewsSection title="Good Reviews" reviews={goodreviews} />
+        <ReviewsSection title="Goods Sold Reviews" reviews={goodsSoldReview} />
+        <ReviewsSection title="Skill Reviews" reviews={skillreviews} />
+        <ReviewsSection title="Skills Sold Reviews" reviews={skillsSoldReview} />
+      </motion.div>
     </motion.div>
   );
 };

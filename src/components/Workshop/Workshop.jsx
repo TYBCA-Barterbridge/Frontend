@@ -23,14 +23,14 @@ const WorkShop = () => {
     useEffect(() => {
       if (workshops) {
         const filteredWorkshops = workshops.filter((workshop) => {
-          const createdby = workshop.workshop_admin 
-          return createdby !== user_id;
-        })
+          const createdBySomeoneElse = workshop.workshop_admin !== user_id;
+          const isApproved = workshop.approval_status === "approved";
+          return createdBySomeoneElse && isApproved;
+        });
         dispatch(setWorkshops({ workshops: filteredWorkshops }));
         setFilteredWorkshops(filteredWorkshops);
       }
-    }, [workshops, dispatch]);
-
+    }, [workshops, dispatch, user_id]);    
 
     if (isLoading) {
       return (
@@ -49,7 +49,7 @@ const WorkShop = () => {
     }
     
     return (
-        <div className="container mx-auto mt-8 mb-8 py-4 px-9 w-full max-w-screen-2xl">
+        <div className="h-[830px]  mx-auto mt-8 mb-18 py-4 px-9 w-full max-w-screen-2xl">
           <h2 className="text-3xl font-semibold mb-6">Featured Workshops</h2> 
           <div className="flex items-center gap-6 mb-6 pb-2 overflow-x-auto">
             <span 
@@ -65,11 +65,11 @@ const WorkShop = () => {
           </div>
           <div className="grid grid-cols-1 bg-gray-100 p-6 rounded-xl h-190 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           data-aos="zoom-in">
-           {filteredWorkshops && filteredWorkshops.length > 0 ? (
+           {filteredWorkshops && filteredWorkshops.length > 0 && filteredWorkshops.length < 9 ? (
              filteredWorkshops.map((workshop) => (
               <div
                 key={workshop.workshop_id}
-                className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[350px] bg-white"
+                className="border-none p-2.5 rounded-lg shadow-sm w-[330px] h-[340px] bg-white"
               >
                 <Link 
                   to={`/Workshop/${workshop.workshop_id}`}
@@ -81,7 +81,13 @@ const WorkShop = () => {
                     className="w-full h-[220px] rounded-md transition-transform duration-300 hover:scale-[1.03]"
                   />
                 </Link>
-                <h4 className="text-lg font-bold mb-2.5">{workshop.workshop_name}</h4>
+                <h4 className="text-lg font-bold mb-2.5">
+                {workshop.workshop_name 
+                    ? workshop.workshop_name.length > 30 
+                      ? workshop.workshop_name.substring(0, 30) + '...'
+                      : workshop.workshop_name
+                    : "No name"}
+                  </h4>
                 <p className="text-sm mb-2.5 text-gray-600">
                 {workshop.workshop_description 
                     ? workshop.workshop_description.length > 20 

@@ -184,7 +184,7 @@ const Sidebar = ({ refetch, reconnect }) => {
       <AnimatePresence>
         {isNotificationsOpen && (
           <motion.div
-            className="absolute top-32 left-8 w-72 bg-gray-200 rounded-lg shadow-xl z-50"
+            className="absolute top-40 left-8 w-72 bg-gray-200 rounded-lg shadow-xl z-50"
             initial={{ opacity: 1, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -325,8 +325,12 @@ const Sidebar = ({ refetch, reconnect }) => {
                       {friend.username || friend.title}
                     </h3>
                     <p className="text-sm text-gray-500 truncate">
-                      {friend.lastMessage?.content || "No messages yet"}
-                    </p>
+                    {friend.lastMessage?.content
+                    ? friend.lastMessage?.content.length > 20
+                      ? friend.lastMessage?.content.substring(0, 20) + "..."
+                      : friend.lastMessage?.content
+                    : "No description"}
+                    </p> 
                   </div>
                 </motion.div>
               ))

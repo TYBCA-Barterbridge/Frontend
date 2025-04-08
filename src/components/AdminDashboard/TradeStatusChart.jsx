@@ -12,13 +12,15 @@ import {
 
 const TradeStatusChart = ({ trades }) => {
   // Process trades data to get counts by type and status
+  console.log(trades)
   const processedData = trades?.reduce((acc, trade) => {
-    const status = trade.completed ? 'Completed' : 'Pending';
-    const type = trade.type || 'Goods'; // Default to Goods if type is not specified
-    
+    const status = trade.pending ? 'pending' : 'approved';
+    const isSkill = trade.skill_id_a && trade.skill_id_b;
+    const type = isSkill ? 'skill' : 'good';
+  
     const existingStatus = acc.find(item => item.status === status);
     if (existingStatus) {
-      if (type === 'Skills') {
+      if (type === 'skill') {
         existingStatus.skills += 1;
       } else {
         existingStatus.goods += 1;
@@ -26,12 +28,14 @@ const TradeStatusChart = ({ trades }) => {
     } else {
       acc.push({
         status,
-        goods: type === 'Skills' ? 0 : 1,
-        skills: type === 'Skills' ? 1 : 0,
+        goods: type === 'good' ? 1 : 0,
+        skills: type === 'skill' ? 1 : 0,
       });
     }
+  
     return acc;
   }, []) || [];
+  
 
   return (
     <ResponsiveContainer width="100%" height="100%">

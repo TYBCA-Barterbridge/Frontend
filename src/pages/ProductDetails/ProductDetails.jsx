@@ -27,7 +27,6 @@ const Product = () => {
     try {
       await sendFriendRequest({ receiver_id: userId }).unwrap();
       setRequestSent(true);
-      refetchRequests();
     } catch (error) {
       console.error("Failed to send friend request:", error);
       if (error.status === 400) {
@@ -140,7 +139,7 @@ const Product = () => {
               ) : (
                 <FaUserPlus className="mr-2" />
               )}
-              {chatError ? "Already sent friend request" : requestSent ? "Request Sent" : "Add Friend"}
+              {chatError ? "Already sent friend request" : requestSent ? "Request Sent" : "Chat with Seller"}
             </button>
           </div>
         </div>

@@ -137,7 +137,7 @@ const ChatLayout = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex w-80 bg-white shadow-md">
+      <div className="flex lg:w-75 sm:w-50 bg-white shadow-md">
         <Sidebar refetch={refetch} reconnect={reconnect}/>
       </div>
       <div className="flex flex-col flex-1">

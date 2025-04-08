@@ -57,6 +57,10 @@ const AdminDashboard = () => {
   const { data: trades, isLoading: tradesLoading } = useGetAllTradesQuery(undefined, {
     pollingInterval: 30000,
   });
+  console.log(stats)
+
+  const filteredWorkshops = workshops?.filter(workshop => workshop.approval_status === 'pending') || [];
+
 
   const isLoading = statsLoading || usersLoading || workshopsLoading || tradesLoading;
 
@@ -80,25 +84,25 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
           title="Active Trades" 
-          value={trades?.filter(t => !t.completed)?.length}
+          value={stats.activeTrades}
           icon={FaExchangeAlt}
           link="/admin/trades"
         />
         <StatCard 
           title="Total Users" 
-          value={users?.length}
+          value={stats.totalUsers}
           icon={FaUsers}
           link="/admin/users"
         />
         <StatCard 
           title="Pending Workshops" 
-          value={workshops?.length}
+          value={stats.pendingWorkshops}
           icon={FaTools}
           link="/admin/workshops"
         />
         <StatCard 
           title="Completed Trades" 
-          value={trades?.filter(t => t.completed)?.length}
+          value={stats?.completedTrades}
           icon={FaShoppingBag}
           link="/admin/trades"
         />
@@ -159,7 +163,7 @@ const AdminDashboard = () => {
             <Link to="/admin/workshops" className="text-blue-600 hover:text-blue-700 text-sm">View All</Link>
           </div>
           <div className="space-y-4">
-            {workshops?.slice(0, 5).map((workshop, index) => (
+            {filteredWorkshops?.slice(0, 5).map((workshop, index) => (
               <div key={index} className="flex items-center justify-between py-2 border-b last:border-0">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">

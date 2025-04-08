@@ -88,6 +88,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: { username },
       })
     }),
+
+    getReviews: builder.query({
+      query: ({user_id}) => ({
+        url: `/user/reviews/${user_id}`,
+        method: 'GET',
+      })
+    })
   }),
 });
 
@@ -103,4 +110,6 @@ export const {
   useUpdateBioMutation,
   useUpdateProfileMutation,
   useUpdateUsernameMutation,
+  useGetReviewsQuery,
+
 } = userApiSlice;

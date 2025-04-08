@@ -35,6 +35,7 @@ import WorkshopParticipants from "./pages/UserDashboard/Workshops/WorkshopPartic
 import Exchanges from "./pages/UserDashboard/Exchanges/Exchanges.jsx";
 import ExchangeDetails from "./pages/UserDashboard/Exchanges/Exchange_Details.jsx";
 import BuyPage from "./components/BuyPage/BuyPage.jsx";
+import { Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -42,6 +43,8 @@ function App() {
   const location = useLocation();
 
   return (
+   <>
+    <Toaster position="top-right" />
     <Routes>
       {/* Admin Routes */}
       <Route element={<PersistLogin />}>
@@ -95,6 +98,7 @@ function App() {
         </Route>
       </Route>
     </Routes>
+   </>
   );
 }
 

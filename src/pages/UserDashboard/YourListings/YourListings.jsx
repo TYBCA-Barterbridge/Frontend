@@ -82,9 +82,7 @@ const YourListings = () => {
       <div className="container mx-auto px-4 bg-gray-50">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 tracking-tight">Your Listings</h1>
-          <select className="border border-gray-200 text-sm p-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f48024] bg-white shadow-sm hover:border-gray-300 transition-colors duration-200">
-            <option>Products</option>
-          </select>
+          
         </div>
 
         {/* Listings Section */}
